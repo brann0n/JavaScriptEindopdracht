@@ -42,3 +42,15 @@ function drawSessions(sessionList) {
         $('#sessionContainer').append("<p>No sessions available</p>");
     }
 }
+
+function ShowNewSessionPopUp() {
+    $(".popup-overlay, .popup-content").addClass("active");
+}
+
+function CompleteSessionCreation() {
+    $(".popup-overlay, .popup-content").removeClass("active");
+}
+
+function CancelSessionCreation() {
+    $(".popup-overlay, .popup-content").removeClass("active");
+}

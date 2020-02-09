@@ -21,5 +21,10 @@ namespace JavaScriptUNO.Hubs
         {
             Clients.Caller.setSessions(MvcApplication.Manager.GetGameSessions());
         }
+
+        public void CreateSession()
+        {
+
+        }
     }
 }
