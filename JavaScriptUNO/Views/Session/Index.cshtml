@@ -4,12 +4,20 @@
 }
 <div class="session-content">
     <h2>Displayed below is a list of available games</h2>
-    <p>
-        If you can't join a certain game, the game is either full or already in progress.
-    </p>
-    <p>
-        If you can't spectate a certain game, the owner of the game disabled it.
-    </p>
+    <div class="explain-box">
+        <p>
+            If you can't join a certain game, the game is either full or already in progress.
+        </p>
+        <p>
+            If you can't spectate a certain game, the owner of the game disabled it.
+        </p>
+        <p>
+            If you don't see a game you like, try creating a new game
+        </p>
+    </div>
+    <div class="create-game-box">
+        <button class="btn btn-primary btn">New Game</button>
+    </div>
     <div id="sessionContainer" class="game-box">
         @*<div class="game-item">
             <h3 class="game-name">Game #1</h3>
@@ -27,7 +35,7 @@
                 <button class="btn btn-default action-btn">Spectate</button>
             </div>
         </div>*@
-        <div class="item-clear"></div>
+        <p>No sessions available</p>
     </div>
 </div>
 <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>

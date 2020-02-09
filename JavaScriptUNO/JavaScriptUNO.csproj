@@ -130,6 +130,8 @@
     <Content Include="UnoScripts\GameSessionCard.js" />
     <Content Include="UnoScripts\UnoSessions.js" />
     <Content Include="Web.config" />
+    <Content Include="Views\Session\Stats.cshtml" />
+    <Content Include="Views\Session\StatDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -141,8 +143,10 @@
     </Compile>
     <Compile Include="Hubs\SessionHub.cs" />
     <Compile Include="Models\GameSesssion.cs" />
+    <Compile Include="Models\ServerGameSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="UnoBackend\SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

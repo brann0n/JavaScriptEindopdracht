@@ -13,5 +13,15 @@ namespace JavaScriptUNO.Controllers
         {
             return View();
         }
+
+        public ActionResult Stats()
+        {
+            return View(MvcApplication.Manager.Sessions);
+        }
+
+        public ActionResult StatDetails(string id)
+        {
+            return View(MvcApplication.Manager.Sessions.FirstOrDefault(n => n.GameId == id));
+        }
     }
 }
