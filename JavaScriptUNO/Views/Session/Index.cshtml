@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+}
+<div class="session-content">
+    <h2>Displayed below is a list of available games</h2>
+    <p>
+        If you can't join a certain game, the game is either full or already in progress.
+    </p>
+    <p>
+        If you can't spectate a certain game, the owner of the game disabled it.
+    </p>
+    <div id="sessionContainer" class="game-box">
+        @*<div class="game-item">
+            <h3 class="game-name">Game #1</h3>
+            <div class="game-controller">
+                <div class="player-tag">Players: 3/8</div>
+                <button class="btn btn-default action-btn">Join</button>
+                <button class="btn btn-default action-btn">Spectate</button>
+            </div>
+        </div>
+        <div class="game-item">
+            <h3 class="game-name">Game #2</h3>
+            <div class="game-controller">
+                <div class="player-tag">Players: 7/8</div>
+                <button class="btn btn-default action-btn disabled">Join</button>
+                <button class="btn btn-default action-btn">Spectate</button>
+            </div>
+        </div>*@
+        <div class="item-clear"></div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script src="~/UnoScripts/UnoSessions.js"></script>
+<script src="~/UnoScripts/GameSessionCard.js"></script>

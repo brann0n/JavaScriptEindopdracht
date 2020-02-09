@@ -13,10 +13,11 @@ namespace JavaScriptUNO
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //map default to the session controller, -> this controller will decide where to sent the user
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Session", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
