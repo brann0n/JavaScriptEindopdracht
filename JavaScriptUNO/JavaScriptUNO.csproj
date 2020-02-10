@@ -128,10 +128,12 @@
     <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="UnoScripts\GameSessionCard.js" />
+    <Content Include="UnoScripts\UnoHosts.js" />
     <Content Include="UnoScripts\UnoSessions.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Session\Stats.cshtml" />
     <Content Include="Views\Session\StatDetails.cshtml" />
+    <Content Include="Views\Host\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\HostHub.cs" />
     <Compile Include="Hubs\SessionHub.cs" />
     <Compile Include="Models\GameSesssion.cs" />
     <Compile Include="Models\ServerGameSession.cs" />
@@ -174,7 +177,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Client\" />
-    <Folder Include="Views\Host\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JavaScriptUNO.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,14 +10,18 @@ namespace JavaScriptUNO.Controllers
     public class HostController : Controller
     {
         // GET: Host
-        public string Index()
-        {
-            return "NO VALID SESSION PROVIDED";
-        }
-
         public ActionResult Index(string id)
         {
-            return View();
+            ServerGameSession game = MvcApplication.Manager.FindSession(id);
+
+            if(game != null)
+            {
+                return View(game);
+            }
+            else
+            {
+                return View("Error");
+            }
         }
     }
 }

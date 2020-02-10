@@ -1,0 +1,18 @@
+﻿@model JavaScriptUNO.Models.ServerGameSession
+@{
+    ViewBag.Title = Model.GameName;
+}
+
+<h2>@Model.GameName</h2>
+
+<script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script src="~/UnoScripts/UnoHosts.js"></script>
+<script type="text/javascript" >
+    var host = new UnoHosts();
+    host.hubReady.done(function () {
+        console.log("Hub is connected");
+        host.startGame();
+    });
+    //host.startGame(); -> komt nu in de .done()
+</script>

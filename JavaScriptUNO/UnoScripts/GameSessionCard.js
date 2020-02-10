@@ -1,21 +1,18 @@
 ﻿class GameSessionCard {
 
-    //constructor(gameName, playerCount, totalPlayers) {
-    //    this.gameName = gameName;
-    //    this.pCount = playerCount;
-    //    this.pTotal = totalPlayers;
-    //}
-
     //changed contructor to object :)
     constructor(sessionObject) {
         this.gameName = sessionObject["GameName"];
         this.pCount = sessionObject["PlayerCount"];
         this.pTotal = sessionObject["PlayerTotal"];
+
+        //join button, public available for event subscription
         this.joinButton = document.createElement("button");
         this.joinButton.classList = "action-btn btn btn-default";
         this.joinButton.innerText = "Join";
         this.joinButton.dataset.gameName = this.gameName;
 
+        //spectate button, public available for event subscription
         this.spectateButton = document.createElement("button");
         this.spectateButton.classList = "action-btn btn btn-default";
         this.spectateButton.innerText = "Spectate";
