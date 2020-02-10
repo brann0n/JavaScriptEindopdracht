@@ -11,7 +11,6 @@
         this.gameName = sessionObject["GameName"];
         this.pCount = sessionObject["PlayerCount"];
         this.pTotal = sessionObject["PlayerTotal"];
-
         this.joinButton = document.createElement("button");
         this.joinButton.classList = "action-btn btn btn-default";
         this.joinButton.innerText = "Join";
@@ -27,7 +26,7 @@
         let gameCard = document.createElement("div");
         gameCard.classList = "game-item";
 
-        let gameTitle = document.createElement("h3");
+        let gameTitle = document.createElement("h4");
         gameTitle.classList = "game-name";
         gameTitle.innerText = "Game: " + this.gameName;
 
@@ -36,7 +35,7 @@
 
         let playerTag = document.createElement("div");
         playerTag.classList = "player-tag";
-        playerTag.innerText = "Players: " + this.pCount + "/" + this.pTotal;       
+        playerTag.innerText = "Players: [" + this.pCount + " / " + this.pTotal + "]";       
 
         //add controll items to the controller
         gameController.appendChild(playerTag);

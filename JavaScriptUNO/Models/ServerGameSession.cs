@@ -13,5 +13,10 @@ namespace JavaScriptUNO.Models
         public int MaxClients { get; set; }
 
         //add functions for the cards and such
+
+        public ServerGameSession()
+        {
+            clientIds = new List<int>();
+        }
     }
 }

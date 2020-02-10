@@ -22,9 +22,11 @@ namespace JavaScriptUNO.Hubs
             Clients.Caller.setSessions(MvcApplication.Manager.GetGameSessions());
         }
 
-        public void CreateSession()
+        public void CreateSession(string gameName)
         {
-
+            string id = MvcApplication.Manager.CreateNewSession(gameName);
+            Clients.All.setSessions(MvcApplication.Manager.GetGameSessions());
+            Clients.Caller.redirectToGame(id);
         }
     }
 }

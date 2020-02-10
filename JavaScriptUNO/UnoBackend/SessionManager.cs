@@ -14,6 +14,18 @@ namespace JavaScriptUNO.UnoBackend
             Sessions = new List<ServerGameSession>();
         }
 
+        public string CreateNewSession(string GameName)
+        {
+            string id = Guid.NewGuid().ToString();
+            Sessions.Add(new ServerGameSession
+            {
+                GameName = GameName,
+                MaxClients = 8,
+                GameId = id
+            });
+            return id;
+        }
+
         public List<GameSession> GetGameSessions()
         {
             List<GameSession> fndSessions = new List<GameSession>();

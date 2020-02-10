@@ -11,7 +11,12 @@ namespace JavaScriptUNO.Controllers
         // GET: Host
         public string Index()
         {
-            return "Test";
+            return "NO VALID SESSION PROVIDED";
+        }
+
+        public ActionResult Index(string id)
+        {
+            return View();
         }
     }
 }

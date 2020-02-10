@@ -9,12 +9,20 @@
         drawSessions(dataObject);
     };
 
+    sessionHub.client.redirectToGame = function (gameId) {
+        window.location.href = "/Host/Index/" + gameId;
+    };
+
     $.connection.hub.start().done(function () {       
         callRequestUpdate();
     });
 
     callRequestUpdate = function () {
         sessionHub.server.getSessions();
+    };
+
+    createGameSession = function (name) {
+        sessionHub.server.createSession(name);
     };
 });
 
@@ -47,7 +55,10 @@ function ShowNewSessionPopUp() {
     $(".popup-overlay, .popup-content").addClass("active");
 }
 
-function CompleteSessionCreation() {
+function CompleteSessionCreation() {   
+    let gameNameString = $('#tbGameName').val();
+    $('#tbGameName').val("");
+    createGameSession(gameNameString);
     $(".popup-overlay, .popup-content").removeClass("active");
 }
 
