@@ -1,0 +1,28 @@
+﻿.gameBackground {
+    width: 1280px;
+    height: 720px;
+    background: url('../Content/UnoImages/Table_0.png');
+    background-repeat: no-repeat;
+    background-size: auto;
+    float: left;
+}
+
+.Deck {
+    margin: 20px;
+    width: 194px;
+    height: 281px;
+    background: url('../Content/UnoImages/Deck.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    float: left;
+}
+
+.cardStock{
+    margin-top: 40px;
+    margin-left: 50px;
+}
+
+.cardPlaying {
+    margin-left: 275px;
+    margin-top: 200px;
+}
