@@ -189,6 +189,7 @@
     <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="UnoScripts\GameSessionCard.js" />
+    <Content Include="UnoScripts\Uno.js" />
     <Content Include="UnoScripts\UnoHosts.js" />
     <Content Include="UnoScripts\UnoSessions.js" />
     <Content Include="Web.config" />

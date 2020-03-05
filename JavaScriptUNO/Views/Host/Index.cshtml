@@ -5,7 +5,21 @@
 
 <h2>@Model.GameName</h2>
 
+<div class="game-controller">
+    <button id="btnStartGame" class="btn btn-default" onclick="startGameOnClick()">Start</button>
+    <button class="btn btn-default" onclick="testCard()">Deal cards</button>
+    <button class="btn btn-default">Reset</button>
+</div>
+
 <div class="gameBackground">
+    <div class="game-info">
+        <p id="numberOfCards" class="card-info">
+            108 Cards
+        </p>
+        <p class="player-info">
+            playing with 4 people
+        </p>
+    </div>
     <div class="cardStock Deck"></div>
     <div class="cardPlaying Deck"></div>
 </div>
@@ -13,11 +27,22 @@
 <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
 <script src="~/signalr/hubs"></script>
 <script src="~/UnoScripts/UnoHosts.js"></script>
+<script src="~/UnoScripts/Uno.js"></script>
 <script type="text/javascript" >
     var host = new UnoHosts();
     host.hubReady.done(function () {
         console.log("Hub is connected");
-        host.startGame();
+        //start game is now done on a button.
+        //host.startGame(); 
     });
-    //host.startGame(); -> komt nu in de .done()
+
+    function startGameOnClick(){
+        host.startGame();
+    }
+
+    function testCard() {
+        var tknCard = host.UnoGame.takeCardFromStock();
+        console.log(tknCard);
+    }
+
 </script>

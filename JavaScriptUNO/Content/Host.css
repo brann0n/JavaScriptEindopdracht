@@ -4,7 +4,6 @@
     background: url('../Content/UnoImages/Table_0.png');
     background-repeat: no-repeat;
     background-size: auto;
-    float: left;
 }
 
 .Deck {
@@ -18,11 +17,34 @@
 }
 
 .cardStock{
-    margin-top: 40px;
+    margin-top:0px;
     margin-left: 50px;
+    clear: both;
 }
 
 .cardPlaying {
     margin-left: 275px;
-    margin-top: 200px;
+    margin-top: 160px;
+}
+
+.game-controller{
+    padding: 5px;
+}
+
+.game-info{
+    padding: 10px;
+}
+
+.card-info {
+    float: left;
+    color: white;
+    padding-left: 80px;
+    padding-top: 40px;
+    font-size: 25px;
+}
+
+.player-info {
+    float: right;
+    color: white;
+    font-size: 20px;
 }
