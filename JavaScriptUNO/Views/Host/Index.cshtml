@@ -7,16 +7,16 @@
 
 <div class="game-controller">
     <button id="btnStartGame" class="btn btn-default" onclick="startGameOnClick()">Start</button>
-    <button class="btn btn-default" onclick="testCard()">Deal cards</button>
-    <button class="btn btn-default">Reset</button>
+    <button id="btnDealCards" class="btn btn-default disabled" onclick="testCard()">Deal cards</button>
+    <button id="btnReset" class="btn btn-default disabled">Reset</button>
 </div>
 
 <div class="gameBackground">
     <div class="game-info">
         <p id="numberOfCards" class="card-info">
-            108 Cards
+            Once all players are connected please click start game
         </p>
-        <p class="player-info">
+        <p id="playerInfo" class="player-info">
             playing with 4 people
         </p>
     </div>
@@ -29,15 +29,18 @@
 <script src="~/UnoScripts/UnoHosts.js"></script>
 <script src="~/UnoScripts/Uno.js"></script>
 <script type="text/javascript" >
-    var host = new UnoHosts();
+    var host = new UnoHosts("@Model.GameId");
     host.hubReady.done(function () {
         console.log("Hub is connected");
-        //start game is now done on a button.
-        //host.startGame(); 
+        //initiate the game.
+        host.initGame(); 
     });
 
     function startGameOnClick(){
         host.startGame();
+        $('#btnStartGame').addClass('disabled');
+        $('#btnDealCards').removeClass('disabled');
+        $('#btnReset').removeClass('disabled');
     }
 
     function testCard() {

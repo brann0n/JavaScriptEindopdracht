@@ -190,6 +190,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="UnoScripts\GameSessionCard.js" />
     <Content Include="UnoScripts\Uno.js" />
+    <Content Include="UnoScripts\UnoClients.js" />
     <Content Include="UnoScripts\UnoHosts.js" />
     <Content Include="UnoScripts\UnoSessions.js" />
     <Content Include="Web.config" />
@@ -205,6 +206,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ClientHub.cs" />
     <Compile Include="Hubs\HostHub.cs" />
     <Compile Include="Hubs\SessionHub.cs" />
     <Compile Include="Models\GameSesssion.cs" />
@@ -229,6 +231,7 @@
     <Content Include="Views\Session\Index.cshtml" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Views\Client\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -238,7 +241,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Client\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

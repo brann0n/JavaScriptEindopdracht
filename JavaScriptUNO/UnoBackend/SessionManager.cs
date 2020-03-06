@@ -26,7 +26,8 @@ namespace JavaScriptUNO.UnoBackend
             {
                 GameName = GameName,
                 MaxClients = 8,
-                GameId = id
+                GameId = id,
+                GameStarted = false
             });
             return id;
         }

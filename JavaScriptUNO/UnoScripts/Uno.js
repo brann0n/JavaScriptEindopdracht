@@ -70,6 +70,7 @@
     Players = [];
 
     //playerIdList contains the id's of all the players participating in the game.
+    //these id's relate to an array server side that then relates to client id's to send requests to
     constructor(playerIdList) {
         //set the stockPile to the predefined Deck.
         this.StockPile = this.FullDeck;
@@ -94,8 +95,6 @@
         var stock = this.StockPile;
         var count = 0;
         for (card of stock) {
-            //console.log(count, random);
-            //console.log(count === random || count > random && random <= count + card.amount);
             if (count === random || count > random && random <= count + card.amount) {              
                 return card;
             }
@@ -104,4 +103,9 @@
         return null;
     }
 
+    dealCardsToPlayers() {
+        for (var player of this.Players) {
+            //
+        }
+    }
 }

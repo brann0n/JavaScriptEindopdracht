@@ -33,7 +33,8 @@ function drawSessions(sessionList) {
             var sessionCard = new GameSessionCard(sessionList[i]);
             sessionCard.joinButton.onclick = function (e) {
                 //the code to perform when join is clicked
-                console.log("Clicked join on: " + e.target.dataset.gameName);
+                console.log("Clicked join on: " + e.target.dataset.gameName, e.target.dataset.gameId);
+                window.location.href = "/Client/Index/" + e.target.dataset.gameId;
             };
 
             sessionCard.spectateButton.onclick = function (e) {
