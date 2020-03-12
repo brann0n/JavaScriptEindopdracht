@@ -1,0 +1,26 @@
+﻿body {
+}
+
+.cards-bar {
+    overflow-x: auto;
+    height: 300px;
+    width: 1280px;
+}
+
+    .cards-bar > .cards-item {
+        width: 194px;
+        height: 281px;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        float: left;
+        margin: 14px 0 0 14px;
+        transition: margin 0.1s;
+    }
+
+.cards-item:not(:first-child) {
+    margin-left: -100px;
+}
+
+.cards-item:hover {
+    margin-top: -20px;
+}

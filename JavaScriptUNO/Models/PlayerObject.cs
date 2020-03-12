@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace JavaScriptUNO.Models
+{
+    public class PlayerObject
+    {
+        public string id { get; set; }
+        public List<CardObject> cards { get; set; } 
+        public PlayerObject()
+        {
+            cards = new List<CardObject>();
+        }
+    }
+}

@@ -5,8 +5,14 @@
 
 <h2>@Model.GameName Client</h2>
 
-<div class="gameBackground">    
+<div class="game-controller">
+    <button id="btnFullScreen" class="btn btn-default" onclick="goFullScreen()">Full Screen</button>
+</div>
 
+<div class="gameBackground">
+    <div class="cards-bar">
+
+    </div>
 </div>
 
 <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
@@ -18,5 +24,12 @@
         console.log("Hub is connected");
         client.connectToHost("@Model.GameId");
     });
-  
+
+    function goFullScreen() {
+        if (document.fullscreenElement) {
+		    document.exitFullscreen();
+	    } else {
+		    document.documentElement.requestFullscreen();
+	    }
+    }
 </script>

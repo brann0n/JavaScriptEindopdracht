@@ -19,6 +19,22 @@ namespace JavaScriptUNO.UnoBackend
             return Sessions.FirstOrDefault(n => n.GameId == id);
         }
 
+        public ServerGameSession FindSessionByConnectionId(string id)
+        {
+            return Sessions.FirstOrDefault(n => n.GameConnectionId == id);
+        }
+
+        public ServerGameSession FindSessionByClientConnectionId(string id)
+        {
+            foreach(var ses in Sessions)
+            {
+                if(ses.clientIds.Contains(id))
+                    return ses;
+            }
+
+            return null;
+        }
+
         public string CreateNewSession(string GameName)
         {
             string id = Guid.NewGuid().ToString();

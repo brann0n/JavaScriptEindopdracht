@@ -1,27 +1,47 @@
 ﻿class UnoHosts {
 
-    UnoGame = null;
-
     constructor(gameId) {
         this.hostHub = $.connection.hostHub;
+        this.gameMode = "Awaiting game initiation...";
         this.hostHub.client.setGameMode = function (mode) {
             console.log(mode);
-            $('#playerInfo').text($('#playerInfo').text() + " status: " + mode);
+            this.gameMode = mode;           
         };
 
         this.hostHub.client.getPlayerObjects = function () {
-            var players = this.UnoGame.Players;
-            this.hostHub.server.uploadPlayerObjects(players);
+            var players = this.hostHub.UnoGame.Players;
+            this.server.uploadPlayerObjects(players);
         };
 
         this.hostHub.client.endSession = function (reason) {
             console.log(reason);
         };
 
-        this.hostHub.client.startGame = function (playerList) {
-            this.UnoGame = new Uno(["p1", "p2"]); //TODO: get the player list from current server session.
+        this.hostHub.client.updatePlayerCount = function (pCount, pMax) {
+            $('#playerInfo').text("Players: " + pCount + "/" + pMax);
+        };
+
+        this.hostHub.client.doRefresh = function (gameObject) {
+            //called everytime a change happens either server side or client side.
+            console.log(gameObject);
+            //assign the 3 objects over
+            this.UnoGame.Players = gameObject.Players;
+            this.UnoGame.Deck = gameObject.Deck;
+            this.UnoGame.StockPile = gameObject.StockPile;
+
             var CardCount = this.UnoGame.getCardsInStockPile();
             $('#numberOfCards').text(CardCount + " Cards");
+        };
+
+        this.hostHub.client.startGame = function (playerList) {
+            this.UnoGame = new Uno(playerList); 
+            this.pushGame();
+            var CardCount = this.UnoGame.getCardsInStockPile();
+            $('#numberOfCards').text(CardCount + " Cards");
+        };
+
+        this.hostHub.pushGame = function () {
+            this.server.pushGame(this.UnoGame);
         };
 
         this.hubReady = $.connection.hub.start();        
@@ -33,7 +53,11 @@
     }
 
     startGame() {
-        this.hostHub.server.startGame(this.gameId);        
+        this.hostHub.server.startGame();
     }
 
+    dealCardsToPlayers() {
+        this.hostHub.UnoGame.dealCardsToPlayers();
+        this.hostHub.server.pushGame(this.hostHub.UnoGame);
+    }
 }

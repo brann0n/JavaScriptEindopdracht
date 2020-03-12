@@ -7,11 +7,28 @@
             console.log(mode);
         };      
 
-        this.clientHub.endGame = function (reason) {
+        this.clientHub.endSession = function (reason) {
             console.log(reason);
         };
 
-        this.hubReady = $.connection.hub.start();
+        this.clientHub.client.doRefresh = function (gameObject) {
+            //called everytime a change happens either server side or client side.
+            var prefix = gameObject.PathPrefix;
+            var currConnId = $.connection.hub.id;
+            var playerObject = gameObject.Players.find(x => x.id === currConnId);
+            //console.log(gameObject.Players.find(x => x.id === currConnId));
+            
+            for (var card of playerObject.cards) {
+                var imagePath = prefix + card.imageLocation;
+                var imageDiv = document.createElement("div");
+                imageDiv.className = "cards-item";
+                imageDiv.style.background = "url('" + imagePath + "')";
+                imageDiv.dataset.card = card.name;
+                $('.cards-bar').append(imageDiv);
+            }
+        };
+
+        this.hubReady = $.connection.hub.start();     
     }   
 
     connectToHost(gameId) {

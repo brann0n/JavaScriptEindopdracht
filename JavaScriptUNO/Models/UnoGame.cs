@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace JavaScriptUNO.Models
+{
+    public class UnoGame
+    {
+        public List<CardObject> Deck { get; set; }
+        public List<CardObject> FullDeck { get; set; }
+        public string PathPrefix { get; set; }
+        public List<PlayerObject> Players { get; set; }
+        public List<CardObject> StockPile { get; set; }
+
+        public UnoGame()
+        {
+            Deck = new List<CardObject>();
+            FullDeck = new List<CardObject>();
+            Players = new List<PlayerObject>();
+            StockPile = new List<CardObject>();
+        }
+
+    }
+}

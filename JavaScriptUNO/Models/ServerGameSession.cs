@@ -13,6 +13,7 @@ namespace JavaScriptUNO.Models
         public string GameName { get; set; }
         public string GameConnectionId { get; set; }
         public List<string> clientIds { get; set; }
+        public UnoGame game { get; set; }
         public int MaxClients { get; set; }
         public bool GameStarted { get; set; }
 
@@ -22,20 +23,29 @@ namespace JavaScriptUNO.Models
         public ServerGameSession()
         {
             clientIds = new List<string>();
-            
+            //game = new UnoGame();
             //assign the hub contexts to the interfaces.
             clientHubContext = GlobalHost.ConnectionManager.GetHubContext<ClientHub>();
             hostHubContext = GlobalHost.ConnectionManager.GetHubContext<HostHub>();
         }
 
+        public void UpdateAll()
+        {
+            UpdateClients();
+            UpdateHost();
+        }
+
         public void UpdateClients()
         {
-            clientHubContext.Clients.Clients(clientIds).doRefresh();
+            if (game != null)
+                clientHubContext.Clients.Clients(clientIds).doRefresh(game);
         }
 
         public void UpdateHost()
         {
-            hostHubContext.Clients.Client(GameConnectionId).doRefresh();
+            hostHubContext.Clients.Client(GameConnectionId).updatePlayerCount(clientIds.Count, MaxClients);
+            if (game != null)
+                hostHubContext.Clients.Client(GameConnectionId).doRefresh(game);
         }
     }
 }

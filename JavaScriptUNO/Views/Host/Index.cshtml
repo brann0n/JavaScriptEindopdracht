@@ -7,7 +7,7 @@
 
 <div class="game-controller">
     <button id="btnStartGame" class="btn btn-default" onclick="startGameOnClick()">Start</button>
-    <button id="btnDealCards" class="btn btn-default disabled" onclick="testCard()">Deal cards</button>
+    <button id="btnDealCards" class="btn btn-default disabled" onclick="dealCards()">Deal cards</button>
     <button id="btnReset" class="btn btn-default disabled">Reset</button>
 </div>
 
@@ -17,7 +17,7 @@
             Once all players are connected please click start game
         </p>
         <p id="playerInfo" class="player-info">
-            playing with 4 people
+            Awaiting players...
         </p>
     </div>
     <div class="cardStock Deck"></div>
@@ -43,8 +43,13 @@
         $('#btnReset').removeClass('disabled');
     }
 
+    function dealCards() {
+        host.dealCardsToPlayers();
+        $('#btnDealCards').addClass('disabled');
+    }
+
     function testCard() {
-        var tknCard = host.UnoGame.takeCardFromStock();
+        var tknCard = host.hostHub.UnoGame.takeCardFromStock();
         console.log(tknCard);
     }
 

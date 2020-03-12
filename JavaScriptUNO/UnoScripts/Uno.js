@@ -2,7 +2,7 @@
 
     //108 cards in uno: 4 colors, each consisting of one 0 card, two 1 cards, two 2s, 3s, 4s, 5s, 6s, 7s, 8s and 9s; 
     //two Draw Two cards; two Skip cards; and two Reverse cards.In addition there are four Wild cards and four Wild Draw Four cards
-    PathPrefix = "~/Content/UnoImages/";
+    PathPrefix = "../../Content/UnoImages/";
     FullDeck = [
         //red
         { name: "red0", imageLocation: "Red_0.png", amount: 1 },
@@ -75,6 +75,13 @@
         //set the stockPile to the predefined Deck.
         this.StockPile = this.FullDeck;
         this.Deck = [];
+
+        for (var p of playerIdList) {
+            this.Players.push({
+                id: p,
+                cards: []
+            });
+        }
     }
 
     getCardsInStockPile() {
@@ -95,17 +102,28 @@
         var stock = this.StockPile;
         var count = 0;
         for (card of stock) {
-            if (count === random || count > random && random <= count + card.amount) {              
-                return card;
-            }
+            var prevCount = count;
             count += card.amount;
+            if (prevCount === random || random > prevCount && random <= count) {
+                //TODO: once a card has been found, remove it from the stockpile
+                if (card.amount !== 0) {
+                    card.amount--;
+                    return { imageLocation: card.imageLocation, name: card.name, amount: 1 };
+                }
+            }
+            
         }
         return null;
     }
 
     dealCardsToPlayers() {
         for (var player of this.Players) {
-            //
+            //deal 7 cards to each player
+            for (var i = 0; i < 7; i++) {
+                var card = this.takeCardFromStock();
+                player.cards.push(card);
+            }
+
         }
     }
 }
