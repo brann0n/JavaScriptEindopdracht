@@ -1,4 +1,4 @@
-﻿@model JavaScriptUNO.Models.ServerGameSession
+﻿@model JavaScriptUNO.Models.ClientGameSession
 @{
     ViewBag.Title = Model.GameName;
 }
@@ -22,7 +22,7 @@
     var client = new UnoClients();
     client.hubReady.done(function () {
         console.log("Hub is connected");
-        client.connectToHost("@Model.GameId");
+        client.connectToHost("@Model.GameId", "@Model.ClientId");
     });
 
     function goFullScreen() {

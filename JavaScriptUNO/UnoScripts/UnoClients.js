@@ -7,15 +7,17 @@
             console.log(mode);
         };      
 
-        this.clientHub.endSession = function (reason) {
-            console.log(reason);
+        this.clientHub.client.endSession = function (reason) {
+			console.log(reason);
+			$('.gameBackground').empty();
+			$('.gameBackground').html('<h1>' + reason + '</h1>');
         };
 
         this.clientHub.client.doRefresh = function (gameObject) {
             //called everytime a change happens either server side or client side.
             var prefix = gameObject.PathPrefix;
             var currConnId = $.connection.hub.id;
-            var playerObject = gameObject.Players.find(x => x.id === currConnId);
+            var playerObject = gameObject.Players.find(x => x.connid === currConnId);
             //console.log(gameObject.Players.find(x => x.id === currConnId));
             var cardCounter = 0;
 
@@ -57,8 +59,8 @@
         this.hubReady = $.connection.hub.start();     
     }   
 
-    connectToHost(gameId) {
-        this.clientHub.server.subscribeToHost(gameId); //local id of the game to subscribe to
+    connectToHost(gameId, clientId) {
+        this.clientHub.server.subscribeToHost(gameId, clientId); //local id of the game to subscribe to
     }
 
 }

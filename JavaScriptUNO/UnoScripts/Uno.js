@@ -68,20 +68,22 @@
     StockPile = [];
     Deck = [];
     Players = [];
-    Rules = new UnoRuleChecker();
-    //playerIdList contains the id's of all the players participating in the game.
+	Rules = new UnoRuleChecker();
+
+    //newPlayerObjects contains an array of newly created playerObjects with their respective clientId's in it.
     //these id's relate to an array server side that then relates to client id's to send requests to
-    constructor(playerIdList) {
+	constructor(newPlayerObjects) {
         //set the stockPile to the predefined Deck.
         this.StockPile = this.FullDeck;
         this.Deck = [];
-
-        for (var p of playerIdList) {
-            this.Players.push({
-                id: p,
-                cards: []
-            });
-        }
+		this.Players = newPlayerObjects;
+		//for (var p of newPlayerObjects) {
+  //          this.Players.push({
+		//		id: p.id,
+		//		connid: p.connid,
+  //              cards: []
+  //          });
+  //      }
     }
 
     getCardsInStockPile() {

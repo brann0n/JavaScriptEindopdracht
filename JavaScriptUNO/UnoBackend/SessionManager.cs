@@ -28,14 +28,25 @@ namespace JavaScriptUNO.UnoBackend
         {
             foreach(ServerGameSession ses in Sessions)
             {
-                if(ses.clientIds.Contains(id))
+                if(ses.game.Players.Select(n => n.connid).Contains(id))
                     return ses;
             }
 
             return null;
         }
 
-        public string CreateNewSession(string GameName)
+		public ServerGameSession FindSessionByClientId(string id)
+		{
+			foreach (ServerGameSession ses in Sessions)
+			{
+				if (ses.game.Players.Select(n => n.id).Contains(id))
+					return ses;
+			}
+
+			return null;
+		}
+
+		public string CreateNewSession(string GameName)
         {
             string id = Guid.NewGuid().ToString();
             Sessions.Add(new ServerGameSession
@@ -53,12 +64,14 @@ namespace JavaScriptUNO.UnoBackend
             List<GameSession> fndSessions = new List<GameSession>();
             foreach(ServerGameSession s in Sessions)
             {
-                fndSessions.Add(new GameSession {
-                    GameId = s.GameId,
-                    GameName = s.GameName,
-                    PlayerCount = s.clientIds.Count,
-                    PlayerTotal = s.MaxClients
-                });
+				fndSessions.Add(new GameSession
+				{
+					GameId = s.GameId,
+					GameName = s.GameName,
+					PlayerCount = s.game.Players.Where(n => n.connid != "").Count(),
+					PlayerTotal = s.MaxClients,
+					GameStarted = s.GameStarted
+				});
             }
 
             return fndSessions;

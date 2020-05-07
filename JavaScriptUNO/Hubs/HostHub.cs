@@ -19,7 +19,9 @@ namespace JavaScriptUNO.Hubs
                 {
                     game.GameConnectionId = Context.ConnectionId;
                     Clients.Caller.setGameMode("Awaiting players...");
-                }
+
+					game.game.CreateNewPlayerObjects();
+				}
                 else
                 {
                     Clients.Caller.endSession("game is already being hosted somewhere else.");
@@ -37,9 +39,13 @@ namespace JavaScriptUNO.Hubs
             if (game != null)
             {
                 game.GameStarted = true;
-                //call the host with all the current player id's
-                Clients.Caller.startGame(game.clientIds);
-            }
+				//call the host with all the current player id's				
+				//Clients.Caller.startGame(game.clientIds);
+
+				//remove the empty player objects: no need for new players to connect after the game has started
+				game.game.Players.RemoveAll(n => n.connid == "");
+				Clients.Caller.startGame(game.game.Players);
+			}
             else
             {
                 Clients.Caller.endSession("unkown game id was passed to the server.");

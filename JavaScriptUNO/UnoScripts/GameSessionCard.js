@@ -6,20 +6,29 @@
         this.gameId = sessionObject["GameId"];
         this.pCount = sessionObject["PlayerCount"];
         this.pTotal = sessionObject["PlayerTotal"];
+		this.gameStarted = sessionObject["GameStarted"];
 
         //join button, public available for event subscription
-        this.joinButton = document.createElement("button");
-        this.joinButton.classList = "action-btn btn btn-default";
+        this.joinButton = document.createElement("button");       
         this.joinButton.innerText = "Join";
         this.joinButton.dataset.gameName = this.gameName;        
         this.joinButton.dataset.gameId = this.gameId;
 
         //spectate button, public available for event subscription
-        this.spectateButton = document.createElement("button");
-        this.spectateButton.classList = "action-btn btn btn-default";
+        this.spectateButton = document.createElement("button");     
         this.spectateButton.innerText = "Spectate";
         this.spectateButton.dataset.gameName = this.gameName;
-        this.spectateButton.dataset.gameId = this.gameId;
+		this.spectateButton.dataset.gameId = this.gameId;
+		console.log(this.gameStarted);
+		//depending on the game state, enable or disable the spectate and join buttons:
+		if (this.gameStarted === true) {
+			this.joinButton.classList = "action-btn btn btn-default disabled";
+			this.spectateButton.classList = "action-btn btn btn-default";
+		}
+		else {
+			this.joinButton.classList = "action-btn btn btn-default";
+			this.spectateButton.classList = "action-btn btn btn-default disabled";
+		}
     }
 
     createDOMElement() {

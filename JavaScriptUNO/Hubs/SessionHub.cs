@@ -31,7 +31,10 @@ namespace JavaScriptUNO.Hubs
 
         public string CreateClientSession(string hostSessionId)
         {
-            return "TestUrl";
+			//no need to create a client session, just find an empty player session for the provided game
+			ServerGameSession session = MvcApplication.Manager.FindSession(hostSessionId);
+
+			return session.game.Players.FirstOrDefault(n => n.connid == "").id;
         }
     }
 }

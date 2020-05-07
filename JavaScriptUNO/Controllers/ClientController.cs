@@ -12,11 +12,15 @@ namespace JavaScriptUNO.Controllers
         // GET: Client
         public ActionResult Index(string id)
         {
-            ServerGameSession game = MvcApplication.Manager.FindSession(id);
+            ServerGameSession game = MvcApplication.Manager.FindSessionByClientId(id);
 
             if (game != null)
-            {               
-                return View(game);
+            {
+				ClientGameSession session = new ClientGameSession();
+				session.ClientId = id;
+				session.GameId = game.GameId;
+				session.GameName = game.GameName;
+                return View(session);
             }
             else
             {

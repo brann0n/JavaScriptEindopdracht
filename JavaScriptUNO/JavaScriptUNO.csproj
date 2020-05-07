@@ -212,6 +212,7 @@
     <Compile Include="Hubs\HostHub.cs" />
     <Compile Include="Hubs\SessionHub.cs" />
     <Compile Include="Models\CardObject.cs" />
+    <Compile Include="Models\ClientGameSession.cs" />
     <Compile Include="Models\GameSesssion.cs" />
     <Compile Include="Models\PlayerObject.cs" />
     <Compile Include="Models\ServerGameSession.cs" />
@@ -237,6 +238,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
     <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

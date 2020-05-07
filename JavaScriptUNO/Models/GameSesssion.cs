@@ -11,5 +11,6 @@ namespace JavaScriptUNO.Models
         public string GameName { get; set; }
         public int PlayerCount { get; set; }    
         public int PlayerTotal { get; set; }
+		public bool GameStarted { get; set; }
     }
 }

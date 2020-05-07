@@ -19,7 +19,19 @@ namespace JavaScriptUNO.Models
             FullDeck = new List<CardObject>();
             Players = new List<PlayerObject>();
             StockPile = new List<CardObject>();
-        }
+		}
+
+		public void CreateNewPlayerObjects()
+		{
+			//create 8 player object presets
+			for(int i = 0; i < 8; i++)
+			{
+				PlayerObject pObject = new PlayerObject();
+				pObject.id = Guid.NewGuid().ToString();
+				pObject.connid = "";
+				Players.Add(pObject);
+			}
+		}
 
     }
 }

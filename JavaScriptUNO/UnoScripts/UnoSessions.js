@@ -24,7 +24,6 @@
                         //TODO: create a serverside client session object and then connect this browser to it.
                         session.sessionHub.server.createClientSession(e.target.dataset.gameId).done(function (clientSessionId) {
                             window.location.href = "/Client/Index/" + clientSessionId;
-                            //console.log(clientSessionId);
                         });
 
                         //window.location.href = "/Client/Index/" + e.target.dataset.gameId;
