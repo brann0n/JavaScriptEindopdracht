@@ -193,6 +193,7 @@
     <Content Include="UnoScripts\Uno.js" />
     <Content Include="UnoScripts\UnoClients.js" />
     <Content Include="UnoScripts\UnoHosts.js" />
+    <Content Include="UnoScripts\UnoRuleChecker.js" />
     <Content Include="UnoScripts\UnoSessions.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Session\Stats.cshtml" />

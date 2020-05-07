@@ -41,6 +41,41 @@ namespace JavaScriptUNO.Hubs
             }
         }
 
+        public void PostCard(string cardName)
+        {
+            string connId = Context.ConnectionId;
+            ServerGameSession sGame = MvcApplication.Manager.FindSessionByClientConnectionId(connId);
+            if(sGame != null)
+            {
+                UnoGame game = sGame.game;
+                //get the player object
+                PlayerObject player = game.Players.FirstOrDefault(n => n.id == connId);
+                if(player != null)
+                {
+                    //get the card object
+                    CardObject card = player.cards.FirstOrDefault(n => n.name == cardName);
+                    if(card != null)
+                    {
+                        //send the game to the host, and let the host process it
+                        //sGame.UpdateAll();
+                    }
+                    else
+                    {
+                        //maybe not end the session, but there is some cheating going on
+                        Clients.Caller.endSession("You do not have this card");
+                    }
+                }
+                else
+                {
+                    Clients.Caller.endSession("You are not a member of this game");
+                }
+            }
+            else
+            {
+                Clients.Caller.endSession("You are not a member of a game");
+            }
+        }
+
         public void Update()
         {
             ServerGameSession game = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);

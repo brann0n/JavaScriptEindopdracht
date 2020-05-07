@@ -68,7 +68,7 @@
     StockPile = [];
     Deck = [];
     Players = [];
-
+    Rules = new UnoRuleChecker();
     //playerIdList contains the id's of all the players participating in the game.
     //these id's relate to an array server side that then relates to client id's to send requests to
     constructor(playerIdList) {
@@ -123,7 +123,35 @@
                 var card = this.takeCardFromStock();
                 player.cards.push(card);
             }
-
         }
+    }
+
+    playCard(card) {
+        //check if this is the first card on the pile
+        if (this.Deck.length === 0) {
+            this.Deck.push(card);
+        }
+        else {
+            //check if the card is allowed to be played
+            if (this.Rules.check(this.Deck[this.Deck.length - 1], card)) {
+                //the card is confirmed, place it on the deck
+                this.Deck.push(card);
+            }
+        }
+        
+        
+    }
+
+    dealFirstRoundToPlayers() {
+        for (var player of this.Players) {
+            //deal 7 cards to each player
+            for (var i = 0; i < 7; i++) {
+                var card = this.takeCardFromStock();
+                player.cards.push(card);
+            }
+        }
+
+        var card1 = this.takeCardFromStock();
+        this.playCard(card1);
     }
 }

@@ -60,3 +60,25 @@
 <script src="~/signalr/hubs"></script>
 <script src="~/UnoScripts/UnoSessions.js"></script>
 <script src="~/UnoScripts/GameSessionCard.js"></script>
+<script>
+    var session = new UnoSessions();
+    session.hubReady.done(function () {
+        session.callRequestUpdate();
+    });
+
+
+    function ShowNewSessionPopUp() {
+        $(".popup-overlay, .popup-content").addClass("active");
+    }
+
+    function CompleteSessionCreation() {
+        let gameNameString = $('#tbGameName').val();
+        $('#tbGameName').val("");
+        session.createGameSession(gameNameString);
+        $(".popup-overlay, .popup-content").removeClass("active");
+    }
+
+    function CancelSessionCreation() {
+        $(".popup-overlay, .popup-content").removeClass("active");
+    }
+</script>

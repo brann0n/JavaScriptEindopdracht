@@ -3,24 +3,30 @@
 
 .cards-bar {
     overflow-x: auto;
-    height: 300px;
     width: 1280px;
+    height: 720px;
+    padding: 40px 200px;
 }
 
-    .cards-bar > .cards-item {
-        width: 194px;
-        height: 281px;
-        background-repeat: no-repeat !important;
-        background-size: cover !important;
-        float: left;
-        margin: 14px 0 0 14px;
-        transition: margin 0.1s;
-    }
-
-.cards-item:not(:first-child) {
-    margin-left: -100px;
+.cards-item {
+    width: 194px;
+    height: 281px;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    float: left;
+    
+    position: relative;
+    transition-duration: 0.2s;
 }
 
-.cards-item:hover {
+.cards-item-wrapper {
+    width: 194px;
+    height: 281px;
+    float: left;
+    margin: 14px 0 0 -100px;
+}
+
+.cards-item:hover{
     margin-top: -20px;
+    transform: rotate(-16deg);
 }

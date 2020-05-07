@@ -28,5 +28,10 @@ namespace JavaScriptUNO.Hubs
             Clients.All.setSessions(MvcApplication.Manager.GetGameSessions());
             Clients.Caller.redirectToGame(id);
         }
+
+        public string CreateClientSession(string hostSessionId)
+        {
+            return "TestUrl";
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace JavaScriptUNO.UnoBackend
 
         public ServerGameSession FindSessionByClientConnectionId(string id)
         {
-            foreach(var ses in Sessions)
+            foreach(ServerGameSession ses in Sessions)
             {
                 if(ses.clientIds.Contains(id))
                     return ses;
@@ -51,7 +51,7 @@ namespace JavaScriptUNO.UnoBackend
         public List<GameSession> GetGameSessions()
         {
             List<GameSession> fndSessions = new List<GameSession>();
-            foreach(var s in Sessions)
+            foreach(ServerGameSession s in Sessions)
             {
                 fndSessions.Add(new GameSession {
                     GameId = s.GameId,

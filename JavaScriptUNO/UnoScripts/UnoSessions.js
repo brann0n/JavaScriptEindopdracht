@@ -1,68 +1,60 @@
-﻿$(function () {
-    // Reference the auto-generated proxy for the hub.
-    var sessionHub = $.connection.sessionHub;
-    sessionHub.client.setSessions = function (dataObject) {
-        //debug
-        console.log(dataObject);
+﻿class UnoSessions {
+    constructor() {
+        this.sessionHub = $.connection.sessionHub;
+        this.sessionHub.client.setSessions = function (dataObject) {
+            //debug
+            console.log(dataObject);
 
-        //send the received object to the draw function.
-        drawSessions(dataObject);
-    };
+            //send the received object to the draw function.
+            this.drawSessions(dataObject);
+        };
 
-    sessionHub.client.redirectToGame = function (gameId) {
-        window.location.href = "/Host/Index/" + gameId;
-    };
+        this.sessionHub.client.redirectToGame = function (gameId) {
+            window.location.href = "/Host/Index/" + gameId;
+        };
 
-    $.connection.hub.start().done(function () {       
-        callRequestUpdate();
-    });
+        this.sessionHub.drawSessions = function (sessionList) {
+            if (sessionList.length > 0) {
+                $('#sessionContainer').empty();
+                for (var i = 0; i < sessionList.length; i++) {
+                    var sessionCard = new GameSessionCard(sessionList[i]);
+                    sessionCard.joinButton.onclick = function (e) {
+                        //the code to perform when join is clicked
+                        console.log("Clicked join on: " + e.target.dataset.gameName, e.target.dataset.gameId);
+                        //TODO: create a serverside client session object and then connect this browser to it.
+                        session.sessionHub.server.createClientSession(e.target.dataset.gameId).done(function (clientSessionId) {
+                            window.location.href = "/Client/Index/" + clientSessionId;
+                            //console.log(clientSessionId);
+                        });
 
-    callRequestUpdate = function () {
-        sessionHub.server.getSessions();
-    };
+                        //window.location.href = "/Client/Index/" + e.target.dataset.gameId;
+                    };
 
-    createGameSession = function (name) {
-        sessionHub.server.createSession(name);
-    };
-});
+                    sessionCard.spectateButton.onclick = function (e) {
+                        //the code to run when spectate is clicked                   
+                        console.log("Clicked spectate on: " + e.target.dataset.gameName);
+                    };
 
-function drawSessions(sessionList) {
-    if (sessionList.length > 0) {
-        $('#sessionContainer').empty();
-        for (var i = 0; i < sessionList.length; i++) {
-            var sessionCard = new GameSessionCard(sessionList[i]);
-            sessionCard.joinButton.onclick = function (e) {
-                //the code to perform when join is clicked
-                console.log("Clicked join on: " + e.target.dataset.gameName, e.target.dataset.gameId);
-                window.location.href = "/Client/Index/" + e.target.dataset.gameId;
-            };
+                    $('#sessionContainer').append(sessionCard.createDOMElement());
+                }
+                $('#sessionContainer').append("<div class='item-clear'></div>");
+            }
+            else {
+                $('#sessionContainer').empty();
+                $('#sessionContainer').append("<p>No sessions available</p>");
+            }
+        };
 
-            sessionCard.spectateButton.onclick = function (e) {
-                //the code to run when spectate is clicked
-                console.log("Clicked spectate on: " + e.target.dataset.gameName);
-            };
-
-            $('#sessionContainer').append(sessionCard.createDOMElement());
-        }       
-        $('#sessionContainer').append("<div class='item-clear'></div>");
+        this.hubReady = $.connection.hub.start(); 
     }
-    else {
-        $('#sessionContainer').empty();
-        $('#sessionContainer').append("<p>No sessions available</p>");
+
+    callRequestUpdate() {
+        this.sessionHub.server.getSessions();
     }
-}
 
-function ShowNewSessionPopUp() {
-    $(".popup-overlay, .popup-content").addClass("active");
-}
+    createGameSession(name) {
+        this.sessionHub.server.createSession(name);
+    }
 
-function CompleteSessionCreation() {   
-    let gameNameString = $('#tbGameName').val();
-    $('#tbGameName').val("");
-    createGameSession(gameNameString);
-    $(".popup-overlay, .popup-content").removeClass("active");
-}
-
-function CancelSessionCreation() {
-    $(".popup-overlay, .popup-content").removeClass("active");
+    
 }
