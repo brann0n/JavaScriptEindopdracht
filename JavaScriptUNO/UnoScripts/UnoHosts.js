@@ -38,7 +38,21 @@
             this.pushGame();
             var CardCount = this.UnoGame.getCardsInStockPile();
             $('#numberOfCards').text(CardCount + " Cards");
-        };
+		};
+
+		this.hostHub.client.playCard = function (playerId, card) {
+			if (this.UnoGame.playCard(card, playerId)) {
+				//card was played and should be displayed and whatever
+				console.log("played card: ", card);
+				console.log(this.UnoGame.Players);
+				console.log(this.UnoGame.Deck);
+				this.pushGame();
+			}
+			else {
+				console.log("could not play card: ", card);
+				//card was not allowed
+			}			
+		};
 
         this.hostHub.pushGame = function () {
             this.server.pushGame(this.UnoGame);
@@ -57,7 +71,7 @@
     }
 
     dealCardsToPlayers() {
-        this.hostHub.UnoGame.dealCardsToPlayers();
+		this.hostHub.UnoGame.dealFirstRoundToPlayers();
         this.hostHub.server.pushGame(this.hostHub.UnoGame);
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace JavaScriptUNO.Models
@@ -50,5 +51,10 @@ namespace JavaScriptUNO.Models
             if (game != null)
                 hostHubContext.Clients.Client(GameConnectionId).doRefresh(game);
         }
+
+		public void PlayCard(string playerId, string hostConnId, CardObject card)
+		{
+			hostHubContext.Clients.Client(hostConnId).playCard(playerId, card);
+		}
     }
 }

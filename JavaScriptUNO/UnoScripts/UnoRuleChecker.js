@@ -11,7 +11,6 @@
         var t = "" + topCard;
         var p = "" + playedCard;
         var type = "";
-
         //red
         if (t.startsWith(red)) {
             //get the remainder of the card type
@@ -21,7 +20,7 @@
                 return true;
             }
             else {
-                if (p.contains(type)) {
+                if (p.includes(type)) {
                     //card types match
                     return true;
                 }
@@ -36,7 +35,7 @@
                 return true;
             }
             else {
-                if (p.contains(type)) {
+				if (p.includes(type)) {
                     //card types match
                     return true;
                 }
@@ -51,14 +50,15 @@
                 return true;
             }
             else {
-                if (p.contains(type)) {
+				if (p.includes(type)) {
                     //card types match
                     return true;
                 }
             }
         }
         //yellow
-        else if (t.startsWith(yellow)) {
+		else if (t.startsWith(yellow)) {
+			console.log("checking yellow");
             //get the remainder of the card type
             type = t.substring(yellow.length - 1);
             if (p.startsWith(yellow)) {
@@ -66,7 +66,7 @@
                 return true;
             }
             else {
-                if (p.contains(type)) {
+				if (p.includes(type)) {
                     //card types match
                     return true;
                 }
@@ -75,6 +75,7 @@
         }
         else {
             //card is a wildcard
+			return true;
         }
 
         return false;

@@ -44,7 +44,8 @@
                 imageDiv.style.background = "url('" + imagePath + "')";
                 imageDiv.dataset.card = card.name;
                 imageDiv.style.zIndex = 1000 + cardCounter++;
-                imageDiv.onclick = function (item) {
+				imageDiv.onclick = function (item) {
+					//this code is executed after a click on a card, item contains the html object that was clicked.
                     var clientObject = item.target;
                     var cardName = clientObject.dataset.card;
                     console.log(cardName);

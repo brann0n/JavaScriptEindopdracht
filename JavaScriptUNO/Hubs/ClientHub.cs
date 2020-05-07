@@ -60,12 +60,14 @@ namespace JavaScriptUNO.Hubs
 					if (card != null)
 					{
 						//send the game to the host, and let the host process it
-						//sGame.UpdateAll(); //temp disabled for development purposes
+						//TODO: send the host a notification about the played card.
+						sGame.PlayCard(player.id, sGame.GameConnectionId, card);
+						//sGame.UpdateAll(); 
 					}
 					else
 					{
 						//maybe not end the session, but there is some cheating going on
-						Clients.Caller.endSession("You do not have this card");
+						Clients.Caller.endSession("The card you played was not in your posession.");
 					}
 				}
 				else
