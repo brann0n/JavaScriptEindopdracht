@@ -1,9 +1,13 @@
-﻿.gameBackground {
-    width: 1280px;
-    height: 720px;
-    background: url('../Content/UnoImages/Table_0.png');
-    background-repeat: no-repeat;
-    background-size: auto;
+﻿body {
+	padding-top: 50px;
+}
+
+.gameBackground {
+	width: 1280px;
+	height: 720px;
+	border: 2px solid white;
+	border-radius: 10px;
+	float: left;
 }
 
 .Deck {
@@ -17,18 +21,24 @@
 }
 
 .cardStock{
-    margin-top:0px;
-    margin-left: 50px;
+    /*margin-top:0px;
+    margin-left: 50px;*/
     clear: both;
 }
 
-.cardPlaying {
-    margin-left: 275px;
-    margin-top: 160px;
+#gameTitle{
+	color: white;
 }
 
-.game-controller{
-    padding: 5px;
+.cardPlaying {
+	margin-left: 275px;
+	margin-top: 160px;
+}
+
+.game-controller {
+	padding: 5px;
+	width: 300px;
+	float: left;
 }
 
 .game-info{
@@ -38,13 +48,28 @@
 .card-info {
     float: left;
     color: white;
-    padding-left: 80px;
-    padding-top: 40px;
     font-size: 25px;
 }
 
 .player-info {
-    float: right;
-    color: white;
-    font-size: 20px;
+	float: right;
+	color: white;
+	font-size: 25px;
+}
+
+.container-wrapper {
+	background: url('../Content/UnoImages/Table_0.png');
+	background-size: cover;
+	height:100%;
+}
+
+.btn-uno-controller {
+	background-color: white;
+	border: 1px solid black;
+	border-radius: 5px;
+	width: 200px;
+	height: 70px;
+	float: left;
+	display: block;
+	margin: 20px;
 }

@@ -1,4 +1,5 @@
 ﻿body {
+	margin: 0;
 }
 
 .cards-bar {
@@ -29,4 +30,10 @@
 .cards-item:hover{
     margin-top: -20px;
     transform: rotate(-16deg);
+}
+
+.container-wrapper {
+	background: url('../Content/UnoImages/Table_0.png');
+	background-size: cover;
+	height: 100%;
 }

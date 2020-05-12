@@ -1,15 +1,12 @@
 ﻿@model JavaScriptUNO.Models.ServerGameSession
 @{
     ViewBag.Title = Model.GameName;
+	Layout = "~/Views/Shared/_LayoutHost.cshtml";
 }
 
-<h2>@Model.GameName</h2>
+<h2 id="gameTitle">@Model.GameName</h2>
 
-<div class="game-controller">
-    <button id="btnStartGame" class="btn btn-default" onclick="startGameOnClick()">Start</button>
-    <button id="btnDealCards" class="btn btn-default disabled" onclick="dealCards()">Deal cards</button>
-    <button id="btnReset" class="btn btn-default disabled">Reset</button>
-</div>
+
 
 <div class="gameBackground">
     <div class="game-info">

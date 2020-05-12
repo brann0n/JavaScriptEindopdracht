@@ -25,9 +25,17 @@
 		</div>
 	</div>
 
-	<div class="container body-content">
-		@RenderBody()
+	<div class="container-wrapper">
+		<div class="game-controller">
+			<button id="btnStartGame" class="btn btn-default btn-uno-controller" onclick="startGameOnClick()">Start</button>
+			<button id="btnDealCards" class="btn btn-default btn-uno-controller disabled" onclick="dealCards()">Deal cards</button>
+			<button id="btnReset" class="btn btn-default btn-uno-controller disabled">Reset</button>
+		</div>
+		<div class="container body-content">
+			@RenderBody()
+		</div>
 	</div>
+
 
 	<script src="~/Scripts/bootstrap.min.js"></script>
 </body>

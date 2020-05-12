@@ -5,30 +5,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@ViewBag.Title - UNO Anywhere</title>
 	<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-	<link href="~/Content/Host.css" rel="stylesheet" type="text/css" />
 	<link href="~/Content/Client.css" rel="stylesheet" type="text/css" />
 	<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<script src="~/Scripts/modernizr-2.8.3.js"></script>
 	<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				@Html.ActionLink("UNO Anywhere", "Index", "Session", new { area = "" }, new { @class = "navbar-brand" })
-			</div>
+	<div class="container-wrapper">
+		<div class="container body-content">
+			@RenderBody()
 		</div>
 	</div>
-
-	<div class="container body-content">
-		@RenderBody()
-	</div>
-
 	<script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>
