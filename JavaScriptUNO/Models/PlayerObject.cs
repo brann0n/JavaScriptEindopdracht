@@ -14,5 +14,10 @@ namespace JavaScriptUNO.Models
         {
             cards = new List<CardObject>();
         }
-    }
+
+		public override string ToString()
+		{
+			return $"Player {id}";
+		}
+	}
 }

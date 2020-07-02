@@ -4,8 +4,8 @@
 
 .cards-bar {
     overflow-x: auto;
-    width: 1280px;
-    height: 720px;
+    max-width: 1280px;
+    max-height: 720px;
     padding: 40px 200px;
 }
 

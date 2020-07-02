@@ -3,8 +3,8 @@
 }
 
 .gameBackground {
-	width: 1280px;
-	height: 720px;
+	max-width: 1100px;
+	max-height: 720px;
 	border: 2px solid white;
 	border-radius: 10px;
 	float: left;
@@ -72,4 +72,25 @@
 	float: left;
 	display: block;
 	margin: 20px;
+}
+
+.player-list-wrapper{
+	width: 200px;
+	height: auto;
+	float: right;
+	border: 1px solid white;
+	border-radius: 5px;
+	color: white;
+	margin: 20px;
+}
+
+.player-list-item{
+	padding: 5px;
+}
+
+.player-list-item-selected {
+	background-color: #ff000038;
+}
+.player-list-item-selected::after{
+	content: '\'s turn';
 }

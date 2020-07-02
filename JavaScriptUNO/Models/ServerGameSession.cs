@@ -29,7 +29,6 @@ namespace JavaScriptUNO.Models
 			clientHubContext = GlobalHost.ConnectionManager.GetHubContext<ClientHub>();
             hostHubContext = GlobalHost.ConnectionManager.GetHubContext<HostHub>();
 			sessionHubContext = GlobalHost.ConnectionManager.GetHubContext<SessionHub>();
-
 		}
 
         public void UpdateAll()
@@ -54,6 +53,7 @@ namespace JavaScriptUNO.Models
 
 		public void PlayCard(string playerId, string hostConnId, CardObject card)
 		{
+			//sends the players card to the host for verification.
 			hostHubContext.Clients.Client(hostConnId).playCard(playerId, card);
 		}
     }

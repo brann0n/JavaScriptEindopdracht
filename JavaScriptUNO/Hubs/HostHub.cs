@@ -57,7 +57,17 @@ namespace JavaScriptUNO.Hubs
             ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
             if (sGame != null)
             {
-                sGame.game = game;
+				if(sGame.game.FullDeck.Count == 0)
+				{
+					//new game, select first player from list.
+					sGame.game = game;
+					sGame.game.CurrentPlayer = sGame.game.Players[0].id;
+				}
+				else
+				{
+					sGame.game = game;
+				}
+               
                 sGame.UpdateAll();
             }
             else
@@ -66,7 +76,26 @@ namespace JavaScriptUNO.Hubs
             }
         }
 
-        public void Update()
+		public void ConfirmCardGame(UnoGame game, bool success)
+		{
+			if (success)
+			{
+				string oldPlayer = game.CurrentPlayer;
+				int newPlayerId = game.Players.FindIndex(n => n.id == oldPlayer) + 1;
+				if(game.Players.Count > newPlayerId)
+				{
+					game.CurrentPlayer = game.Players[newPlayerId].id;
+				}
+				else
+				{
+					game.CurrentPlayer = game.Players[0].id;
+				}		
+				
+				PushGame(game);
+			}			
+		}
+
+		public void Update()
         {
             ServerGameSession game = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
             if (game != null)

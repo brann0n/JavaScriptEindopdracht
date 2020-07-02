@@ -1,59 +1,55 @@
 ﻿
 @{
-    ViewBag.Title = "Home";
+	ViewBag.Title = "Home";
 }
 <div class="session-content">
-    <h2>Displayed below is a list of available games</h2>
-    <div class="explain-box">
-        <p>
-            If you can't join a certain game, the game is either full or already in progress.
-        </p>
-        <p>
-            If you can't spectate a certain game, the owner of the game disabled it.
-        </p>
-        <p>
-            If you don't see a game you like, try creating a new game
-        </p>
-    </div>
-    <div class="create-game-box">
-        <button onclick="ShowNewSessionPopUp()" class="btn btn-primary">New Game</button>
-    </div>
-    <div id="sessionContainer" class="game-box">
-        @*<div class="game-item">
-                <h3 class="game-name">Game #1</h3>
-                <div class="game-controller">
-                    <div class="player-tag">Players: 3/8</div>
-                    <button class="btn btn-default action-btn">Join</button>
-                    <button class="btn btn-default action-btn">Spectate</button>
-                </div>
-            </div>
-            <div class="game-item">
-                <h3 class="game-name">Game #2</h3>
-                <div class="game-controller">
-                    <div class="player-tag">Players: 7/8</div>
-                    <button class="btn btn-default action-btn disabled">Join</button>
-                    <button class="btn btn-default action-btn">Spectate</button>
-                </div>
-            </div>*@
-        <p>No sessions available</p>
-    </div>
+	<h2>Displayed below is a list of available games</h2>
+	<div class="explain-box">
+		<p>
+			If you can't join a certain game, the game is either full or already in progress.
+		</p>
+		<p>
+			If you can't spectate a certain game, the owner of the game disabled it.
+		</p>
+	</div>
+	<div class="create-game-box">
+		<button onclick="ShowNewSessionPopUp()" class="btn btn-primary">New Game</button>
+	</div>
+	<div id="sessionContainer" class="game-box">
+		@*<div class="game-item">
+				<h3 class="game-name">Game #1</h3>
+				<div class="game-controller">
+					<div class="player-tag">Players: 3/8</div>
+					<button class="btn btn-default action-btn">Join</button>
+					<button class="btn btn-default action-btn">Spectate</button>
+				</div>
+			</div>
+			<div class="game-item">
+				<h3 class="game-name">Game #2</h3>
+				<div class="game-controller">
+					<div class="player-tag">Players: 7/8</div>
+					<button class="btn btn-default action-btn disabled">Join</button>
+					<button class="btn btn-default action-btn">Spectate</button>
+				</div>
+			</div>*@
+		<p>No sessions available</p>
+	</div>
 </div>
 
 <!--This pop-up shows fields for a new session-->
 <div class="popup-overlay">
-    <!--Creates the popup content-->
-    <div class="popup-content">
-        <h2>Start a new game</h2>
-        <p>Please fill in the below fields in order to create a new game</p>
-        <div class="new-game-fields">
-            <label for="tbGameName">Game Name</label>
-            <input id="tbGameName" type="text" class="input-sm" placeholder="Think of a name" />
-
-        </div>
-        <!--popup's close button-->
-        <button onclick="CompleteSessionCreation()" class="btn btn-primary action-btn">Start Game</button>
-        <button onclick="CancelSessionCreation()" class="btn btn-primary action-btn">Cancel</button>
-    </div>
+	<!--Creates the popup content-->
+	<div class="popup-content">
+		<h2>Start a new game</h2>
+		<p>Please fill in the below fields in order to create a new game</p>
+		<div class="new-game-fields">
+			<label for="tbGameName">Game Name</label>
+			<input id="tbGameName" type="text" class="input-sm" placeholder="Think of a name" />
+		</div>
+		<!--popup's close button-->
+		<button onclick="CompleteSessionCreation()" class="btn btn-primary action-btn">Start Game</button>
+		<button onclick="CancelSessionCreation()" class="btn btn-primary action-btn">Cancel</button>
+	</div>
 </div>
 
 <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
@@ -61,24 +57,24 @@
 <script src="~/UnoScripts/UnoSessions.js"></script>
 <script src="~/UnoScripts/GameSessionCard.js"></script>
 <script>
-    var session = new UnoSessions();
-    session.hubReady.done(function () {
-        session.callRequestUpdate();
-    });
+	var session = new UnoSessions();
+	session.hubReady.done(function () {
+		session.callRequestUpdate();
+	});
 
 
-    function ShowNewSessionPopUp() {
-        $(".popup-overlay, .popup-content").addClass("active");
-    }
+	function ShowNewSessionPopUp() {
+		$(".popup-overlay, .popup-content").addClass("active");
+	}
 
-    function CompleteSessionCreation() {
-        let gameNameString = $('#tbGameName').val();
-        $('#tbGameName').val("");
-        session.createGameSession(gameNameString);
-        $(".popup-overlay, .popup-content").removeClass("active");
-    }
+	function CompleteSessionCreation() {
+		let gameNameString = $('#tbGameName').val();
+		$('#tbGameName').val("");
+		session.createGameSession(gameNameString);
+		$(".popup-overlay, .popup-content").removeClass("active");
+	}
 
-    function CancelSessionCreation() {
-        $(".popup-overlay, .popup-content").removeClass("active");
-    }
+	function CancelSessionCreation() {
+		$(".popup-overlay, .popup-content").removeClass("active");
+	}
 </script>

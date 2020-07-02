@@ -12,6 +12,7 @@ namespace JavaScriptUNO.Models
         public string PathPrefix { get; set; }
         public List<PlayerObject> Players { get; set; }
         public List<CardObject> StockPile { get; set; }
+		public string CurrentPlayer { get; set; }
 
         public UnoGame()
         {
