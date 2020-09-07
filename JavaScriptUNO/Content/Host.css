@@ -14,25 +14,41 @@
     margin: 20px;
     width: 194px;
     height: 281px;
-    background: url('../Content/UnoImages/Deck.png');
-    background-repeat: no-repeat;
-    background-size: cover;
     float: left;
 }
 
-.cardStock{
-    /*margin-top:0px;
+.cardStock {
+	/*margin-top:0px;
     margin-left: 50px;*/
-    clear: both;
+	clear: both;
+	background: url('../Content/UnoImages/Deck.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	box-shadow: 3px 3px 8px 3px #0000002b;
+	border-radius: 20px;
 }
 
 #gameTitle{
 	color: white;
 }
 
-.cardPlaying {
+.cardPlaying-wrapper {
+	margin: 20px;
+	width: 194px;
+	height: 281px;
+	float: left;
 	margin-left: 275px;
 	margin-top: 160px;
+}
+
+.cardPlaying {
+	width: 194px;
+	height: 281px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	float: left;
+	box-shadow: 3px 3px 8px 3px #0000002b;
+	border-radius: 20px;
 }
 
 .game-controller {

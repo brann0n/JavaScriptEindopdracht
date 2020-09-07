@@ -15,9 +15,10 @@
     background-repeat: no-repeat !important;
     background-size: cover !important;
     float: left;
-    
     position: relative;
     transition-duration: 0.2s;
+    box-shadow: 3px 3px 8px 3px #0000002b;
+    border-radius: 20px;
 }
 
 .cards-item-wrapper {

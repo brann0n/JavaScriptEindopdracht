@@ -53,20 +53,27 @@
             $('#numberOfCards').text(CardCount + " Cards");
 		};
 
-		this.hostHub.client.playCard = function (playerId, card) {
-			if (this.UnoGame.playCard(card, playerId)) {
-				//card was played and should be displayed and whatever
-				console.log("played card: ", card);
-				console.log(this.UnoGame.Players);
-				console.log(this.UnoGame.Deck);
-				$('.cardPlaying').css("background-image", "url(../../Content/UnoImages/" + card.imageLocation + ")"); 
-				this.cardPlayed(true);
+        this.hostHub.client.playCard = function (playerId, card) {
+            //check if the current player is allowed to play
+            if (this.UnoGame.CurrentPlayer === playerId) {
+                if (this.UnoGame.playCard(card, playerId)) {
+                    //card was played and should be displayed or whatever
+                    console.log("played card: ", card);
+                    console.log(this.UnoGame.Players);
+                    console.log(this.UnoGame.Deck);
+                    this.updateTopCard();
+                    this.cardPlayed(true);
+                }
+                else {
+                    console.log("could not play card: ", card);
+                    //card was not allowed
+                    this.cardPlayed(false);
+                }
+            }
+            else {
+                //illegal move!
+                //todo: report black to the player
 			}
-			else {
-				console.log("could not play card: ", card);
-				//card was not allowed
-				this.cardPlayed(false);
-			}			
 		};
 
         this.hostHub.pushGame = function () {
@@ -75,7 +82,12 @@
 
 		this.hostHub.cardPlayed = function (cardSuccess) {
 			this.server.confirmCardGame(this.UnoGame, cardSuccess);
-		};
+        };
+
+        this.hostHub.updateTopCard = function () {
+            var card = this.UnoGame.getTopCardFromPlayingStack();
+            $('.cardPlaying').css("background-image", "url(../../Content/UnoImages/" + card.imageLocation + ")");
+        };
 
         this.hubReady = $.connection.hub.start();        
         this.gameId = gameId;
@@ -92,5 +104,7 @@
     dealCardsToPlayers() {
 		this.hostHub.UnoGame.dealFirstRoundToPlayers();
         this.hostHub.server.pushGame(this.hostHub.UnoGame);
-    }
+        //show the drawn card
+        this.hostHub.updateTopCard();
+    } 
 }

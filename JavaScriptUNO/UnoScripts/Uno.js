@@ -153,7 +153,7 @@
 					//the card is confirmed, place it on the deck
 					this.Deck.push(card);
 					console.log("Debug: ", this.Players[playerIndex].cards[cardsIndex]);
-					this.Players[playerIndex].cards[cardsIndex].amount--;
+					this.Players[playerIndex].cards[cardsIndex].amount--; //todo: update the cards on the player side
 					return true;
 				}
 			}
@@ -162,6 +162,7 @@
 		return false;
 	}
 
+	//deals cards to all player objects, then puts one card on the deck
 	dealFirstRoundToPlayers() {
 		for (var player of this.Players) {
 			//deal 7 cards to each player
@@ -173,5 +174,11 @@
 
 		var card1 = this.takeCardFromStock();
 		this.Deck.push(card1);
+	}
+
+	//gets the current card that should be displayed
+	getTopCardFromPlayingStack() {
+		console.log("deck size: ", this.Deck.length);
+		return this.Deck[this.Deck.length - 1];
 	}
 }
