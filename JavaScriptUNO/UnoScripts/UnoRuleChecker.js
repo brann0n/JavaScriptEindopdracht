@@ -14,7 +14,7 @@
         //red
         if (t.startsWith(red)) {
             //get the remainder of the card type
-            type = t.substring(red.length - 1);
+            type = t.substring(red.length);
             if (p.startsWith(red)) {
                 //colors match
                 return true;
@@ -29,7 +29,7 @@
         //green
         else if (t.startsWith(green)) {
             //get the remainder of the card type
-            type = t.substring(green.length - 1);
+            type = t.substring(green.length);
             if (p.startsWith(green)) {
                 //colors match
                 return true;
@@ -44,7 +44,7 @@
         //blue
         else if (t.startsWith(blue)) {
             //get the remainder of the card type
-            type = t.substring(blue.length - 1);
+            type = t.substring(blue.length);
             if (p.startsWith(blue)) {
                 //colors match
                 return true;
@@ -60,7 +60,7 @@
 		else if (t.startsWith(yellow)) {
 			console.log("checking yellow");
             //get the remainder of the card type
-            type = t.substring(yellow.length - 1);
+            type = t.substring(yellow.length);
             if (p.startsWith(yellow)) {
                 //colors match
                 return true;

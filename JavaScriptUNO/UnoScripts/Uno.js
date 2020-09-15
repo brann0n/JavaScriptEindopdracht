@@ -156,6 +156,9 @@
 					this.Players[playerIndex].cards[cardsIndex].amount--; //todo: update the cards on the player side
 					return true;
 				}
+				else {
+					//also return true, and update
+				}
 			}
 		}
 

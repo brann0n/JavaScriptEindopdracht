@@ -92,7 +92,11 @@ namespace JavaScriptUNO.Hubs
 				}		
 				
 				PushGame(game);
-			}			
+			}
+			else
+			{
+                PushGame(game);
+			}
 		}
 
 		public void Update()

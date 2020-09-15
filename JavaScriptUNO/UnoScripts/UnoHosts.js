@@ -58,9 +58,9 @@
             if (this.UnoGame.CurrentPlayer === playerId) {
                 if (this.UnoGame.playCard(card, playerId)) {
                     //card was played and should be displayed or whatever
-                    console.log("played card: ", card);
-                    console.log(this.UnoGame.Players);
-                    console.log(this.UnoGame.Deck);
+                    //console.log("played card: ", card);
+                    //console.log(this.UnoGame.Players);
+                    //console.log(this.UnoGame.Deck);
                     this.updateTopCard();
                     this.cardPlayed(true);
                 }
@@ -86,6 +86,7 @@
 
         this.hostHub.updateTopCard = function () {
             var card = this.UnoGame.getTopCardFromPlayingStack();
+            //todo: loop over all the cards and make a 'messy' deck
             $('.cardPlaying').css("background-image", "url(../../Content/UnoImages/" + card.imageLocation + ")");
         };
 
