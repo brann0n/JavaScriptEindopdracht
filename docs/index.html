@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UNO Anywhere</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Uno Anywhere" property="og:title">
+    <meta content="The well known UNO game, but online" property="og:description">
+    <meta content="UnoAnywhere " property="og:site_name">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="content/style.css" type="text/css">
+    <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+    <script>
+        function randomNum(amount) {
+            var num = (Math.floor(Math.random() * amount) + 1);
+            return num == 1;
+        }
+
+        $(document).ready(function() {
+            $(".PageContents h1").hide();
+            $(".PageContents p").hide();
+            $(".PageContents button").hide();
+            $(".PageContents img").hide();
+
+            setTimeout(
+                function() {
+                    $(".LoadingScreen").fadeOut(1000);
+                }, 100);
+
+            setTimeout(
+                function() {
+                    $(".PageContents h1").fadeIn(500);
+                    $(".PageContents img").fadeIn(1000);
+                    $(".PageContents p").fadeIn(1500);
+                    $(".PageContents button").fadeIn(2000);
+                }, 800);
+        });
+    </script>
+    <div class="LoadingScreen">
+        <img src='content/' alt='laden..'>
+    </div>
+    <div class="LandingScreen">
+        <div class="PageContents">
+            <h1> Uno Anywhere </h1>
+            <p>
+                Your regular UNO card game, now online
+            </p>
+            <p>
+                The game works by using a laptop or tv as the game host, and then letting you connect with your mobile devices.
+            </p>
+            <button class="ScrollButton" data-scrollElem=".Content">
+                Discover UNO Anywhere
+            </button>
+        </div>
+    </div>
+    <div class="Content">
+        <div class="PageContents">
+            <h1>How does it work?</h1>
+            <img src="content/trollkit.png">
+            <p>
+                Go to the
+                <a style="float: none;" href="http://game.uno-anywhere.ga">game lobby</a>, from here you can either create a game or join an existing one.
+            </p>
+        </div>
+    </div>
+    <div class="Footer">
+        <button class="ScrollButton" data-scrollElem=".LandingScreen">
+                Scroll to top
+            </button>
+    </div>
+    <script>
+        $(".ScrollButton").on("click", function() {
+            var elem = $(this).attr("data-scrollElem");
+
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $(elem).offset().top
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>
