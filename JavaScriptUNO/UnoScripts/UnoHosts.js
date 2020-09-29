@@ -74,7 +74,19 @@
                 //illegal move!
                 //todo: report black to the player
 			}
-		};
+        };
+
+        this.hostHub.client.drawCard = function (playerId, amount) {
+            //check if the current player is allowed to play
+            if (this.UnoGame.CurrentPlayer === playerId) {
+                //draw a card specified by the amount
+                this.cardPlayed(true);
+            }
+            else {
+                //illegal move!
+                //todo: report black to the player
+            }
+        };
 
         this.hostHub.pushGame = function () {
             this.server.pushGame(this.UnoGame);

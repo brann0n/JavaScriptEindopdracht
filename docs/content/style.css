@@ -28,7 +28,7 @@ button {
 }
 
 .LandingScreen {
-    background-image: URL('http://game.uno-anywhere.ga/Content/UnoImages/Table_0.png'), linear-gradient(#8d251d, #230706);
+    background-image: none, linear-gradient(#8e241d, #1b0404);
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: 400px 400px, cover;

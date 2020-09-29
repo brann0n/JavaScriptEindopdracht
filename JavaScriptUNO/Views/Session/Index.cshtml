@@ -15,6 +15,15 @@
 	<div class="create-game-box">
 		<button onclick="ShowNewSessionPopUp()" class="btn btn-primary">New Game</button>
 	</div>
+	<div class="change-name-box">
+		<h3 id="change-name-title">Current Player name:</h3>
+		<p id="playerNameField">{loading}</p>
+		<div class="player-name-field">
+			<label for="tbPlayerName">Player Name</label>
+			<input id="tbPlayerName" type="text" class="input-sm" placeholder="What should we call you?" />
+			<button onclick="StorePlayerName()" class="btn btn-primary action-btn">Save</button>
+		</div>	
+	</div>
 	<div id="sessionContainer" class="game-box">
 		@*<div class="game-item">
 				<h3 class="game-name">Game #1</h3>
@@ -60,6 +69,16 @@
 	var session = new UnoSessions();
 	session.hubReady.done(function () {
 		session.callRequestUpdate();
+
+		//get the playername from the localstorage. if there is no name, display "Not Set"
+		let playerNameString = localStorage.getItem('playername');
+
+		if (playerNameString === null) {
+			playerNameString = "Not Set"
+		}
+
+		$('#playerNameField').text(playerNameString);
+		
 	});
 
 
@@ -76,5 +95,15 @@
 
 	function CancelSessionCreation() {
 		$(".popup-overlay, .popup-content").removeClass("active");
+	}
+
+	function StorePlayerName() {
+		//get the players name from the txtbox and store it in localstorage for next time.
+		//after storing the name clear the textbox and put the name in the provided name field.
+		//no update to server is required at this point.
+		let playerNameString = $('#tbPlayerName').val();
+		$('#tbPlayerName').val("");
+		localStorage.setItem('playername', playerNameString.substring(0, 32));
+		$('#playerNameField').text(playerNameString.substring(0, 32));
 	}
 </script>

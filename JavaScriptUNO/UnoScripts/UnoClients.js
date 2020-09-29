@@ -4,7 +4,7 @@
 		this.clientHub = $.connection.clientHub;
 
 		this.clientHub.client.setGameMode = function (mode) {
-			console.log(mode);
+			$('.cards-bar').html("<h3>" + mode + "</h3>");
 		};
 
 		this.clientHub.client.endSession = function (reason) {
@@ -77,4 +77,7 @@
 		this.clientHub.server.subscribeToHost(gameId, clientId); //local id of the game to subscribe to
 	}
 
+	drawCardFromDeck() {
+		this.clientHub.server.drawCardFromDeck();
+	}
 }

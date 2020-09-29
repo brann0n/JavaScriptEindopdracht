@@ -76,6 +76,11 @@ namespace JavaScriptUNO.Hubs
             }
         }
 
+        /// <summary>
+        /// Function that progresses the game turn depending on the card playing status
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="success"></param>
 		public void ConfirmCardGame(UnoGame game, bool success)
 		{
 			if (success)

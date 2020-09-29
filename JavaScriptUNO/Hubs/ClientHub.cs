@@ -44,6 +44,19 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		public void DrawCardFromDeck()
+		{
+			string connId = Context.ConnectionId;
+			ServerGameSession session = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
+
+			if (session != null)
+			{
+				UnoGame game = session.game;
+				PlayerObject player = game.Players.FirstOrDefault(n => n.connid == connId);
+				session.DrawCard(player.id, session.GameConnectionId);
+			}
+		}
+
 		public void PostCard(string cardName)
 		{
 			string connId = Context.ConnectionId;

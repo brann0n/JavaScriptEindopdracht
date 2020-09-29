@@ -56,5 +56,10 @@ namespace JavaScriptUNO.Models
 			//sends the players card to the host for verification.
 			hostHubContext.Clients.Client(hostConnId).playCard(playerId, card);
 		}
+
+        public void DrawCard(string playerId, string hostConnId)
+		{
+            hostHubContext.Clients.Client(hostConnId).drawCard(playerId);
+        }
     }
 }

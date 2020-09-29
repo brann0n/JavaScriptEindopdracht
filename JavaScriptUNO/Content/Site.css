@@ -24,11 +24,27 @@ textarea {
     margin: auto;
 }
 
-.game-box{
-    
+
+.change-name-box {
+    width: 300px;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid black;
+    border-radius: 7px;
 }
 
-.game-item{
+#tbPlayerName{
+    width: 100%;
+}
+
+#change-name-title{
+    margin: 0px;
+}
+
+.game-item {
     float: left;
     width: 290px;
     height: 150px;
@@ -47,7 +63,7 @@ textarea {
 }
 
 .action-btn {
-    margin: 0px 5px;
+    margin: 5px 5px 2px 0px;
 }
 .item-clear {
     clear: both;

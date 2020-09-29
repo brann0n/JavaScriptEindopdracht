@@ -7,7 +7,8 @@
 <h2>@Model.GameName Client</h2>
 
 <div class="game-controller">
-    <button id="btnFullScreen" class="btn btn-default" onclick="goFullScreen()">Full Screen</button>
+	<button id="btnFullScreen" class="btn btn-default" onclick="goFullScreen()">Full Screen</button>
+	<button id="btnFullScreen" class="btn btn-default" onclick="drawCardFromDeck()">DrawCard</button>
 </div>
 
 <div class="gameBackground">
@@ -33,4 +34,8 @@
 		    document.documentElement.requestFullscreen();
 	    }
     }
+
+    function drawCardFromDeck() {
+        client.drawCardFromDeck();
+	}
 </script>
