@@ -4,8 +4,11 @@
 	Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
-<h2>@Model.GameName Client</h2>
-
+<h2 id="gameTitle">Game: @Model.GameName</h2>
+<div class="player-name-box">
+	<h2 id="change-name-title">Current Player name:</h2>
+	<p id="playerNameField">{loading}</p>
+</div>
 <div class="game-controller">
 	<button id="btnFullScreen" class="btn btn-default" onclick="goFullScreen()">Full Screen</button>
 	<button id="btnFullScreen" class="btn btn-default" onclick="drawCardFromDeck()">DrawCard</button>
@@ -25,6 +28,14 @@
     client.hubReady.done(function () {
         console.log("Hub is connected");
         client.connectToHost("@Model.GameId", "@Model.ClientId");
+
+        //get the player name and set it on the screen
+        let playerNameString = localStorage.getItem('playername');
+        if (playerNameString === null) {
+			playerNameString = "@Model.ClientId".substring(0, 8)
+        }
+
+		$('#playerNameField').text(playerNameString);
     });
 
     function goFullScreen() {

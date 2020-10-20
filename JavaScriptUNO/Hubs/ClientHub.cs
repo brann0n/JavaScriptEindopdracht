@@ -10,7 +10,7 @@ namespace JavaScriptUNO.Hubs
 {
 	public class ClientHub : Hub
 	{
-		public void SubscribeToHost(string hostId, string clientId)
+		public void SubscribeToHost(string hostId, string clientId, string playername)
 		{
 			string connId = Context.ConnectionId;
 			//find the session in memory
@@ -29,9 +29,9 @@ namespace JavaScriptUNO.Hubs
 					else
 					{
 						game.game.Players.First(n => n.id == clientId).connid = connId;
+						game.game.Players.First(n => n.id == clientId).name = playername;
 						game.UpdateAll();
 					}
-
 				}
 				else
 				{
@@ -64,6 +64,7 @@ namespace JavaScriptUNO.Hubs
 			if (sGame != null)
 			{
 				UnoGame game = sGame.game;
+
 				//get the player object
 				PlayerObject player = game.Players.FirstOrDefault(n => n.connid == connId);
 				if (player != null)
@@ -73,13 +74,11 @@ namespace JavaScriptUNO.Hubs
 					if (card != null)
 					{
 						//send the game to the host, and let the host process it
-						//TODO: send the host a notification about the played card.
 						sGame.PlayCard(player.id, sGame.GameConnectionId, card);
-						//sGame.UpdateAll(); 
 					}
 					else
 					{
-						//maybe not end the session, but there is some cheating going on
+						//todo: maybe not end the session, but there is some cheating going on
 						Clients.Caller.endSession("The card you played was not in your posession.");
 					}
 				}

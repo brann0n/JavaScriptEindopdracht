@@ -25,18 +25,21 @@
 			//set the player list:
 			$('#player-list').empty();
 			var count = 0;
-			for (var player of gameObject.Players) {
-				if (gameObject.CurrentPlayer === player.id) {
-					$('#player-list').append('<div class="player-list-item player-list-item-selected">Player #' + ++count + ' ' + player.id.substring(0, 8) + '</div>');
+            for (var player of gameObject.Players) {
+                console.log(player);
+                let playername = (player.name === null)
+                    ?'Player #' + ++count + ' ' + player.id.substring(0, 8)
+                    : 'Player #' + ++count + ' ' + player.name;
+
+                if (gameObject.CurrentPlayer === player.id) {                  
+                    $('#player-list').append('<div class="player-list-item player-list-item-selected">' + playername + '</div>');
 				}
 				else {
-					$('#player-list').append('<div class="player-list-item">Player #' + ++count + ' ' + player.id.substring(0, 8) + '</div>');
+                    $('#player-list').append('<div class="player-list-item">' + playername + '</div>');
 				}
-			}
+            }
 
-            //called everytime a change happens either server side or client side.
-            console.log(gameObject);
-            //assign the 3 objects over
+            //overwrite current objects
             this.UnoGame.Players = gameObject.Players;
             this.UnoGame.Deck = gameObject.Deck;
             this.UnoGame.StockPile = gameObject.StockPile;

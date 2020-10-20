@@ -74,7 +74,11 @@
 	}
 
 	connectToHost(gameId, clientId) {
-		this.clientHub.server.subscribeToHost(gameId, clientId); //local id of the game to subscribe to
+		//get the playername from the localstorage, this object was set on the session page
+
+		let playerNameString = localStorage.getItem('playername');
+
+		this.clientHub.server.subscribeToHost(gameId, clientId, playerNameString); //local id of the game to subscribe to
 	}
 
 	drawCardFromDeck() {

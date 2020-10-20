@@ -102,8 +102,10 @@
 		//after storing the name clear the textbox and put the name in the provided name field.
 		//no update to server is required at this point.
 		let playerNameString = $('#tbPlayerName').val();
-		$('#tbPlayerName').val("");
-		localStorage.setItem('playername', playerNameString.substring(0, 32));
-		$('#playerNameField').text(playerNameString.substring(0, 32));
+		if (playerNameString !== "") {
+			$('#tbPlayerName').val("");
+			localStorage.setItem('playername', playerNameString.substring(0, 32));
+			$('#playerNameField').text(playerNameString.substring(0, 32));
+		}
 	}
 </script>
