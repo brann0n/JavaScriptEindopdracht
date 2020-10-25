@@ -26,7 +26,6 @@
 			$('#player-list').empty();
 			var count = 0;
             for (var player of gameObject.Players) {
-                console.log(player);
                 let playername = (player.name === null)
                     ?'Player #' + ++count + ' ' + player.id.substring(0, 8)
                     : 'Player #' + ++count + ' ' + player.name;
@@ -61,9 +60,6 @@
             if (this.UnoGame.CurrentPlayer === playerId) {
                 if (this.UnoGame.playCard(card, playerId)) {
                     //card was played and should be displayed or whatever
-                    //console.log("played card: ", card);
-                    //console.log(this.UnoGame.Players);
-                    //console.log(this.UnoGame.Deck);
                     this.updateTopCard();
                     this.cardPlayed(true);
                 }
@@ -75,19 +71,20 @@
             }
             else {
                 //illegal move!
-                //todo: report black to the player
+                this.cardPlayed(false);
 			}
         };
 
-        this.hostHub.client.drawCard = function (playerId, amount) {
+        this.hostHub.client.drawCard = function (playerId) {
             //check if the current player is allowed to play
             if (this.UnoGame.CurrentPlayer === playerId) {
                 //draw a card specified by the amount
+                this.UnoGame.dealCardAmountToPlayer(playerId, 1);
+
                 this.cardPlayed(true);
             }
             else {
-                //illegal move!
-                //todo: report black to the player
+                this.cardPlayed(false);
             }
         };
 

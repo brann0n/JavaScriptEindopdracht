@@ -61,7 +61,6 @@
 								client.clientHub.server.postCard(cardName);
 							}
 						});
-
 					};
 
 					imageDivWrapper.append(imageDiv);

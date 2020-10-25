@@ -77,13 +77,6 @@
 		this.StockPile = this.FullDeck;
 		this.Deck = [];
 		this.Players = newPlayerObjects;
-		//for (var p of newPlayerObjects) {
-		//          this.Players.push({
-		//		id: p.id,
-		//		connid: p.connid,
-		//              cards: []
-		//          });
-		//      }
 	}
 
 	getCardsInStockPile() {
@@ -152,12 +145,12 @@
 				if (this.Rules.check(this.Deck[this.Deck.length - 1].name, card.name)) {
 					//the card is confirmed, place it on the deck
 					this.Deck.push(card);
-					console.log("Debug: ", this.Players[playerIndex].cards[cardsIndex]);
-					this.Players[playerIndex].cards[cardsIndex].amount--; //todo: update the cards on the player side
+					this.Players[playerIndex].cards[cardsIndex].amount--; 
+
+					//check if the current top card has any special functions (skip, turn around, take 2, take 4)
+					var specialEffect = this.Rules.checkSpecials(card.name);
+
 					return true;
-				}
-				else {
-					//also return true, and update
 				}
 			}
 		}
@@ -177,6 +170,18 @@
 
 		var card1 = this.takeCardFromStock();
 		this.Deck.push(card1);
+	}
+
+	dealCardAmountToPlayer(playerId, amount) {
+		//get the player index from the player Array
+		var playerIndex = this.Players.findIndex(obj => obj.id === playerId);
+
+		var player = this.Players[playerIndex];
+		//deal 7 cards to each player
+		for (var i = 0; i < amount; i++) {
+			var card = this.takeCardFromStock();
+			player.cards.push(card);
+		}
 	}
 
 	//gets the current card that should be displayed

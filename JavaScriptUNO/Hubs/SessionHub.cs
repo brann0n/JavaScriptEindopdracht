@@ -12,11 +12,6 @@ namespace JavaScriptUNO.Hubs
     /// </summary>
     public class SessionHub : Hub
     {
-        public void Hello()
-        {
-            Clients.All.hello();
-        }
-
         public void GetSessions()
         {
             Clients.Caller.setSessions(MvcApplication.Manager.GetGameSessions());

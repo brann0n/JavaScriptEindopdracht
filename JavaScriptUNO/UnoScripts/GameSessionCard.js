@@ -18,8 +18,8 @@
         this.spectateButton = document.createElement("button");     
         this.spectateButton.innerText = "Spectate";
         this.spectateButton.dataset.gameName = this.gameName;
-		this.spectateButton.dataset.gameId = this.gameId;
-		console.log(this.gameStarted);
+        this.spectateButton.dataset.gameId = this.gameId;
+
 		//depending on the game state, enable or disable the spectate and join buttons:
 		if (this.gameStarted === true) {
 			this.joinButton.classList = "action-btn btn btn-default disabled";
