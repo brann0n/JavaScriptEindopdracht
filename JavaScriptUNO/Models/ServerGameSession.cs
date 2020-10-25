@@ -51,6 +51,27 @@ namespace JavaScriptUNO.Models
                 hostHubContext.Clients.Client(GameConnectionId).doRefresh(game);
         }
 
+        public void MessageClients(string message)
+		{
+            if (game != null)
+                clientHubContext.Clients.Clients(game.Players.Where(n => n.connid != "").Select(n => n.connid).ToList()).displayMessage(message);
+        }
+
+        public void MessageHost(string message)
+		{
+            if (game != null)
+                hostHubContext.Clients.Client(GameConnectionId).displayMessage(message);
+		}
+
+        public void UpdateCurrentPlayingName(PlayerObject player)
+		{
+            if(game != null)
+			{                
+                clientHubContext.Clients.Clients(game.Players.Where(n => n.connid != "").Select(n => n.connid).ToList()).setCurrentPlayer(player);
+                hostHubContext.Clients.Client(GameConnectionId).setCurrentPlayer(player);
+            }
+		}
+
 		public void PlayCard(string playerId, string hostConnId, CardObject card)
 		{
 			//sends the players card to the host for verification.

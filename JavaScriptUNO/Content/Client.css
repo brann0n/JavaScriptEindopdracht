@@ -3,10 +3,13 @@
 }
 
 .cards-bar {
+    padding: 35px 30px;
+    width: max-content;
+}
+
+.gameBackground {
     overflow-x: auto;
-    max-width: 1280px;
-    max-height: 720px;
-    padding: 40px 200px;
+    overflow-y: hidden;
 }
 
 .cards-item {
@@ -14,18 +17,24 @@
     height: 281px;
     background-repeat: no-repeat !important;
     background-size: cover !important;
-    float: left;
     position: relative;
     transition-duration: 0.2s;
     box-shadow: 3px 3px 8px 3px #0000002b;
     border-radius: 20px;
 }
 
-.cards-item-wrapper {
+.cards-item-wrapper:not(:first-child) {
     width: 194px;
     height: 281px;
     float: left;
-    margin: 14px 0 0 -100px;
+    margin-left: -115px;
+}
+
+.cards-item-wrapper:first-child {
+    width: 194px;
+    height: 281px;
+    float: left;
+    margin: 0;
 }
 
 .cards-item:hover{
@@ -37,6 +46,7 @@
 	background: url('../Content/UnoImages/Table_0.png');
 	background-size: cover;
 	height: 100%;
+    overflow-y: hidden;
 }
 
 #gameTitle {
@@ -57,4 +67,8 @@
 
 .game-controller {
     display: inherit; /*overwrite the site.css rule*/
+}
+
+#btnDrawCard {
+
 }

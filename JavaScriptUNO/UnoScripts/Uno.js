@@ -148,7 +148,7 @@
 					this.Players[playerIndex].cards[cardsIndex].amount--; 
 
 					//check if the current top card has any special functions (skip, turn around, take 2, take 4)
-					var specialEffect = this.Rules.checkSpecials(card.name);
+					//var specialEffect = this.Rules.checkSpecials(card.name);
 
 					return true;
 				}

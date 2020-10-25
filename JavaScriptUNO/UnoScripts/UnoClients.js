@@ -38,7 +38,6 @@
 			//remove all cards and redraw them
 			$('.cards-bar').empty();
 			for (var card of playerObject.cards) {
-				console.log(card);
 				if (card.amount > 0) {
 					var imagePath = prefix + card.imageLocation;
 					var imageDivWrapper = document.createElement("div");
@@ -52,12 +51,10 @@
 						//this code is executed after a click on a card, item contains the html object that was clicked.
 						var clientObject = item.target;
 						var cardName = clientObject.dataset.card;
-						console.log(cardName);
 						$(clientObject).fadeOut('fast').animate({
 							'bottom': '100%'
 						}, {
-							duration: 'fast', queue: false, complete: function () {
-								console.log(cardName + "aaa");
+							duration: 'fast', queue: false, complete: function () {								
 								client.clientHub.server.postCard(cardName);
 							}
 						});
@@ -67,6 +64,26 @@
 					$('.cards-bar').append(imageDivWrapper);
 				}
 			}
+		};
+
+		this.clientHub.client.displayMessage = function (message) {
+			console.log(message);
+		};
+
+		this.clientHub.client.setCurrentPlayer = function (playerObject) {
+			var currConnId = $.connection.hub.id;
+			var nameMessage = "Current player: " + playerObject.name;
+
+			//check if the given object is the current player
+			if (currConnId === playerObject.connid) {
+				nameMessage = "It's your turn!";
+			}
+
+			console.log("current player: ", nameMessage);
+		};
+
+		this.clientHub.client.displayColorWheel = function () {
+			//todo: send back the users choice
 		};
 
 		this.hubReady = $.connection.hub.start();

@@ -39,10 +39,12 @@
             }
 
             //overwrite current objects
-            this.UnoGame.Players = gameObject.Players;
-            this.UnoGame.Deck = gameObject.Deck;
-            this.UnoGame.StockPile = gameObject.StockPile;
-			this.UnoGame.CurrentPlayer = gameObject.CurrentPlayer;
+            if (this.UnoGame !== null) {
+                this.UnoGame.Players = gameObject.Players;
+                this.UnoGame.Deck = gameObject.Deck;
+                this.UnoGame.StockPile = gameObject.StockPile;
+                this.UnoGame.CurrentPlayer = gameObject.CurrentPlayer;
+			}
 
             var CardCount = this.UnoGame.getCardsInStockPile();
 			$('#numberOfCards').text(CardCount + " Cards");	
@@ -59,7 +61,7 @@
             //check if the current player is allowed to play
             if (this.UnoGame.CurrentPlayer === playerId) {
                 if (this.UnoGame.playCard(card, playerId)) {
-                    //card was played and should be displayed or whatever
+                    //card was played and should be displayed
                     this.updateTopCard();
                     this.cardPlayed(true);
                 }
@@ -88,6 +90,10 @@
             }
         };
 
+        this.hostHub.client.setCurrentPlayer = function (playerObject) {
+            console.log("current player: ", playerObject.name);
+        }
+
         this.hostHub.pushGame = function () {
             this.server.pushGame(this.UnoGame);
 		};
@@ -98,9 +104,9 @@
 
         this.hostHub.updateTopCard = function () {
             var card = this.UnoGame.getTopCardFromPlayingStack();
-            //todo: loop over all the cards and make a 'messy' deck
+            //todo: loop over all the cards and make a 'messy' deck by slightly translating and rotating
             $('.cardPlaying').css("background-image", "url(../../Content/UnoImages/" + card.imageLocation + ")");
-        };
+        };   
 
         this.hubReady = $.connection.hub.start();        
         this.gameId = gameId;
@@ -120,4 +126,8 @@
         //show the drawn card
         this.hostHub.updateTopCard();
     } 
+
+    sendMessageToClients(message) {
+        this.hostHub.server.relayMessage(message);
+	}
 }

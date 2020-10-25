@@ -45,7 +45,9 @@ namespace JavaScriptUNO.Hubs
 				//remove the empty player objects: no need for new players to connect after the game has started
 				game.game.Players.RemoveAll(n => n.connid == "");
 				Clients.Caller.startGame(game.game.Players);
-			}
+
+                game.UpdateCurrentPlayingName(game.game.Players[0]);
+            }
             else
             {
                 Clients.Caller.endSession("unkown game id was passed to the server.");
@@ -87,16 +89,13 @@ namespace JavaScriptUNO.Hubs
 			{
 				string oldPlayer = game.CurrentPlayer;
 				int newPlayerId = game.Players.FindIndex(n => n.id == oldPlayer) + 1;
-				if(game.Players.Count > newPlayerId)
-				{
-					game.CurrentPlayer = game.Players[newPlayerId].id;
-				}
-				else
-				{
-					game.CurrentPlayer = game.Players[0].id;
-				}		
+                newPlayerId = (game.Players.Count > newPlayerId) ? newPlayerId : 0;
+				game.CurrentPlayer = game.Players[newPlayerId].id;
 				
 				PushGame(game);
+
+                //set the current playing name:
+                MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players[newPlayerId]);
 			}
 			else
 			{
@@ -110,6 +109,19 @@ namespace JavaScriptUNO.Hubs
             if (game != null)
             {
                 game.UpdateAll();
+            }
+            else
+            {
+                Clients.Caller.endSession("unkown game id was passed to the server.");
+            }
+        }
+
+        public void RelayMessage(string message)
+		{
+            ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
+            if (sGame != null)
+            {
+                sGame.MessageClients(message);            
             }
             else
             {

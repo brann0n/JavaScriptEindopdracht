@@ -11,11 +11,11 @@
 </div>
 <div class="game-controller">
 	<button id="btnFullScreen" class="btn btn-default" onclick="goFullScreen()">Full Screen</button>
-	<button id="btnFullScreen" class="btn btn-default" onclick="drawCardFromDeck()">DrawCard</button>
+	<button id="btnDrawCard" class="btn btn-default" onclick="drawCardFromDeck()">Draw Card</button>
 </div>
 
 <div class="gameBackground">
-    <div class="cards-bar">
+    <div id="cardsbar" class="cards-bar">
 
     </div>
 </div>
@@ -32,7 +32,7 @@
         //get the player name and set it on the screen
         let playerNameString = localStorage.getItem('playername');
         if (playerNameString === null) {
-			playerNameString = "@Model.ClientId".substring(0, 8)
+            playerNameString = "@Model.ClientId".substring(0, 8);
         }
 
 		$('#playerNameField').text(playerNameString);
