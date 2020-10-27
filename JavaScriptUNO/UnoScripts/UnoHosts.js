@@ -94,6 +94,11 @@
             console.log("current player: ", playerObject.name);
         }
 
+        this.hostHub.client.setPickedColor = function (playerObject, colorName) {
+            //todo: check if this user had an active color picking wheel.
+            this.UnoGame.Rules.setPickedColor(colorName);
+		}
+
         this.hostHub.pushGame = function () {
             this.server.pushGame(this.UnoGame);
 		};

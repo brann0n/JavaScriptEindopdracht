@@ -21,12 +21,9 @@
                     sessionCard.joinButton.onclick = function (e) {
                         //the code to perform when join is clicked
                         console.log("Clicked join on: " + e.target.dataset.gameName, e.target.dataset.gameId);
-                        //TODO: create a serverside client session object and then connect this browser to it.
                         session.sessionHub.server.createClientSession(e.target.dataset.gameId).done(function (clientSessionId) {
                             window.location.href = "/Client/Index/" + clientSessionId;
                         });
-
-                        //window.location.href = "/Client/Index/" + e.target.dataset.gameId;
                     };
 
                     sessionCard.spectateButton.onclick = function (e) {
@@ -54,6 +51,4 @@
     createGameSession(name) {
         this.sessionHub.server.createSession(name);
     }
-
-    
 }

@@ -72,7 +72,7 @@
 
 		this.clientHub.client.setCurrentPlayer = function (playerObject) {
 			var currConnId = $.connection.hub.id;
-			var nameMessage = "Current player: " + playerObject.name;
+			var nameMessage = "Waiting for player " + playerObject.name + "!";
 
 			//check if the given object is the current player
 			if (currConnId === playerObject.connid) {
@@ -80,6 +80,7 @@
 			}
 
 			console.log("current player: ", nameMessage);
+			$('#gameTitle').text(nameMessage);
 		};
 
 		this.clientHub.client.displayColorWheel = function () {
