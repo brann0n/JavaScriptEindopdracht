@@ -13,6 +13,7 @@ namespace JavaScriptUNO.Models
         public List<PlayerObject> Players { get; set; }
         public List<CardObject> StockPile { get; set; }
 		public string CurrentPlayer { get; set; }
+        public bool DirectionClockwise { get; set; }
 
         public UnoGame()
         {
@@ -20,6 +21,7 @@ namespace JavaScriptUNO.Models
             FullDeck = new List<CardObject>();
             Players = new List<PlayerObject>();
             StockPile = new List<CardObject>();
+            DirectionClockwise = false;
 		}
 
 		public void CreateNewPlayerObjects()

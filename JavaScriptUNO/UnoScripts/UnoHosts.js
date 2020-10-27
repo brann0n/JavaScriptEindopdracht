@@ -100,6 +100,11 @@
             }
         };
 
+        this.hostHub.client.drawCardFromSpecial = function (playerId, amount) {
+            this.UnoGame.dealCardAmountToPlayer(playerId, amount);
+            this.pushGame();
+		}
+
         this.hostHub.client.setCurrentPlayer = function (playerObject) {
             console.log("current player: ", playerObject.name);
         };
@@ -117,23 +122,9 @@
 			this.server.confirmCardGame(this.UnoGame, cardSuccess);
         };
 
-        this.hostHub.handleEffects = function (effects) {
-            if (effects.sendColorWheel) {
-                //send the colorwheel update to the current client.
-
-            }
-
-            if (effects.cardDrawAmount !== 0) {
-                //send the NEXT client the amount of cards.
-            }
-
-            if (effects.skipNextPerson) {
-                //send the skip next person request to the cardPlayed function.
-            }
-
-            if (effects.reverseOrder) {
-                //send the reverse order request to the cardPlayed function.
-			}
+        this.hostHub.handleEffects = function (effects) {            
+            //HandleSpecialCard
+            this.server.handleSpecialCard(this.UnoGame, effects);
         };
 
         this.hostHub.updateTopCard = function () {
