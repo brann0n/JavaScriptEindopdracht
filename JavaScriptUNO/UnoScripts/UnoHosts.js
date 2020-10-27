@@ -60,10 +60,20 @@
         this.hostHub.client.playCard = function (playerId, card) {
             //check if the current player is allowed to play
             if (this.UnoGame.CurrentPlayer === playerId) {
-                if (this.UnoGame.playCard(card, playerId)) {
+                let gameHandler = this.UnoGame.playCard(card, playerId);
+                if (gameHandler.played) {
                     //card was played and should be displayed
                     this.updateTopCard();
-                    this.cardPlayed(true);
+
+                    //handle the special cards now
+                    if (gameHandler.effects === null) {
+                        //there are no effects, just update and continue:
+                        this.cardPlayed(true);
+                    }
+                    else {
+                        this.handleEffects(gameHandler.effects);
+					}
+                    
                 }
                 else {
                     console.log("could not play card: ", card);
@@ -92,12 +102,12 @@
 
         this.hostHub.client.setCurrentPlayer = function (playerObject) {
             console.log("current player: ", playerObject.name);
-        }
+        };
 
         this.hostHub.client.setPickedColor = function (playerObject, colorName) {
             //todo: check if this user had an active color picking wheel.
             this.UnoGame.Rules.setPickedColor(colorName);
-		}
+        };
 
         this.hostHub.pushGame = function () {
             this.server.pushGame(this.UnoGame);
@@ -105,6 +115,25 @@
 
 		this.hostHub.cardPlayed = function (cardSuccess) {
 			this.server.confirmCardGame(this.UnoGame, cardSuccess);
+        };
+
+        this.hostHub.handleEffects = function (effects) {
+            if (effects.sendColorWheel) {
+                //send the colorwheel update to the current client.
+
+            }
+
+            if (effects.cardDrawAmount !== 0) {
+                //send the NEXT client the amount of cards.
+            }
+
+            if (effects.skipNextPerson) {
+                //send the skip next person request to the cardPlayed function.
+            }
+
+            if (effects.reverseOrder) {
+                //send the reverse order request to the cardPlayed function.
+			}
         };
 
         this.hostHub.updateTopCard = function () {

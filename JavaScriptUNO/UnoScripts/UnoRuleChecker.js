@@ -10,9 +10,8 @@
     }
 
     check(topCard, playedCard) {
-        //force string types...
-        var t = "" + topCard;
-        var p = "" + playedCard;
+        var t = this.getCardColorAndType(topCard);
+        var p = this.getCardColorAndType(playedCard);
         if (this.checkColorAndType(t, p, this.red)
             || this.checkColorAndType(t, p, this.green)
             || this.checkColorAndType(t, p, this.blue)
@@ -25,10 +24,8 @@
     }
 
     checkColorAndType(topCard, playedCard, color) {
-        var type = "";
-        if (topCard.startsWith(color)) {
-            type = topCard.substring(color.length);
-            if (playedCard.startsWith(color) || playedCard.includes(type) || playedCard.startsWith(this.wild)) {
+        if (topCard.color === color) {
+            if (playedCard.color === color || playedCard.type === topCard.type || playedCard.color === this.wild) {
                 //either the color or the type matches, or the card is a wildcard and can be played anyway
                 return true;
             }
@@ -37,9 +34,9 @@
 	}
 
     checkWildCardAndType(topCard, playedCard) {
-        if (topCard.startsWith(this.wild)) {
+        if (topCard.color === this.wild) {
             //needs the picked color from the previous player
-            if (playedCard.startsWith(this.previousPickedColor) || playedCard.startsWith(this.wild)) {
+            if (playedCard.color === this.previousPickedColor || playedCard.color === this.wild) {
                 //either the player had a card with the correct color, or its another wild card
                 return true;
             }
@@ -47,12 +44,60 @@
         return false;
 	}
 
+    getCardColorAndType(card) {
+        var returnObject = { color: "", type: "" };
+        if (card.startsWith(this.red)) {
+            returnObject.color = this.red;
+            returnObject.type = card.substring(returnObject.color.length);
+        }
+        if (card.startsWith(this.green)) {
+            returnObject.color = this.green;
+            returnObject.type = card.substring(returnObject.color.length);
+        }
+        if (card.startsWith(this.blue)) {
+            returnObject.color = this.blue;
+            returnObject.type = card.substring(returnObject.color.length);
+        }
+        if (card.startsWith(this.yellow)) {
+            returnObject.color = this.yellow;
+            returnObject.type = card.substring(returnObject.color.length);
+        }
+        if (card.startsWith(this.wild)) {
+            returnObject.color = this.wild;
+            returnObject.type = card.substring(returnObject.color.length);
+        }
+
+        return returnObject;
+	}
+
     checkSpecials(card) {
+        var cardObj = this.getCardColorAndType(card);
+        var returnObject = {sendColorWheel: false, cardDrawAmount: 0, skipNextPerson: false, reverseOrder: false};
+        switch (cardObj.type) {
+            case "Skip":
+                returnObject.skipNextPerson = true;
+                break;
+            case "Reverse":
+                returnObject.reverseOrder = true;
+                break;
+            case "Draw":
+                if (cardObj.color === this.wild) {
+                    returnObject.sendColorWheel = true;
+                    returnObject.cardDrawAmount = 4;
+                }
+                break;
+            default:
+                //its either a number or the only draw card
+                if (cardObj.color === this.wild) {
+                    returnObject.sendColorWheel = true;
+                }
+                else {
+                    returnObject = null;
+				}
+                break;
+		}
 
-
-
-
-        return {};
+        return returnObject;
     }
 
     setPickedColor(color) {

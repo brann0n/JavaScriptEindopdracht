@@ -138,7 +138,7 @@
 		if (fndCard.name === card.name) {
 			if (this.Deck.length === 0) {
 				this.Deck.push(card);
-				return true;
+				return { played: true, effects: null };
 			}
 			else {
 				//check if the card is allowed to be played
@@ -150,12 +150,12 @@
 					//check if the current top card has any special functions (skip, turn around, take 2, take 4)
 					var specialEffect = this.Rules.checkSpecials(card.name);
 
-					return true;
+					return {played: true, effects: specialEffect};
 				}
 			}
 		}
 
-		return false;
+		return { played: false, effects: null };
 	}
 
 	//deals cards to all player objects, then puts one card on the deck
