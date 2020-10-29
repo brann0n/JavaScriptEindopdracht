@@ -1,6 +1,6 @@
 ﻿@model JavaScriptUNO.Models.ClientGameSession
 @{
-    ViewBag.Title = Model.GameName;
+	ViewBag.Title = Model.GameName;
 	Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
@@ -15,9 +15,24 @@
 </div>
 
 <div class="gameBackground">
-    <div id="cardsbar" class="cards-bar">
+	<div id="cardsbar" class="cards-bar">
 
-    </div>
+	</div>
+</div>
+
+<!--This pop-up shows fields for a new session-->
+<div class="popup-overlay">
+	<!--Creates the popup content-->
+	<div class="popup-content">
+		<h2>Pick a color</h2>
+		<div class="color-button-field">
+			<button data-color="red" onclick="pickColor(this)" class="btnColorPick red"></button>
+			<button data-color="blue" onclick="pickColor(this)" class="btnColorPick blue"></button>
+			<button data-color="yellow" onclick="pickColor(this)" class="btnColorPick yellow"></button>
+			<button data-color="green" onclick="pickColor(this)" class="btnColorPick green"></button>
+		</div>
+		<button onclick="CancelColorPopUp()" class="btn btn-primary action-btn">Cancel</button>
+	</div>
 </div>
 
 <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
@@ -44,7 +59,19 @@
 	    } else {
 		    document.documentElement.requestFullscreen();
 	    }
-    }
+	}
+
+	function ShowColorPicker() {
+		$(".popup-overlay, .popup-content").addClass("active");
+	}
+
+	function CancelColorPopUp() {
+		$(".popup-overlay, .popup-content").removeClass("active");
+	}
+
+	function pickColor(button) {
+		console.log(button);
+	}
 
     function drawCardFromDeck() {
         client.drawCardFromDeck();

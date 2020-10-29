@@ -107,12 +107,12 @@ namespace JavaScriptUNO.Hubs
 			{
 				if (game.DirectionClockwise)
 				{
-					int newPlayerId = (game.Players.Count > currentPlayerIndex + 1) ? currentPlayerIndex + 1 : 0;
+					int newPlayerId = (game.Players.Count > (currentPlayerIndex + 1)) ? currentPlayerIndex + 1 : 0;
 					return game.Players[newPlayerId].id;
 				}
 				else
 				{
-					int newPlayerId = (currentPlayerIndex - 1 >= 0) ? currentPlayerIndex - 1 : game.Players.Count - 1;
+					int newPlayerId = ((currentPlayerIndex - 1) >= 0) ? currentPlayerIndex - 1 : game.Players.Count - 1;
 					return game.Players[newPlayerId].id;
 				}
 			}
@@ -130,7 +130,7 @@ namespace JavaScriptUNO.Hubs
 				{
 					int newPlayerId = currentPlayerIndex - 1;
 					newPlayerId = (newPlayerId >= 0) ? newPlayerId : game.Players.Count - 1;
-					newPlayerId++; //adds the skip
+					newPlayerId--; //adds the skip
 					newPlayerId = (newPlayerId >= 0) ? newPlayerId : game.Players.Count - 1;
 					return game.Players[newPlayerId].id;
 				}
@@ -147,29 +147,32 @@ namespace JavaScriptUNO.Hubs
 			if (effects.sendColorWheel)
 			{
 				//send the colorwheel update to the current client.
-
+				//after receiving the color wheel update advance the turn
 			}
 
 			if (effects.cardDrawAmount != 0)
 			{
 				//send the NEXT client the amount of cards.
 				game.CurrentPlayer = GetNextPlayerId(game, null);
-				Clients.Caller.drawCardFromSpecial(game.CurrentPlayer, effects.cardDrawAmount);
+				string targetPlayer = new string(game.CurrentPlayer.ToCharArray());				
 				game.CurrentPlayer = GetNextPlayerId(game, null);
+				PushGame(game);
+				Clients.Caller.drawCardFromSpecial(targetPlayer, effects.cardDrawAmount);
 			}
 			else if (effects.skipNextPerson)
 			{
 				//the skip is handled in code
-				game.CurrentPlayer = GetNextPlayerId(game, effects);			
+				game.CurrentPlayer = GetNextPlayerId(game, effects);
+				
 			}
 			else if (effects.reverseOrder)
 			{
 				game.DirectionClockwise = !game.DirectionClockwise;
-				game.CurrentPlayer = GetNextPlayerId(game, null);
+				game.CurrentPlayer = GetNextPlayerId(game, null);				
 			}
 
-
 			PushGame(game);
+
 
 			//set the current playing name:
 			MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));

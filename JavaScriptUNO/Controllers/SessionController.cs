@@ -23,5 +23,10 @@ namespace JavaScriptUNO.Controllers
         {
             return View(MvcApplication.Manager.Sessions.FirstOrDefault(n => n.GameId == id));
         }
+
+        public ActionResult Rules()
+		{
+            return View();
+		}
     }
 }

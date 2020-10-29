@@ -49,7 +49,7 @@
         //add controll items to the controller
         gameController.appendChild(playerTag);
         gameController.appendChild(this.joinButton);
-        gameController.appendChild(this.spectateButton);
+        //gameController.appendChild(this.spectateButton);
 
         //add the elements to the main block
         gameCard.appendChild(gameTitle);

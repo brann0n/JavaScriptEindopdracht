@@ -242,6 +242,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LayoutHost.cshtml" />
     <Content Include="Views\Shared\_LayoutClient.cshtml" />
+    <Content Include="Views\Session\Rules.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

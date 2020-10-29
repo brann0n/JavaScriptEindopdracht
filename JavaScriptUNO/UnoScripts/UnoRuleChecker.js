@@ -85,6 +85,9 @@
                     returnObject.sendColorWheel = true;
                     returnObject.cardDrawAmount = 4;
                 }
+                else {
+                    returnObject.cardDrawAmount = 2;
+				}
                 break;
             default:
                 //its either a number or the only draw card

@@ -101,4 +101,9 @@
 	drawCardFromDeck() {
 		this.clientHub.server.drawCardFromDeck();
 	}
+
+	sendPickedColorToHost(buttonObject) {
+		let color = "green";
+		this.clientHub.server.sendColorToHost(color);
+	}
 }

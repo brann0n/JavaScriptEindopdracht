@@ -72,15 +72,21 @@ namespace JavaScriptUNO.Models
             }
 		}
 
-		public void PlayCard(string playerId, string hostConnId, CardObject card)
+		public void PlayCard(string playerId, CardObject card)
 		{
 			//sends the players card to the host for verification.
-			hostHubContext.Clients.Client(hostConnId).playCard(playerId, card);
+			hostHubContext.Clients.Client(GameConnectionId).playCard(playerId, card);
 		}
 
-        public void DrawCard(string playerId, string hostConnId)
+        public void DrawCard(string playerId)
 		{
-            hostHubContext.Clients.Client(hostConnId).drawCard(playerId);
+            hostHubContext.Clients.Client(GameConnectionId).drawCard(playerId);
+        }
+
+        public void UpdateColorInHost(PlayerObject player, string color)
+		{
+            hostHubContext.Clients.Client(GameConnectionId).setPickedColor(player, color);
+
         }
     }
 }

@@ -72,3 +72,43 @@
 #btnDrawCard {
 
 }
+
+.color-button-field {
+    width: 202px;
+    height: 202px;
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-radius: 101px;
+    padding: 0px;
+    transform: skew(-19deg, 11deg);
+    margin: auto;
+}
+
+.btnColorPick {
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+}
+
+.red {
+    border-top-left-radius: 100px;
+    background-color: #ea323c;
+}
+
+.blue {
+    border-top-right-radius: 100px;
+    background-color: #0098dc;
+}
+
+.green {
+    border-bottom-right-radius: 100px;
+    background-color: #33984b;
+}
+
+.yellow {
+    border-bottom-left-radius: 100px;
+    background-color: #ffc825;
+}

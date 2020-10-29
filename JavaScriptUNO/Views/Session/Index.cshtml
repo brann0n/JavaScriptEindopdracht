@@ -3,13 +3,13 @@
 	ViewBag.Title = "Home";
 }
 <div class="session-content">
-	<h2>Displayed below is a list of available games</h2>
+	<h2>Available games</h2>
 	<div class="explain-box">
 		<p>
-			If you can't join a certain game, the game is either full or already in progress.
+			Please familiarize yourself with @Html.ActionLink("the rules of this version of UNO", "Rules") before starting the game
 		</p>
 		<p>
-			If you can't spectate a certain game, the owner of the game disabled it.
+			If the game is full, or has already begun, the Join button will be disabled.
 		</p>
 	</div>
 	<div class="create-game-box">
@@ -50,13 +50,13 @@
 	<!--Creates the popup content-->
 	<div class="popup-content">
 		<h2>Start a new game</h2>
-		<p>Please fill in the below fields in order to create a new game</p>
+		<p>Enter the name for your UNO game lobby</p>
 		<div class="new-game-fields">
 			<label for="tbGameName">Game Name</label>
 			<input id="tbGameName" type="text" class="input-sm" placeholder="Think of a name" />
 		</div>
 		<!--popup's close button-->
-		<button onclick="CompleteSessionCreation()" class="btn btn-primary action-btn">Start Game</button>
+		<button onclick="CompleteSessionCreation()" class="btn btn-primary action-btn">Create</button>
 		<button onclick="CancelSessionCreation()" class="btn btn-primary action-btn">Cancel</button>
 	</div>
 </div>
@@ -77,8 +77,7 @@
 			playerNameString = "Not Set"
 		}
 
-		$('#playerNameField').text(playerNameString);
-		
+		$('#playerNameField').text(playerNameString);	
 	});
 
 

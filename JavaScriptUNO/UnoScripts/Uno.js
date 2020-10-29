@@ -69,7 +69,7 @@
 	Deck = [];
 	Players = [];
 	Rules = new UnoRuleChecker();
-
+	DirectionClockwise = true;
 	//newPlayerObjects contains an array of newly created playerObjects with their respective clientId's in it.
 	//these id's relate to an array server side that then relates to client id's to send requests to
 	constructor(newPlayerObjects) {

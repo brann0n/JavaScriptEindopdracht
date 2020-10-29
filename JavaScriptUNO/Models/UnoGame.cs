@@ -21,7 +21,7 @@ namespace JavaScriptUNO.Models
             FullDeck = new List<CardObject>();
             Players = new List<PlayerObject>();
             StockPile = new List<CardObject>();
-            DirectionClockwise = false;
+            DirectionClockwise = true;
 		}
 
 		public void CreateNewPlayerObjects()

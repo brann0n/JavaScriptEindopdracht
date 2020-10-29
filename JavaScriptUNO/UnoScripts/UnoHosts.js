@@ -44,6 +44,7 @@
                 this.UnoGame.Deck = gameObject.Deck;
                 this.UnoGame.StockPile = gameObject.StockPile;
                 this.UnoGame.CurrentPlayer = gameObject.CurrentPlayer;
+                this.UnoGame.DirectionClockwise = gameObject.DirectionClockwise;
 			}
 
             var CardCount = this.UnoGame.getCardsInStockPile();
@@ -89,6 +90,7 @@
 
         this.hostHub.client.drawCard = function (playerId) {
             //check if the current player is allowed to play
+            console.log(this.UnoGame.CurrentPlayer , playerId);
             if (this.UnoGame.CurrentPlayer === playerId) {
                 //draw a card specified by the amount
                 this.UnoGame.dealCardAmountToPlayer(playerId, 1);
@@ -110,7 +112,7 @@
         };
 
         this.hostHub.client.setPickedColor = function (playerObject, colorName) {
-            //todo: check if this user had an active color picking wheel.
+            //todo: check if this user had an active color picking wheel. also put a message somewhere on the screen to notify about the color change
             this.UnoGame.Rules.setPickedColor(colorName);
         };
 

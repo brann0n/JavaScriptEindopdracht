@@ -18,18 +18,15 @@
                 $('#sessionContainer').empty();
                 for (var i = 0; i < sessionList.length; i++) {
                     var sessionCard = new GameSessionCard(sessionList[i]);
-                    sessionCard.joinButton.onclick = function (e) {
-                        //the code to perform when join is clicked
-                        console.log("Clicked join on: " + e.target.dataset.gameName, e.target.dataset.gameId);
-                        session.sessionHub.server.createClientSession(e.target.dataset.gameId).done(function (clientSessionId) {
-                            window.location.href = "/Client/Index/" + clientSessionId;
-                        });
-                    };
-
-                    sessionCard.spectateButton.onclick = function (e) {
-                        //the code to run when spectate is clicked                   
-                        console.log("Clicked spectate on: " + e.target.dataset.gameName);
-                    };
+                    if (sessionList[i]["GameStarted"] === false) {
+                        sessionCard.joinButton.onclick = function (e) {
+                            //the code to perform when join is clicked
+                            console.log("Clicked join on: " + e.target.dataset.gameName, e.target.dataset.gameId);
+                            session.sessionHub.server.createClientSession(e.target.dataset.gameId).done(function (clientSessionId) {
+                                window.location.href = "/Client/Index/" + clientSessionId;
+                            });
+                        };
+					}                   
 
                     $('#sessionContainer').append(sessionCard.createDOMElement());
                 }

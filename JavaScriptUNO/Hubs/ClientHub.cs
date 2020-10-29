@@ -53,7 +53,7 @@ namespace JavaScriptUNO.Hubs
 			{
 				UnoGame game = session.game;
 				PlayerObject player = game.Players.FirstOrDefault(n => n.connid == connId);
-				session.DrawCard(player.id, session.GameConnectionId);
+				session.DrawCard(player.id);
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace JavaScriptUNO.Hubs
 					if (card != null)
 					{
 						//send the game to the host, and let the host process it
-						sGame.PlayCard(player.id, sGame.GameConnectionId, card);
+						sGame.PlayCard(player.id, card);
 					}
 					else
 					{
@@ -90,6 +90,18 @@ namespace JavaScriptUNO.Hubs
 			else
 			{
 				Clients.Caller.endSession("You are not a member of a game");
+			}
+		}
+
+		public void SendColorToHost(string color)
+		{
+			ServerGameSession session = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
+
+			if(session != null)
+			{
+				PlayerObject player = session.game.Players.FirstOrDefault(n => n.connid == Context.ConnectionId);
+				if (player != null)
+					session.UpdateColorInHost(player, color);
 			}
 		}
 
