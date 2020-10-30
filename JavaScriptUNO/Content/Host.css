@@ -33,12 +33,12 @@
 }
 
 .cardPlaying-wrapper {
-	margin: 20px;
+	margin: 40px;
 	width: 194px;
 	height: 281px;
 	float: left;
 	margin-left: 275px;
-	margin-top: 160px;
+	margin-top: 140px;
 }
 
 .cardPlaying {
@@ -48,7 +48,13 @@
 	background-size: cover;
 	float: left;
 	box-shadow: 3px 3px 8px 3px #0000002b;
-	border-radius: 20px;
+	border-radius: 22px;
+}
+
+#colorName{
+	text-align: center;
+	color: white;
+	font-size: 20px;
 }
 
 .game-controller {

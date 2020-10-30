@@ -25,6 +25,7 @@
 	<!--Creates the popup content-->
 	<div class="popup-content">
 		<h2>Pick a color</h2>
+		<div id="hiddenEffects" style="display: none;"></div>
 		<div class="color-button-field">
 			<button data-color="red" onclick="pickColor(this)" class="btnColorPick red"></button>
 			<button data-color="blue" onclick="pickColor(this)" class="btnColorPick blue"></button>
@@ -61,16 +62,15 @@
 	    }
 	}
 
-	function ShowColorPicker() {
-		$(".popup-overlay, .popup-content").addClass("active");
-	}
-
 	function CancelColorPopUp() {
 		$(".popup-overlay, .popup-content").removeClass("active");
+		client.sendPickedColorToHost(null);
 	}
 
 	function pickColor(button) {
 		console.log(button);
+		client.sendPickedColorToHost(button);
+		$(".popup-overlay, .popup-content").removeClass("active");
 	}
 
     function drawCardFromDeck() {

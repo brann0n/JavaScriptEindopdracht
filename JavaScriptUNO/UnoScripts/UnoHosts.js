@@ -74,7 +74,9 @@
                     else {
                         this.handleEffects(gameHandler.effects);
 					}
-                    
+
+                    //reset the color identifiction label
+                    $("#colorName").text("");
                 }
                 else {
                     console.log("could not play card: ", card);
@@ -111,9 +113,18 @@
             console.log("current player: ", playerObject.name);
         };
 
-        this.hostHub.client.setPickedColor = function (playerObject, colorName) {
-            //todo: check if this user had an active color picking wheel. also put a message somewhere on the screen to notify about the color change
-            this.UnoGame.Rules.setPickedColor(colorName);
+        this.hostHub.client.setPickedColor = function (playerObject, colorName, effects) {          
+            if (playerObject.id === this.UnoGame.CurrentPlayer) {
+                this.UnoGame.Rules.setPickedColor(colorName);
+
+                //callback to server to advance round with the effects object.
+                this.server.handleSpecialAfterColorPick(this.UnoGame, effects);
+
+                $("#colorName").text(colorName);
+            }
+            else {
+                console.log("non playing player sent the colorchange request, someone is hacking :)");
+			}
         };
 
         this.hostHub.pushGame = function () {

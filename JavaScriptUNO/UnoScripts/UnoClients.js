@@ -83,8 +83,10 @@
 			$('#gameTitle').text(nameMessage);
 		};
 
-		this.clientHub.client.displayColorWheel = function () {
-			//todo: send back the users choice
+		this.clientHub.client.displayColorWheel = function (effects) {			
+			$(".popup-overlay, .popup-content").addClass("active");
+
+			$("#hiddenEffects").data("effects", effects);
 		};
 
 		this.hubReady = $.connection.hub.start();
@@ -103,7 +105,13 @@
 	}
 
 	sendPickedColorToHost(buttonObject) {
-		let color = "green";
-		this.clientHub.server.sendColorToHost(color);
+		if (buttonObject !== null) {
+			let color = $(buttonObject).data("color");
+			let effects = $("#hiddenEffects").data("effects");
+			this.clientHub.server.sendColorToHost(color, effects);
+		}
+		else {
+			this.clientHub.server.sendColorToHost("error", null);
+		}
 	}
 }

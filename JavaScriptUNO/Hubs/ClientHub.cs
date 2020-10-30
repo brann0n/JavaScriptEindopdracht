@@ -93,7 +93,7 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
-		public void SendColorToHost(string color)
+		public void SendColorToHost(string color, SpecialCardActions effects)
 		{
 			ServerGameSession session = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
 
@@ -101,7 +101,22 @@ namespace JavaScriptUNO.Hubs
 			{
 				PlayerObject player = session.game.Players.FirstOrDefault(n => n.connid == Context.ConnectionId);
 				if (player != null)
-					session.UpdateColorInHost(player, color);
+				{
+					switch (color)
+					{
+						case "green":
+						case "yellow":
+						case "red":
+						case "blue":
+							session.UpdateColorInHost(player, color, effects);
+							break;
+						case "error":
+						default:
+							session.UpdateColorInHost(player, null, null);
+							break;
+					}
+				}
+					
 			}
 		}
 

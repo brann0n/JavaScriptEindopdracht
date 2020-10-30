@@ -148,9 +148,9 @@ namespace JavaScriptUNO.Hubs
 			{
 				//send the colorwheel update to the current client.
 				//after receiving the color wheel update advance the turn
+				sGame.ShowColorWheelInClient(effects);
 			}
-
-			if (effects.cardDrawAmount != 0)
+			else if (effects.cardDrawAmount != 0)
 			{
 				//send the NEXT client the amount of cards.
 				game.CurrentPlayer = GetNextPlayerId(game, null);
@@ -176,6 +176,33 @@ namespace JavaScriptUNO.Hubs
 
 			//set the current playing name:
 			MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
+		}
+
+		public void HandleSpecialAfterColorPick(UnoGame game, SpecialCardActions effects)
+		{
+			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
+
+			if (effects.sendColorWheel)
+			{
+				if (effects.cardDrawAmount != 0)
+				{
+					//send the NEXT client the amount of cards.
+					game.CurrentPlayer = GetNextPlayerId(game, null);
+					string targetPlayer = new string(game.CurrentPlayer.ToCharArray());
+					game.CurrentPlayer = GetNextPlayerId(game, null);
+					PushGame(game);
+					Clients.Caller.drawCardFromSpecial(targetPlayer, effects.cardDrawAmount);
+				}
+				else
+				{
+					game.CurrentPlayer = GetNextPlayerId(game, null);
+				}
+
+				PushGame(game);
+
+				//set the current playing name:
+				MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
+			}
 		}
 
 		public void Update()

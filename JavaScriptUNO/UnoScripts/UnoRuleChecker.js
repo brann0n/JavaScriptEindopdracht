@@ -40,6 +40,9 @@
                 //either the player had a card with the correct color, or its another wild card
                 return true;
             }
+            else if (this.previousPickedColor === "") {
+                return true; //because that means the top card was a wild card, there is no set color, and a card was played, by game logic that means its the first card on the stack.
+			}
         }
         return false;
 	}
@@ -104,6 +107,6 @@
     }
 
     setPickedColor(color) {
-        previousPickedColor = color;
+        this.previousPickedColor = color;
 	}
 }

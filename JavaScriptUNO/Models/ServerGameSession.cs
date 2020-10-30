@@ -83,10 +83,15 @@ namespace JavaScriptUNO.Models
             hostHubContext.Clients.Client(GameConnectionId).drawCard(playerId);
         }
 
-        public void UpdateColorInHost(PlayerObject player, string color)
+        public void UpdateColorInHost(PlayerObject player, string color, SpecialCardActions effects)
 		{
-            hostHubContext.Clients.Client(GameConnectionId).setPickedColor(player, color);
+            hostHubContext.Clients.Client(GameConnectionId).setPickedColor(player, color, effects);
+        }
 
+        public void ShowColorWheelInClient(SpecialCardActions effects)
+		{
+            PlayerObject player = game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer);
+            clientHubContext.Clients.Client(player.connid).displayColorWheel(effects);
         }
     }
 }
