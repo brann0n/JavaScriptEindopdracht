@@ -145,7 +145,13 @@
 				if (this.Rules.check(this.Deck[this.Deck.length - 1].name, card.name)) {
 					//the card is confirmed, place it on the deck
 					this.Deck.push(card);
-					this.Players[playerIndex].cards[cardsIndex].amount--; 
+
+					if (this.Players[playerIndex].cards[cardsIndex].amount === 1) {
+						this.Players[playerIndex].cards.splice(cardsIndex, 1);
+					}
+					else {
+						this.Players[playerIndex].cards[cardsIndex].amount--;
+					}					 
 
 					//check if the current top card has any special functions (skip, turn around, take 2, take 4)
 					var specialEffect = this.Rules.checkSpecials(card.name);

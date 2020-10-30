@@ -37,19 +37,19 @@
 
     function startGameOnClick(){
         host.startGame();
+
+        //disable the startgame button
         $('#btnStartGame').addClass('disabled');
-        $('#btnDealCards').removeClass('disabled');
+        $('#btnStartGame').prop("onclick", null);
+
+        //enable the reset button
         $('#btnReset').removeClass('disabled');
+        $('#btnReset').click(stopGame);
     }
 
-    function dealCards() {
-        host.dealCardsToPlayers();
-        $('#btnDealCards').addClass('disabled');
-    }
-
-    function testCard() {
-        var tknCard = host.hostHub.UnoGame.takeCardFromStock();
-        console.log(tknCard);
-    }
+    function stopGame() {
+        host.endGame();
+        location.replace("/");
+	}
 
 </script>

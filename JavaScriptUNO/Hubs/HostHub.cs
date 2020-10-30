@@ -15,12 +15,29 @@ namespace JavaScriptUNO.Hubs
 			ServerGameSession game = MvcApplication.Manager.FindSession(gameId);
 			if (game != null)
 			{
-				if (string.IsNullOrEmpty(game.GameConnectionId) || game.GameConnectionId == Context.ConnectionId)
+				if (string.IsNullOrEmpty(game.GameConnectionId) && !game.GameStarted)
 				{
 					game.GameConnectionId = Context.ConnectionId;
-					Clients.Caller.setGameMode("Awaiting players...");
+					Clients.Caller.setGameMode("AWAITING_PLAYERS");
 
-					game.game.CreateNewPlayerObjects();
+					if (game.game.Players.Count == 0)
+					{
+						game.game.CreateNewPlayerObjects();
+					}
+					else
+					{
+						if (game.game.HasConnectedPlayers())
+						{
+							Clients.Caller.setGameMode("AWAITING_PLAYERS_REFRESHED");
+							game.UpdateHost();
+						}
+					}
+				}
+				else if (string.IsNullOrEmpty(game.GameConnectionId) && game.GameStarted)
+				{
+					game.GameConnectionId = Context.ConnectionId;
+					Clients.Caller.setGameMode("RESUMING_GAME");
+					game.UpdateHost();
 				}
 				else
 				{
@@ -154,7 +171,7 @@ namespace JavaScriptUNO.Hubs
 			{
 				//send the NEXT client the amount of cards.
 				game.CurrentPlayer = GetNextPlayerId(game, null);
-				string targetPlayer = new string(game.CurrentPlayer.ToCharArray());				
+				string targetPlayer = new string(game.CurrentPlayer.ToCharArray());
 				game.CurrentPlayer = GetNextPlayerId(game, null);
 				PushGame(game);
 				Clients.Caller.drawCardFromSpecial(targetPlayer, effects.cardDrawAmount);
@@ -163,16 +180,18 @@ namespace JavaScriptUNO.Hubs
 			{
 				//the skip is handled in code
 				game.CurrentPlayer = GetNextPlayerId(game, effects);
-				
+
 			}
 			else if (effects.reverseOrder)
 			{
 				game.DirectionClockwise = !game.DirectionClockwise;
-				game.CurrentPlayer = GetNextPlayerId(game, null);				
+				if (game.Players.Count > 2)
+				{
+					game.CurrentPlayer = GetNextPlayerId(game, null);
+				}
 			}
 
 			PushGame(game);
-
 
 			//set the current playing name:
 			MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
@@ -229,6 +248,15 @@ namespace JavaScriptUNO.Hubs
 			{
 				Clients.Caller.endSession("unkown game id was passed to the server.");
 			}
+		}
+
+		public void EndGame()
+		{
+			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
+			sGame?.EndGameForClients();
+			MvcApplication.Manager.EndGame(sGame);
+
+			GlobalHost.ConnectionManager.GetHubContext<SessionHub>().Clients.All.setSessions(MvcApplication.Manager.GetGameSessions());
 		}
 
 		public override Task OnDisconnected(bool stopCalled)

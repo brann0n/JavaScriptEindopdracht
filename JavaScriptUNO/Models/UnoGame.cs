@@ -36,5 +36,10 @@ namespace JavaScriptUNO.Models
 			}
 		}
 
+        public bool HasConnectedPlayers()
+		{
+            return Players.Where(n => n.connid != "").Count() != 0;
+		}
+
     }
 }

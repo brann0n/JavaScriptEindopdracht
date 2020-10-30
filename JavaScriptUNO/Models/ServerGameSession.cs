@@ -93,5 +93,11 @@ namespace JavaScriptUNO.Models
             PlayerObject player = game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer);
             clientHubContext.Clients.Client(player.connid).displayColorWheel(effects);
         }
+
+        public void EndGameForClients()
+		{
+            if (game != null)
+                clientHubContext.Clients.Clients(game.Players.Where(n => n.connid != "").Select(n => n.connid).ToList()).stopGame();
+        }
     }
 }

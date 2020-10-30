@@ -2,10 +2,20 @@
 
     constructor(gameId) {
         this.hostHub = $.connection.hostHub;
-        this.gameMode = "Awaiting game initiation...";
+        this.gameMode = "AWAITING_GAME_INIT";
+
         this.hostHub.client.setGameMode = function (mode) {
-            console.log(mode);
-            this.gameMode = mode;           
+            this.gameMode = mode;   
+            switch (mode) {
+                case "AWAITING_PLAYERS":
+                    console.log("waiting for other players to join");
+                    break;
+                case "RESUMING_GAME":
+                    //do some stuff to make it look like the game continues
+                    this.UnoGame = new Uno(null); 
+                    console.log("resuming game");
+                    break;
+			}               
         };
 
         this.hostHub.client.getPlayerObjects = function () {
@@ -39,23 +49,27 @@
             }
 
             //overwrite current objects
-            if (this.UnoGame !== null) {
+            if (this.UnoGame) {
                 this.UnoGame.Players = gameObject.Players;
                 this.UnoGame.Deck = gameObject.Deck;
                 this.UnoGame.StockPile = gameObject.StockPile;
                 this.UnoGame.CurrentPlayer = gameObject.CurrentPlayer;
                 this.UnoGame.DirectionClockwise = gameObject.DirectionClockwise;
-			}
 
-            var CardCount = this.UnoGame.getCardsInStockPile();
-			$('#numberOfCards').text(CardCount + " Cards");	
+                var CardCount = this.UnoGame.getCardsInStockPile();
+                $('#numberOfCards').text(CardCount + " Cards");	
+			}            
         };
 
         this.hostHub.client.startGame = function (playerList) {
             this.UnoGame = new Uno(playerList); 
-            this.pushGame();
-            var CardCount = this.UnoGame.getCardsInStockPile();
-            $('#numberOfCards').text(CardCount + " Cards");
+            this.server.pushGame(this.UnoGame)
+                .done(function () {
+                    this.UnoGame.dealFirstRoundToPlayers();
+                    this.server.pushGame(this.UnoGame);
+                    //show the drawn card
+                    this.updateTopCard();
+                });            
 		};
 
         this.hostHub.client.playCard = function (playerId, card) {
@@ -107,7 +121,7 @@
         this.hostHub.client.drawCardFromSpecial = function (playerId, amount) {
             this.UnoGame.dealCardAmountToPlayer(playerId, amount);
             this.pushGame();
-		}
+        };
 
         this.hostHub.client.setCurrentPlayer = function (playerObject) {
             console.log("current player: ", playerObject.name);
@@ -158,12 +172,9 @@
         this.hostHub.server.startGame();
     }
 
-    dealCardsToPlayers() {
-		this.hostHub.UnoGame.dealFirstRoundToPlayers();
-        this.hostHub.server.pushGame(this.hostHub.UnoGame);
-        //show the drawn card
-        this.hostHub.updateTopCard();
-    } 
+    endGame() {
+        this.hostHub.server.endGame();
+	}
 
     sendMessageToClients(message) {
         this.hostHub.server.relayMessage(message);

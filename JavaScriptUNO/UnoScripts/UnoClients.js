@@ -54,7 +54,7 @@
 						$(clientObject).fadeOut('fast').animate({
 							'bottom': '100%'
 						}, {
-							duration: 'fast', queue: false, complete: function () {								
+							duration: 'fast', queue: false, complete: function () {
 								client.clientHub.server.postCard(cardName);
 							}
 						});
@@ -62,6 +62,9 @@
 
 					imageDivWrapper.append(imageDiv);
 					$('.cards-bar').append(imageDivWrapper);
+				}
+				else {
+					console.log("card is no longer in posession, or something went wrong server side.");
 				}
 			}
 		};
@@ -87,6 +90,10 @@
 			$(".popup-overlay, .popup-content").addClass("active");
 
 			$("#hiddenEffects").data("effects", effects);
+		};
+
+		this.clientHub.client.stopGame = function () {
+			location.replace("/");
 		};
 
 		this.hubReady = $.connection.hub.start();

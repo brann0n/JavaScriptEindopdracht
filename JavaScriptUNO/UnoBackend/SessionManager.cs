@@ -76,5 +76,10 @@ namespace JavaScriptUNO.UnoBackend
 
             return fndSessions;
         }
+
+        public void EndGame(ServerGameSession session)
+		{
+            Sessions.Remove(session);
+		}
     }
 }
