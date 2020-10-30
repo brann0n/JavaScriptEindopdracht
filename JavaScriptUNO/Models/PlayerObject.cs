@@ -11,9 +11,11 @@ namespace JavaScriptUNO.Models
         public string name { get; set; }
 		public string connid { get; set; }
         public List<CardObject> cards { get; set; } 
+		public bool reportedUno { get; set; }
         public PlayerObject()
         {
             cards = new List<CardObject>();
+			reportedUno = false;
         }
 
 		public override string ToString()

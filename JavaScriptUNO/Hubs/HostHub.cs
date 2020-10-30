@@ -10,7 +10,7 @@ namespace JavaScriptUNO.Hubs
 {
 	public class HostHub : Hub
 	{
-		public void InitGame(string gameId)
+		public async Task InitGame(string gameId)
 		{
 			ServerGameSession game = MvcApplication.Manager.FindSession(gameId);
 			if (game != null)
@@ -18,7 +18,7 @@ namespace JavaScriptUNO.Hubs
 				if (string.IsNullOrEmpty(game.GameConnectionId) && !game.GameStarted)
 				{
 					game.GameConnectionId = Context.ConnectionId;
-					Clients.Caller.setGameMode("AWAITING_PLAYERS");
+					await Clients.Caller.setGameMode("AWAITING_PLAYERS");
 
 					if (game.game.Players.Count == 0)
 					{
@@ -28,16 +28,16 @@ namespace JavaScriptUNO.Hubs
 					{
 						if (game.game.HasConnectedPlayers())
 						{
-							Clients.Caller.setGameMode("AWAITING_PLAYERS_REFRESHED");
-							game.UpdateHost();
+							await Clients.Caller.setGameMode("AWAITING_PLAYERS_REFRESHED");
+							await game.UpdateHost();
 						}
 					}
 				}
 				else if (string.IsNullOrEmpty(game.GameConnectionId) && game.GameStarted)
 				{
 					game.GameConnectionId = Context.ConnectionId;
-					Clients.Caller.setGameMode("RESUMING_GAME");
-					game.UpdateHost();
+					await Clients.Caller.setGameMode("RESUMING_GAME");
+					await game.UpdateHost();
 				}
 				else
 				{
@@ -50,7 +50,7 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
-		public void StartGame()
+		public async Task StartGame()
 		{
 			ServerGameSession game = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
 			if (game != null)
@@ -61,7 +61,7 @@ namespace JavaScriptUNO.Hubs
 
 				//remove the empty player objects: no need for new players to connect after the game has started
 				game.game.Players.RemoveAll(n => n.connid == "");
-				Clients.Caller.startGame(game.game.Players);
+				await Clients.Caller.startGame(game.game.Players);
 
 				game.UpdateCurrentPlayingName(game.game.Players[0]);
 			}
@@ -71,7 +71,7 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
-		public void PushGame(UnoGame game)
+		public async Task PushGame(UnoGame game)
 		{
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
 			if (sGame != null)
@@ -87,11 +87,11 @@ namespace JavaScriptUNO.Hubs
 					sGame.game = game;
 				}
 
-				sGame.UpdateAll();
+				await sGame.UpdateAll();
 			}
 			else
 			{
-				Clients.Caller.endSession("unkown game id was passed to the server.");
+				await Clients.Caller.endSession("unkown game id was passed to the server.");
 			}
 		}
 
@@ -100,21 +100,68 @@ namespace JavaScriptUNO.Hubs
 		/// </summary>
 		/// <param name="game"></param>
 		/// <param name="success"></param>
-		public void ConfirmCardGame(UnoGame game, bool success)
+		public async Task ConfirmCardGame(UnoGame game, bool success)
 		{
 			if (success)
 			{
-				game.CurrentPlayer = GetNextPlayerId(game, null);
-
-				PushGame(game);
+				string currentPlayer = game.CurrentPlayer;			
+				game.CurrentPlayer = GetNextPlayerId(game, null);				
+				int drawCards = CheckUno(game, currentPlayer);
+				await PushGame(game);
 
 				//set the current playing name:
-				MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
+
+				var session = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
+				session.UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
+
+				if(drawCards > 0)
+				{
+					Clients.Caller.drawCardFromSpecial(currentPlayer, drawCards);
+				}
+				else if(drawCards == -69)
+				{
+					Clients.Caller.gameWon(currentPlayer);
+				}
 			}
 			else
 			{
-				PushGame(game);
+				await PushGame(game);
 			}
+		}
+
+		private int CheckUno(UnoGame game, string playerId)
+		{
+			PlayerObject player = game.Players.FirstOrDefault(n => n.id == playerId);
+			if(player.cards.Count == 1)
+			{
+				if (player.reportedUno)
+				{
+					// allow
+					player.reportedUno = false;
+					Clients.Caller.displayMessage($"Player {player.name} has UNO!");
+				}
+				else
+				{
+					//give player 2 cards
+					player.reportedUno = false;
+					return 2;
+				}
+			}	
+			
+			if(player.cards.Count == 0)
+			{
+				//player has won
+				return -69; //:)
+			}
+
+			if(player.reportedUno && player.cards.Count > 1)
+			{
+				//false uno, draw one card
+				player.reportedUno = false;
+				return 1;
+			}
+
+			return 0;
 		}
 
 		private string GetNextPlayerId(UnoGame game, SpecialCardActions effects)
@@ -156,10 +203,10 @@ namespace JavaScriptUNO.Hubs
 			throw new Exception("Passed an effect object without enabling special effects.");
 		}
 
-		public void HandleSpecialCard(UnoGame game, SpecialCardActions effects)
+		public async Task HandleSpecialCard(UnoGame game, SpecialCardActions effects)
 		{
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
-
+			string currentPlayer = game.CurrentPlayer;
 
 			if (effects.sendColorWheel)
 			{
@@ -173,7 +220,7 @@ namespace JavaScriptUNO.Hubs
 				game.CurrentPlayer = GetNextPlayerId(game, null);
 				string targetPlayer = new string(game.CurrentPlayer.ToCharArray());
 				game.CurrentPlayer = GetNextPlayerId(game, null);
-				PushGame(game);
+				await PushGame(game);
 				Clients.Caller.drawCardFromSpecial(targetPlayer, effects.cardDrawAmount);
 			}
 			else if (effects.skipNextPerson)
@@ -190,14 +237,22 @@ namespace JavaScriptUNO.Hubs
 					game.CurrentPlayer = GetNextPlayerId(game, null);
 				}
 			}
-
-			PushGame(game);
-
+			int drawCards = CheckUno(game, currentPlayer);
+			await PushGame(game);
 			//set the current playing name:
 			MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
+
+			if (drawCards > 0)
+			{
+				Clients.Caller.drawCardFromSpecial(currentPlayer, drawCards);
+			}
+			else if (drawCards == -69)
+			{
+				Clients.Caller.gameWon(currentPlayer);
+			}
 		}
 
-		public void HandleSpecialAfterColorPick(UnoGame game, SpecialCardActions effects)
+		public async Task HandleSpecialAfterColorPick(UnoGame game, SpecialCardActions effects)
 		{
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
 
@@ -209,7 +264,7 @@ namespace JavaScriptUNO.Hubs
 					game.CurrentPlayer = GetNextPlayerId(game, null);
 					string targetPlayer = new string(game.CurrentPlayer.ToCharArray());
 					game.CurrentPlayer = GetNextPlayerId(game, null);
-					PushGame(game);
+					await PushGame(game);
 					Clients.Caller.drawCardFromSpecial(targetPlayer, effects.cardDrawAmount);
 				}
 				else
@@ -217,19 +272,19 @@ namespace JavaScriptUNO.Hubs
 					game.CurrentPlayer = GetNextPlayerId(game, null);
 				}
 
-				PushGame(game);
+				await PushGame(game);
 
 				//set the current playing name:
 				MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
 			}
 		}
 
-		public void Update()
+		public async Task Update()
 		{
 			ServerGameSession game = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
 			if (game != null)
 			{
-				game.UpdateAll();
+				await game.UpdateAll();
 			}
 			else
 			{
@@ -250,13 +305,26 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
-		public void EndGame()
+		public async Task EndGame()
 		{
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
-			sGame?.EndGameForClients();
+			await sGame?.EndGameForClients();
 			MvcApplication.Manager.EndGame(sGame);
 
-			GlobalHost.ConnectionManager.GetHubContext<SessionHub>().Clients.All.setSessions(MvcApplication.Manager.GetGameSessions());
+			await GlobalHost.ConnectionManager.GetHubContext<SessionHub>().Clients.All.setSessions(MvcApplication.Manager.GetGameSessions());
+		}
+
+		public async Task ProcessGameWon(string PlayerId)
+		{
+			ServerGameSession game = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
+			if (game != null)
+			{
+				await game.GameWon(PlayerId);
+			}
+			else
+			{
+				Clients.Caller.endSession("unkown game id was passed to the server.");
+			}
 		}
 
 		public override Task OnDisconnected(bool stopCalled)

@@ -121,4 +121,8 @@
 			this.clientHub.server.sendColorToHost("error", null);
 		}
 	}
+
+	uno() {
+		this.clientHub.server.reportUno();
+	}
 }

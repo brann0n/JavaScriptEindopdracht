@@ -116,3 +116,9 @@
 .player-list-item-selected::after{
 	content: '\'s turn';
 }
+
+#winToast {
+	margin: 175px;
+	color: white;
+	font-size: 55px;
+}

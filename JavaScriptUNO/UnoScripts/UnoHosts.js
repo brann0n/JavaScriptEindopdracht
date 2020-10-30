@@ -50,6 +50,7 @@
 
             //overwrite current objects
             if (this.UnoGame) {
+                console.log(gameObject.Players);
                 this.UnoGame.Players = gameObject.Players;
                 this.UnoGame.Deck = gameObject.Deck;
                 this.UnoGame.StockPile = gameObject.StockPile;
@@ -141,7 +142,17 @@
 			}
         };
 
+        this.hostHub.client.gameWon = function (playerId) {
+            this.server.processGameWon(playerId);
+        };
+
+        this.hostHub.client.showWinnerAndEndGame = function(playerObject) {
+            $('.gameBackground').empty();
+            $('.gameBackground').html('<h1 id="winToast">' + playerObject.name + ' has won the game!</h1>');
+        };
+
         this.hostHub.pushGame = function () {
+            
             this.server.pushGame(this.UnoGame);
 		};
 

@@ -12,6 +12,7 @@
 <div class="game-controller">
 	<button id="btnFullScreen" class="btn btn-default" onclick="goFullScreen()">Full Screen</button>
 	<button id="btnDrawCard" class="btn btn-default" onclick="drawCardFromDeck()">Draw Card</button>
+	<button id="btnUno" class="btn btn-default" onclick="reportUno()">UNO</button>
 </div>
 
 <div class="gameBackground">
@@ -75,5 +76,9 @@
 
     function drawCardFromDeck() {
         client.drawCardFromDeck();
+	}
+
+	function reportUno() {
+		client.uno();
 	}
 </script>

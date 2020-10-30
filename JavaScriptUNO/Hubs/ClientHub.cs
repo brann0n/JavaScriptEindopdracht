@@ -10,7 +10,7 @@ namespace JavaScriptUNO.Hubs
 {
 	public class ClientHub : Hub
 	{
-		public void SubscribeToHost(string hostId, string clientId, string playername)
+		public async Task SubscribeToHost(string hostId, string clientId, string playername)
 		{
 			string connId = Context.ConnectionId;
 			//find the session in memory
@@ -30,7 +30,7 @@ namespace JavaScriptUNO.Hubs
 					{
 						game.game.Players.First(n => n.id == clientId).connid = connId;
 						game.game.Players.First(n => n.id == clientId).name = playername;
-						game.UpdateAll();
+						await game.UpdateAll();
 					}
 				}
 				else
@@ -120,16 +120,27 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
-		public void Update()
+		public async Task Update()
 		{
-			ServerGameSession game = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
+			ServerGameSession game = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
 			if (game != null)
 			{
-				game.UpdateAll();
+				await game.UpdateAll();
 			}
 			else
 			{
-				Clients.Caller.endSession("unkown game id was passed to the server.");
+				await Clients.Caller.endSession("unkown game id was passed to the server.");
+			}
+		}
+
+		public async Task ReportUno()
+		{
+			ServerGameSession game = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
+			if (game != null)
+			{
+				PlayerObject player = game.game.Players.FirstOrDefault(n => n.connid == Context.ConnectionId);
+				player.reportedUno = true;
+				await game.UpdateHost();
 			}
 		}
 

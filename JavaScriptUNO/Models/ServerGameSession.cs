@@ -31,24 +31,24 @@ namespace JavaScriptUNO.Models
 			sessionHubContext = GlobalHost.ConnectionManager.GetHubContext<SessionHub>();
 		}
 
-        public void UpdateAll()
+        public async Task UpdateAll()
         {
-            UpdateClients();
-            UpdateHost();
-			sessionHubContext.Clients.All.setSessions(MvcApplication.Manager.GetGameSessions());
+            await UpdateClients();
+            await UpdateHost();
+			await sessionHubContext.Clients.All.setSessions(MvcApplication.Manager.GetGameSessions());
 		}
 
-        public void UpdateClients()
+        public async Task UpdateClients()
         {
             if (game != null)
-                clientHubContext.Clients.Clients(game.Players.Where(n =>n.connid != "").Select(n => n.connid).ToList()).doRefresh(game);
+               await clientHubContext.Clients.Clients(game.Players.Where(n =>n.connid != "").Select(n => n.connid).ToList()).doRefresh(game);
         }
 
-        public void UpdateHost()
+        public async Task UpdateHost()
         {
-            hostHubContext.Clients.Client(GameConnectionId).updatePlayerCount(game.Players.Where(n => n.connid != "").Select(n => n.connid).Count(), MaxClients);
+            await hostHubContext.Clients.Client(GameConnectionId).updatePlayerCount(game.Players.Where(n => n.connid != "").Select(n => n.connid).Count(), MaxClients);
             if (game != null)
-                hostHubContext.Clients.Client(GameConnectionId).doRefresh(game);
+                await hostHubContext.Clients.Client(GameConnectionId).doRefresh(game);
         }
 
         public void MessageClients(string message)
@@ -94,10 +94,17 @@ namespace JavaScriptUNO.Models
             clientHubContext.Clients.Client(player.connid).displayColorWheel(effects);
         }
 
-        public void EndGameForClients()
+        public async Task GameWon(string playerId)
+		{
+            PlayerObject player = game.Players.FirstOrDefault(n => n.id == playerId);
+            await hostHubContext.Clients.Client(GameConnectionId).showWinnerAndEndGame(player);
+            await EndGameForClients();
+		}
+
+        public async Task EndGameForClients()
 		{
             if (game != null)
-                clientHubContext.Clients.Clients(game.Players.Where(n => n.connid != "").Select(n => n.connid).ToList()).stopGame();
+                await clientHubContext.Clients.Clients(game.Players.Where(n => n.connid != "").Select(n => n.connid).ToList()).stopGame();
         }
     }
 }
