@@ -10,6 +10,11 @@ namespace JavaScriptUNO.Hubs
 {
 	public class HostHub : Hub
 	{
+		/// <summary>
+		/// Proxy function that creates the game object server side.
+		/// </summary>
+		/// <param name="gameId"></param>
+		/// <returns></returns>
 		public async Task InitGame(string gameId)
 		{
 			ServerGameSession game = MvcApplication.Manager.FindSession(gameId);
@@ -50,14 +55,16 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Proxy function that starts the game
+		/// </summary>
+		/// <returns></returns>
 		public async Task StartGame()
 		{
 			ServerGameSession game = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
 			if (game != null)
 			{
 				game.GameStarted = true;
-				//call the host with all the current player id's				
-				//Clients.Caller.startGame(game.clientIds);
 
 				//remove the empty player objects: no need for new players to connect after the game has started
 				game.game.Players.RemoveAll(n => n.connid == "");
@@ -71,6 +78,11 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Proxy and local function that syncs the JS and C# backend with eachother.
+		/// </summary>
+		/// <param name="game"></param>
+		/// <returns></returns>
 		public async Task PushGame(UnoGame game)
 		{
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
@@ -104,8 +116,8 @@ namespace JavaScriptUNO.Hubs
 		{
 			if (success)
 			{
-				string currentPlayer = game.CurrentPlayer;			
-				game.CurrentPlayer = GetNextPlayerId(game, null);				
+				string currentPlayer = game.CurrentPlayer;
+				game.CurrentPlayer = GetNextPlayerId(game, null);
 				int drawCards = CheckUno(game, currentPlayer);
 				await PushGame(game);
 
@@ -114,11 +126,11 @@ namespace JavaScriptUNO.Hubs
 				var session = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
 				session.UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
 
-				if(drawCards > 0)
+				if (drawCards > 0)
 				{
 					Clients.Caller.drawCardFromSpecial(currentPlayer, drawCards);
 				}
-				else if(drawCards == -69)
+				else if (drawCards == -69)
 				{
 					Clients.Caller.gameWon(currentPlayer);
 				}
@@ -129,10 +141,16 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Local function that is called after every card action, to determain if the current player has uno.
+		/// </summary>
+		/// <param name="game"></param>
+		/// <param name="playerId"></param>
+		/// <returns></returns>
 		private int CheckUno(UnoGame game, string playerId)
 		{
 			PlayerObject player = game.Players.FirstOrDefault(n => n.id == playerId);
-			if(player.cards.Count == 1)
+			if (player.cards.Count == 1)
 			{
 				if (player.reportedUno)
 				{
@@ -146,15 +164,15 @@ namespace JavaScriptUNO.Hubs
 					player.reportedUno = false;
 					return 2;
 				}
-			}	
-			
-			if(player.cards.Count == 0)
+			}
+
+			if (player.cards.Count == 0)
 			{
 				//player has won
 				return -69; //:)
 			}
 
-			if(player.reportedUno && player.cards.Count > 1)
+			if (player.reportedUno && player.cards.Count > 1)
 			{
 				//false uno, draw one card
 				player.reportedUno = false;
@@ -164,6 +182,12 @@ namespace JavaScriptUNO.Hubs
 			return 0;
 		}
 
+		/// <summary>
+		/// Local function that takes the current game and gives you the next player in turn.
+		/// </summary>
+		/// <param name="game">current game object</param>
+		/// <param name="effects">effects object</param>
+		/// <returns></returns>
 		private string GetNextPlayerId(UnoGame game, SpecialCardActions effects)
 		{
 			int currentPlayerIndex = game.Players.FindIndex(n => n.id == game.CurrentPlayer);
@@ -203,6 +227,12 @@ namespace JavaScriptUNO.Hubs
 			throw new Exception("Passed an effect object without enabling special effects.");
 		}
 
+		/// <summary>
+		/// Proxy function that is called when an Action card is used in the game, the function decides what the game should do.
+		/// </summary>
+		/// <param name="game">current game object</param>
+		/// <param name="effects">effects object</param>
+		/// <returns></returns>
 		public async Task HandleSpecialCard(UnoGame game, SpecialCardActions effects)
 		{
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
@@ -252,6 +282,12 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Proxy function that is called after a user picks a color, the function checks if it needs to send cards from the draw four card.
+		/// </summary>
+		/// <param name="game">game object</param>
+		/// <param name="effects">the effects object</param>
+		/// <returns></returns>
 		public async Task HandleSpecialAfterColorPick(UnoGame game, SpecialCardActions effects)
 		{
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
@@ -279,6 +315,10 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Proxy funtion that causes an update on all connected screens.
+		/// </summary>
+		/// <returns></returns>
 		public async Task Update()
 		{
 			ServerGameSession game = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
@@ -292,6 +332,10 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Proxy function that allows the host to send a message to all connected clients (this is only implemented in the console atm)
+		/// </summary>
+		/// <param name="message">the message to relay</param>
 		public void RelayMessage(string message)
 		{
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
@@ -305,6 +349,10 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Proxy function that stops the game and sends the clients back to the lobby
+		/// </summary>
+		/// <returns></returns>
 		public async Task EndGame()
 		{
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
@@ -314,6 +362,11 @@ namespace JavaScriptUNO.Hubs
 			await GlobalHost.ConnectionManager.GetHubContext<SessionHub>().Clients.All.setSessions(MvcApplication.Manager.GetGameSessions());
 		}
 
+		/// <summary>
+		/// Proxy function that processes the game after someone won.
+		/// </summary>
+		/// <param name="PlayerId">id of the player that won</param>
+		/// <returns></returns>
 		public async Task ProcessGameWon(string PlayerId)
 		{
 			ServerGameSession game = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);

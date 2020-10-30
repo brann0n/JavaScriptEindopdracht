@@ -3,112 +3,111 @@
 }
 
 .cards-bar {
-    padding: 35px 30px;
-    width: max-content;
+	padding: 35px 30px;
+	width: max-content;
 }
 
 .gameBackground {
-    overflow-x: auto;
-    overflow-y: hidden;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 .cards-item {
-    width: 194px;
-    height: 281px;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
-    position: relative;
-    transition-duration: 0.2s;
-    box-shadow: 3px 3px 8px 3px #0000002b;
-    border-radius: 20px;
+	width: 194px;
+	height: 281px;
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+	position: relative;
+	transition-duration: 0.2s;
+	box-shadow: 3px 3px 8px 3px #0000002b;
+	border-radius: 20px;
 }
 
 .cards-item-wrapper:not(:first-child) {
-    width: 194px;
-    height: 281px;
-    float: left;
-    margin-left: -115px;
+	width: 194px;
+	height: 281px;
+	float: left;
+	margin-left: -115px;
 }
 
 .cards-item-wrapper:first-child {
-    width: 194px;
-    height: 281px;
-    float: left;
-    margin: 0;
+	width: 194px;
+	height: 281px;
+	float: left;
+	margin: 0;
 }
 
-.cards-item:hover{
-    margin-top: -20px;
-    transform: rotate(-16deg);
+.cards-item:hover {
+	margin-top: -20px;
+	transform: rotate(-16deg);
 }
 
 .container-wrapper {
 	background: url('../Content/UnoImages/Table_0.png');
 	background-size: cover;
 	height: 100%;
-    overflow-y: hidden;
+	overflow-y: hidden;
 }
 
 #gameTitle {
-    color: white;
-    display: inline-block;
-    height: 50px;
-    float: left;
-    margin-right: 50px;
+	color: white;
+	display: inline-block;
+	height: 50px;
+	float: left;
+	margin-right: 50px;
 }
 
 .player-name-box {
-    display: inline-block;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    height: 50px;
-    color: white;
+	display: inline-block;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	height: 50px;
+	color: white;
 }
 
 .game-controller {
-    display: inherit; /*overwrite the site.css rule*/
+	display: inherit; /*overwrite the site.css rule*/
 }
 
 #btnDrawCard {
-
 }
 
 .color-button-field {
-    width: 202px;
-    height: 202px;
-    border: 1px solid black;
-    border-collapse: collapse;
-    border-radius: 101px;
-    padding: 0px;
-    transform: skew(-19deg, 11deg);
-    margin: auto;
+	width: 202px;
+	height: 202px;
+	border: 1px solid black;
+	border-collapse: collapse;
+	border-radius: 101px;
+	padding: 0px;
+	transform: skew(-19deg, 11deg);
+	margin: auto;
 }
 
 .btnColorPick {
-    float: left;
-    width: 100px;
-    height: 100px;
-    margin: 0px;
-    padding: 0px;
-    border: none;
+	float: left;
+	width: 100px;
+	height: 100px;
+	margin: 0px;
+	padding: 0px;
+	border: none;
 }
 
 .red {
-    border-top-left-radius: 100px;
-    background-color: #ea323c;
+	border-top-left-radius: 100px;
+	background-color: #ea323c;
 }
 
 .blue {
-    border-top-right-radius: 100px;
-    background-color: #0098dc;
+	border-top-right-radius: 100px;
+	background-color: #0098dc;
 }
 
 .green {
-    border-bottom-right-radius: 100px;
-    background-color: #33984b;
+	border-bottom-right-radius: 100px;
+	background-color: #33984b;
 }
 
 .yellow {
-    border-bottom-left-radius: 100px;
-    background-color: #ffc825;
+	border-bottom-left-radius: 100px;
+	background-color: #ffc825;
 }

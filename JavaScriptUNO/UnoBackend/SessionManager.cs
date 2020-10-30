@@ -6,34 +6,34 @@ using System.Web;
 
 namespace JavaScriptUNO.UnoBackend
 {
-    public class SessionManager
-    {
-        public List<ServerGameSession> Sessions;
-        public SessionManager()
-        {
-            Sessions = new List<ServerGameSession>();
-        }
+	public class SessionManager
+	{
+		public List<ServerGameSession> Sessions;
+		public SessionManager()
+		{
+			Sessions = new List<ServerGameSession>();
+		}
 
-        public ServerGameSession FindSession(string id)
-        {
-            return Sessions.FirstOrDefault(n => n.GameId == id);
-        }
+		public ServerGameSession FindSession(string id)
+		{
+			return Sessions.FirstOrDefault(n => n.GameId == id);
+		}
 
-        public ServerGameSession FindSessionByConnectionId(string id)
-        {
-            return Sessions.FirstOrDefault(n => n.GameConnectionId == id);
-        }
+		public ServerGameSession FindSessionByConnectionId(string id)
+		{
+			return Sessions.FirstOrDefault(n => n.GameConnectionId == id);
+		}
 
-        public ServerGameSession FindSessionByClientConnectionId(string id)
-        {
-            foreach(ServerGameSession ses in Sessions)
-            {
-                if(ses.game.Players.Select(n => n.connid).Contains(id))
-                    return ses;
-            }
+		public ServerGameSession FindSessionByClientConnectionId(string id)
+		{
+			foreach (ServerGameSession ses in Sessions)
+			{
+				if (ses.game.Players.Select(n => n.connid).Contains(id))
+					return ses;
+			}
 
-            return null;
-        }
+			return null;
+		}
 
 		public ServerGameSession FindSessionByClientId(string id)
 		{
@@ -47,23 +47,23 @@ namespace JavaScriptUNO.UnoBackend
 		}
 
 		public string CreateNewSession(string GameName)
-        {
-            string id = Guid.NewGuid().ToString();
-            Sessions.Add(new ServerGameSession
-            {
-                GameName = GameName,
-                MaxClients = 8,
-                GameId = id,
-                GameStarted = false
-            });
-            return id;
-        }
+		{
+			string id = Guid.NewGuid().ToString();
+			Sessions.Add(new ServerGameSession
+			{
+				GameName = GameName,
+				MaxClients = 8,
+				GameId = id,
+				GameStarted = false
+			});
+			return id;
+		}
 
-        public List<GameSession> GetGameSessions()
-        {
-            List<GameSession> fndSessions = new List<GameSession>();
-            foreach(ServerGameSession s in Sessions)
-            {
+		public List<GameSession> GetGameSessions()
+		{
+			List<GameSession> fndSessions = new List<GameSession>();
+			foreach (ServerGameSession s in Sessions)
+			{
 				fndSessions.Add(new GameSession
 				{
 					GameId = s.GameId,
@@ -72,14 +72,14 @@ namespace JavaScriptUNO.UnoBackend
 					PlayerTotal = s.MaxClients,
 					GameStarted = s.GameStarted
 				});
-            }
+			}
 
-            return fndSessions;
-        }
-
-        public void EndGame(ServerGameSession session)
-		{
-            Sessions.Remove(session);
+			return fndSessions;
 		}
-    }
+
+		public void EndGame(ServerGameSession session)
+		{
+			Sessions.Remove(session);
+		}
+	}
 }

@@ -86,7 +86,7 @@
 			$('#gameTitle').text(nameMessage);
 		};
 
-		this.clientHub.client.displayColorWheel = function (effects) {			
+		this.clientHub.client.displayColorWheel = function (effects) {
 			$(".popup-overlay, .popup-content").addClass("active");
 
 			$("#hiddenEffects").data("effects", effects);

@@ -7,25 +7,25 @@ using System.Web.Mvc;
 
 namespace JavaScriptUNO.Controllers
 {
-    public class ClientController : Controller
-    {
-        // GET: Client
-        public ActionResult Index(string id)
-        {
-            ServerGameSession game = MvcApplication.Manager.FindSessionByClientId(id);
+	public class ClientController : Controller
+	{
+		// GET: Client
+		public ActionResult Index(string id)
+		{
+			ServerGameSession game = MvcApplication.Manager.FindSessionByClientId(id);
 
-            if (game != null)
-            {
+			if (game != null)
+			{
 				ClientGameSession session = new ClientGameSession();
 				session.ClientId = id;
 				session.GameId = game.GameId;
 				session.GameName = game.GameName;
-                return View(session);
-            }
-            else
-            {
-                return View("Error");
-            }
-        }
-    }
+				return View(session);
+			}
+			else
+			{
+				return View("Error");
+			}
+		}
+	}
 }

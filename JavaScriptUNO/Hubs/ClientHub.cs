@@ -10,6 +10,13 @@ namespace JavaScriptUNO.Hubs
 {
 	public class ClientHub : Hub
 	{
+		/// <summary>
+		/// Proxy function that connects this client with a Game host
+		/// </summary>
+		/// <param name="hostId">id of the host</param>
+		/// <param name="clientId">id of the current client (not connection id)</param>
+		/// <param name="playername">the name provided by the client.</param>
+		/// <returns></returns>
 		public async Task SubscribeToHost(string hostId, string clientId, string playername)
 		{
 			string connId = Context.ConnectionId;
@@ -44,6 +51,9 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Proxy function that requests a card from the Draw Pile at the Game host
+		/// </summary>
 		public void DrawCardFromDeck()
 		{
 			string connId = Context.ConnectionId;
@@ -57,6 +67,10 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Proxy function that sends the pressed card to the Game host
+		/// </summary>
+		/// <param name="cardName"></param>
 		public void PostCard(string cardName)
 		{
 			string connId = Context.ConnectionId;
@@ -93,11 +107,16 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Proxy function that processes the selected color and sends it to the Game host
+		/// </summary>
+		/// <param name="color"></param>
+		/// <param name="effects"></param>
 		public void SendColorToHost(string color, SpecialCardActions effects)
 		{
 			ServerGameSession session = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
 
-			if(session != null)
+			if (session != null)
 			{
 				PlayerObject player = session.game.Players.FirstOrDefault(n => n.connid == Context.ConnectionId);
 				if (player != null)
@@ -116,10 +135,14 @@ namespace JavaScriptUNO.Hubs
 							break;
 					}
 				}
-					
+
 			}
 		}
 
+		/// <summary>
+		/// Proxy function that causes a game update on every connected screen
+		/// </summary>
+		/// <returns></returns>
 		public async Task Update()
 		{
 			ServerGameSession game = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
@@ -133,6 +156,10 @@ namespace JavaScriptUNO.Hubs
 			}
 		}
 
+		/// <summary>
+		/// Proxy function that reports uno to the Game host
+		/// </summary>
+		/// <returns></returns>
 		public async Task ReportUno()
 		{
 			ServerGameSession game = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);

@@ -4,106 +4,105 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
-    max-width: 280px;
+	max-width: 280px;
 }
 
-.navbar{
-    background-color: red;
+.navbar {
+	background-color: red;
 }
 
-.session-content{
-    width: 600px;
-    margin: auto;
+.session-content {
+	max-width: 600px;
+	margin: auto;
 }
 
 
 .change-name-box {
-    width: 300px;
-    position: absolute;
-    right: 0;
-    top: 50px;
-    padding: 20px;
-    margin: 20px;
-    border: 1px solid black;
-    border-radius: 7px;
+	width: 300px;
+	padding: 20px;
+	margin: 20px;
+	border: 1px solid black;
+	border-radius: 7px;
+	float: right;
 }
 
-#tbPlayerName{
-    width: 100%;
+#tbPlayerName {
+	width: 100%;
 }
 
-#change-name-title{
-    margin: 0px;
+#change-name-title {
+	margin: 0px;
 }
 
 .game-item {
-    float: left;
-    width: 290px;
-    height: 150px;
-    border: 1px solid black;
-    border-radius: 5px;
-    margin: 3px;
-    padding: 3px;
+	float: left;
+	width: 290px;
+	height: 150px;
+	border: 1px solid black;
+	border-radius: 5px;
+	margin: 3px;
+	padding: 3px;
 }
 
-.player-tag{
-    display: inline;
+.player-tag {
+	display: inline;
 }
 
-.game-controller{
-    display: inline-block;
+.game-controller {
+	display: inline-block;
 }
 
 .action-btn {
-    margin: 5px 5px 2px 0px;
+	margin: 5px 5px 2px 0px;
 }
+
 .item-clear {
-    clear: both;
+	clear: both;
 }
 
-.explain-box{
-    border-left: 4px solid black;
-    padding-left: 3px;
+.explain-box {
+	border-left: 4px solid black;
+	padding-left: 3px;
 }
 
-.new-game-fields{
-    padding: 5px 1px;
+.new-game-fields {
+	padding: 5px 1px;
 }
 
 .popup-overlay {
-    display: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    background: rgba(51,51,51,0.7);
-    z-index: 10005;
+	display: none;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	background: rgba(51,51,51,0.7);
+	z-index: 10005;
 }
 
 .popup-content {
-    display: none;
-    width: 400px;
-    margin: auto;
-    margin-top: auto;
-    margin-top: 10%;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
+	display: none;
+	width: 400px;
+	margin: auto;
+	margin-top: auto;
+	margin-top: 10%;
+	background-color: white;
+	padding: 20px;
+	border-radius: 10px;
 }
 
 .popup-overlay.active {
-    display: block;
+	display: block;
 }
 
 .popup-content.active {
-    display: block;
+	display: block;
 }

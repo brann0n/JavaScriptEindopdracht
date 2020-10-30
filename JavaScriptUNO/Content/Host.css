@@ -11,10 +11,10 @@
 }
 
 .Deck {
-    margin: 20px;
-    width: 194px;
-    height: 281px;
-    float: left;
+	margin: 20px;
+	width: 194px;
+	height: 281px;
+	float: left;
 }
 
 .cardStock {
@@ -28,7 +28,7 @@
 	border-radius: 20px;
 }
 
-#gameTitle{
+#gameTitle {
 	color: white;
 }
 
@@ -51,7 +51,7 @@
 	border-radius: 22px;
 }
 
-#colorName{
+#colorName {
 	text-align: center;
 	color: white;
 	font-size: 20px;
@@ -63,14 +63,14 @@
 	float: left;
 }
 
-.game-info{
-    padding: 10px;
+.game-info {
+	padding: 10px;
 }
 
 .card-info {
-    float: left;
-    color: white;
-    font-size: 25px;
+	float: left;
+	color: white;
+	font-size: 25px;
 }
 
 .player-info {
@@ -82,7 +82,7 @@
 .container-wrapper {
 	background: url('../Content/UnoImages/Table_0.png');
 	background-size: cover;
-	height:100%;
+	height: 100%;
 }
 
 .btn-uno-controller {
@@ -96,7 +96,7 @@
 	margin: 20px;
 }
 
-.player-list-wrapper{
+.player-list-wrapper {
 	width: 200px;
 	height: auto;
 	float: right;
@@ -106,16 +106,17 @@
 	margin: 20px;
 }
 
-.player-list-item{
+.player-list-item {
 	padding: 5px;
 }
 
 .player-list-item-selected {
 	background-color: #ff000038;
 }
-.player-list-item-selected::after{
-	content: '\'s turn';
-}
+
+	.player-list-item-selected::after {
+		content: '\'s turn';
+	}
 
 #winToast {
 	margin: 175px;

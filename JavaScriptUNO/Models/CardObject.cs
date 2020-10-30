@@ -5,10 +5,13 @@ using System.Web;
 
 namespace JavaScriptUNO.Models
 {
-    public class CardObject //names directly taken from javascript
-    {
-        public string imageLocation { get; set; }
-        public string name { get; set; }
-        public int amount { get; set; }
-    }
+	/// <summary>
+	/// Card object, mirror of the JS version.
+	/// </summary>
+	public class CardObject
+	{
+		public string imageLocation { get; set; }
+		public string name { get; set; }
+		public int amount { get; set; }
+	}
 }

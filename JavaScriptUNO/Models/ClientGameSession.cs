@@ -5,6 +5,9 @@ using System.Web;
 
 namespace JavaScriptUNO.Models
 {
+	/// <summary>
+	/// Object used for redirecting to the client area.
+	/// </summary>
 	public class ClientGameSession
 	{
 		public string GameId { get; set; }

@@ -100,7 +100,6 @@
 			var prevCount = count;
 			count += card.amount;
 			if (prevCount === random || random > prevCount && random <= count) {
-				//TODO: once a card has been found, remove it from the stockpile
 				if (card.amount !== 0) {
 					card.amount--;
 					return { imageLocation: card.imageLocation, name: card.name, amount: 1 };
@@ -121,6 +120,7 @@
 		}
 	}
 
+	//handles all the logic for playing a card, it checks if its your turn, then it checks if you own that card, if the card is playable, and then displays it.
 	playCard(card, playerId) {
 		//check if this is the first card on the pile
 		var player = this.Players.find(function (element) {
@@ -151,12 +151,12 @@
 					}
 					else {
 						this.Players[playerIndex].cards[cardsIndex].amount--;
-					}					 
+					}
 
 					//check if the current top card has any special functions (skip, turn around, take 2, take 4)
 					var specialEffect = this.Rules.checkSpecials(card.name);
 
-					return {played: true, effects: specialEffect};
+					return { played: true, effects: specialEffect };
 				}
 			}
 		}
@@ -178,6 +178,7 @@
 		this.Deck.push(card1);
 	}
 
+	//deals cards to the provided player, with the specified amount
 	dealCardAmountToPlayer(playerId, amount) {
 		//get the player index from the player Array
 		var playerIndex = this.Players.findIndex(obj => obj.id === playerId);

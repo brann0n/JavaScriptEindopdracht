@@ -1,74 +1,74 @@
 ﻿
 @{
-    ViewBag.Title = "Rules";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Rules";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Uno Anywhere Rules</h2>
 <h4>Below you can find a list of the rules that are implemented in this version of UNO</h4>
 
 <div>
-    <h3>Setup</h3>
-    <p>
-        The game is for 2-8 people, and can be played by anyone smart enough to operate a smartphone.
-        At the start of the game seven cards are handed out to every player, this is done through RNG.
-        After each player has seven cards, one card is placed on the discard pile, this is the first playing card.
-        The game can now begin!
-    </p>
+	<h3>Setup</h3>
+	<p>
+		The game is for 2-8 people, and can be played by anyone smart enough to operate a smartphone.
+		At the start of the game seven cards are handed out to every player, this is done through RNG.
+		After each player has seven cards, one card is placed on the discard pile, this is the first playing card.
+		The game can now begin!
+	</p>
 </div>
 
 <div>
-    <h3>Game play</h3>
-    <p>
-        Since there is no actual dealer in the game, the first player is the player that connected to the game first.
-        You can see the playing order on the righthand side of the screen. There is no need to remember who comes next, the game handles this for you.
-        Every player can see only their own cards on their screen, and they need to match the top card on the discard pile.
-    </p>
+	<h3>Game play</h3>
 	<p>
-		You have to match either by the number, color, or the symbol/Action. 
-        For instance, if the Discard Pile has a red card that is an 8 you have to place either a red card or a card with an 8 on it. 
-        You can also play a Wild card (which can alter current color in play).
+		Since there is no actual dealer in the game, the first player is the player that connected to the game first.
+		You can see the playing order on the righthand side of the screen. There is no need to remember who comes next, the game handles this for you.
+		Every player can see only their own cards on their screen, and they need to match the top card on the discard pile.
 	</p>
 	<p>
-		If the player has no matches or they choose not to play any of their cards even though they might have a match, they must draw a card from the Draw pile. 
-        Unlike real UNO, drawing a card forfeits your turn.
-        You can also play a Wild card, or a Wild Draw Four card on your turn.
+		You have to match either by the number, color, or the symbol/Action.
+		For instance, if the Discard Pile has a red card that is an 8 you have to place either a red card or a card with an 8 on it.
+		You can also play a Wild card (which can alter current color in play).
 	</p>
-    <p>
-        <b>Note: </b> If the first card turned up from the Draw pile is an Action card, unlike real UNO, the action is ignored, and the first player just needs to match the color.
-        If the first card is a Wild card, the player can throw on any card they like.
-    </p>
-    <p>
-        The game continues until a player has one card left. The moment the player is about to play his second to last card he needs to press the Uno button to let the other players know that he is about to win.
-        Failing to do so will result in a penalty of 2 cards from the Draw Pile.
-        Pressing the UNO button when you don't have UNO results in a 1 card penalty.
-    </p>
+	<p>
+		If the player has no matches or they choose not to play any of their cards even though they might have a match, they must draw a card from the Draw pile.
+		Unlike real UNO, drawing a card forfeits your turn.
+		You can also play a Wild card, or a Wild Draw Four card on your turn.
+	</p>
+	<p>
+		<b>Note: </b> If the first card turned up from the Draw pile is an Action card, unlike real UNO, the action is ignored, and the first player just needs to match the color.
+		If the first card is a Wild card, the player can throw on any card they like.
+	</p>
+	<p>
+		The game continues until a player has one card left. The moment the player is about to play his second to last card he needs to press the Uno button to let the other players know that he is about to win.
+		Failing to do so will result in a penalty of 2 cards from the Draw Pile.
+		Pressing the UNO button when you don't have UNO results in a 1 card penalty.
+	</p>
 </div>
 <div>
-    <h3>Action Cards</h3>
-    <p>
-        Besides the number cards, there are several other cards that help mix up the game. These are called Action or Symbol cards.
-    </p>
-    <ul>
-        <li>
-            <b>Reverse</b> - At the start of the game the playing direction is going downwards on the player list. Upon playing this card that order is reversed.
-            The card can be played on any card of the same color, or on another reverse card.
-        </li>
+	<h3>Action Cards</h3>
+	<p>
+		Besides the number cards, there are several other cards that help mix up the game. These are called Action or Symbol cards.
+	</p>
+	<ul>
+		<li>
+			<b>Reverse</b> - At the start of the game the playing direction is going downwards on the player list. Upon playing this card that order is reversed.
+			The card can be played on any card of the same color, or on another reverse card.
+		</li>
 		<li>
 			<b>Skip</b> - When this card is played the next player on the player list has to skip their turn.
 			The card can be played on any card of the same color, or on another skip card.
 		</li>
-        <li>
-            <b>Draw Two</b> - When this card is played the next player on the player list has to draw 2 cards, this is (unlike most people think) is an actual rule in uno, you cannot stack draw two cards on top of each other.
-            The card can be played on any card of the same color, or on a previously played draw two card.
-        </li>
-        <li>
-            <b>Wild</b> - This card represents all 4 colors of the game, and can be placed on any card of your liking. 
-            Upon playing this card the player gets a pop-up prompting them to pick the color for the next player in the list to match.
-        </li>
-        <li>
-            <b>Wild Draw Four</b> - This card acts the same as the regular Wild card, except that the player next in line has to draw 4 cards.
-            Unlike real UNO, players can <u>Not</u> challenge eachother to see if the draw four card was their last resort card.
-        </li>
-    </ul>
+		<li>
+			<b>Draw Two</b> - When this card is played the next player on the player list has to draw 2 cards, this is (unlike most people think) is an actual rule in uno, you cannot stack draw two cards on top of each other.
+			The card can be played on any card of the same color, or on a previously played draw two card.
+		</li>
+		<li>
+			<b>Wild</b> - This card represents all 4 colors of the game, and can be placed on any card of your liking.
+			Upon playing this card the player gets a pop-up prompting them to pick the color for the next player in the list to match.
+		</li>
+		<li>
+			<b>Wild Draw Four</b> - This card acts the same as the regular Wild card, except that the player next in line has to draw 4 cards.
+			Unlike real UNO, players can <u>Not</u> challenge eachother to see if the draw four card was their last resort card.
+		</li>
+	</ul>
 </div>
