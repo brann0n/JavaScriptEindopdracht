@@ -54,47 +54,47 @@ namespace JavaScriptUNO.Models
 				await hostHubContext.Clients.Client(GameConnectionId).doRefresh(game);
 		}
 
-		public void MessageClients(string message)
+		public async Task MessageClients(string message)
 		{
 			if (game != null)
-				clientHubContext.Clients.Clients(game.Players.Where(n => n.connid != "").Select(n => n.connid).ToList()).displayMessage(message);
+				await clientHubContext.Clients.Clients(game.Players.Where(n => n.connid != "").Select(n => n.connid).ToList()).displayMessage(message);
 		}
 
-		public void MessageHost(string message)
+		public async Task MessageHost(string message)
 		{
 			if (game != null)
-				hostHubContext.Clients.Client(GameConnectionId).displayMessage(message);
+				await hostHubContext.Clients.Client(GameConnectionId).displayMessage(message);
 		}
 
-		public void UpdateCurrentPlayingName(PlayerObject player)
+		public async Task UpdateCurrentPlayingName(PlayerObject player)
 		{
 			if (game != null)
 			{
-				clientHubContext.Clients.Clients(game.Players.Where(n => n.connid != "").Select(n => n.connid).ToList()).setCurrentPlayer(player);
-				hostHubContext.Clients.Client(GameConnectionId).setCurrentPlayer(player);
+				await clientHubContext.Clients.Clients(game.Players.Where(n => n.connid != "").Select(n => n.connid).ToList()).setCurrentPlayer(player);
+				await hostHubContext.Clients.Client(GameConnectionId).setCurrentPlayer(player);
 			}
 		}
 
-		public void PlayCard(string playerId, CardObject card)
+		public async Task PlayCard(string playerId, CardObject card)
 		{
 			//sends the players card to the host for verification.
-			hostHubContext.Clients.Client(GameConnectionId).playCard(playerId, card);
+			await hostHubContext.Clients.Client(GameConnectionId).playCard(playerId, card);
 		}
 
-		public void DrawCard(string playerId)
+		public async Task DrawCard(string playerId)
 		{
-			hostHubContext.Clients.Client(GameConnectionId).drawCard(playerId);
+			await hostHubContext.Clients.Client(GameConnectionId).drawCard(playerId);
 		}
 
-		public void UpdateColorInHost(PlayerObject player, string color, SpecialCardActions effects)
+		public async Task UpdateColorInHost(PlayerObject player, string color, SpecialCardActions effects)
 		{
-			hostHubContext.Clients.Client(GameConnectionId).setPickedColor(player, color, effects);
+			await hostHubContext.Clients.Client(GameConnectionId).setPickedColor(player, color, effects);
 		}
 
-		public void ShowColorWheelInClient(SpecialCardActions effects)
+		public async Task ShowColorWheelInClient(SpecialCardActions effects)
 		{
 			PlayerObject player = game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer);
-			clientHubContext.Clients.Client(player.connid).displayColorWheel(effects);
+			await clientHubContext.Clients.Client(player.connid).displayColorWheel(effects);
 		}
 
 		public async Task GameWon(string playerId)

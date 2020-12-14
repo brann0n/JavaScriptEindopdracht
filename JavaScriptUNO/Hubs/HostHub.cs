@@ -70,11 +70,11 @@ namespace JavaScriptUNO.Hubs
 				game.game.Players.RemoveAll(n => n.connid == "");
 				await Clients.Caller.startGame(game.game.Players);
 
-				game.UpdateCurrentPlayingName(game.game.Players[0]);
+				await game.UpdateCurrentPlayingName(game.game.Players[0]);
 			}
 			else
 			{
-				Clients.Caller.endSession("unkown game id was passed to the server.");
+				await Clients.Caller.endSession("unkown game id was passed to the server.");
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace JavaScriptUNO.Hubs
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
 			if (sGame != null)
 			{
-				if (sGame.game.FullDeck.Count == 0)
+				if (sGame.game.FullDeck.Count == 0 || sGame.game.CurrentPlayer == null)
 				{
 					//new game, select first player from list.
 					sGame.game = game;
@@ -124,15 +124,15 @@ namespace JavaScriptUNO.Hubs
 				//set the current playing name:
 
 				var session = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
-				session.UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
+				await session.UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
 
 				if (drawCards > 0)
 				{
-					Clients.Caller.drawCardFromSpecial(currentPlayer, drawCards);
+					await Clients.Caller.drawCardFromSpecial(currentPlayer, drawCards);
 				}
 				else if (drawCards == -69)
 				{
-					Clients.Caller.gameWon(currentPlayer);
+					await Clients.Caller.gameWon(currentPlayer);
 				}
 			}
 			else
@@ -242,7 +242,7 @@ namespace JavaScriptUNO.Hubs
 			{
 				//send the colorwheel update to the current client.
 				//after receiving the color wheel update advance the turn
-				sGame.ShowColorWheelInClient(effects);
+				await sGame.ShowColorWheelInClient(effects);
 			}
 			else if (effects.cardDrawAmount != 0)
 			{
@@ -270,7 +270,7 @@ namespace JavaScriptUNO.Hubs
 			int drawCards = CheckUno(game, currentPlayer);
 			await PushGame(game);
 			//set the current playing name:
-			MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
+			await MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
 
 			if (drawCards > 0)
 			{
@@ -311,7 +311,7 @@ namespace JavaScriptUNO.Hubs
 				await PushGame(game);
 
 				//set the current playing name:
-				MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
+				await MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
 			}
 		}
 
@@ -336,12 +336,12 @@ namespace JavaScriptUNO.Hubs
 		/// Proxy function that allows the host to send a message to all connected clients (this is only implemented in the console atm)
 		/// </summary>
 		/// <param name="message">the message to relay</param>
-		public void RelayMessage(string message)
+		public async Task RelayMessage(string message)
 		{
 			ServerGameSession sGame = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
 			if (sGame != null)
 			{
-				sGame.MessageClients(message);
+				await sGame.MessageClients(message);
 			}
 			else
 			{

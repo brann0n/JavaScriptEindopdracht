@@ -26,6 +26,7 @@ namespace JavaScriptUNO.UnoBackend
 
 		public ServerGameSession FindSessionByClientConnectionId(string id)
 		{
+			//connid could stay the same over different sessions
 			foreach (ServerGameSession ses in Sessions)
 			{
 				if (ses.game.Players.Select(n => n.connid).Contains(id))
@@ -39,7 +40,7 @@ namespace JavaScriptUNO.UnoBackend
 		{
 			foreach (ServerGameSession ses in Sessions)
 			{
-				if (ses.game.Players.Select(n => n.id).Contains(id))
+				if (ses.game.Players.Select(n => n.id).Contains(id)) //id changes per game, it is okay to search like this
 					return ses;
 			}
 

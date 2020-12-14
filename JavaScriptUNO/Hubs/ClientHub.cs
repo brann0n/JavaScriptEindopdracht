@@ -31,7 +31,7 @@ namespace JavaScriptUNO.Hubs
 					if (game.game.Players.First(n => n.id == clientId).connid != "")
 					{
 						//game slot is in use
-						Clients.Caller.endSession("This place has already been taken by another player.");
+						await Clients.Caller.endSession("This place has already been taken by another player.");
 					}
 					else
 					{
@@ -42,19 +42,19 @@ namespace JavaScriptUNO.Hubs
 				}
 				else
 				{
-					Clients.Caller.endSession("This game is already at its max players.");
+					await Clients.Caller.endSession("This game is already at its max players.");
 				}
 			}
 			else
 			{
-				Clients.Caller.endSession("This game does not exist");
+				await Clients.Caller.endSession("This game does not exist");
 			}
 		}
 
 		/// <summary>
 		/// Proxy function that requests a card from the Draw Pile at the Game host
 		/// </summary>
-		public void DrawCardFromDeck()
+		public async Task DrawCardFromDeck()
 		{
 			string connId = Context.ConnectionId;
 			ServerGameSession session = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
@@ -63,7 +63,7 @@ namespace JavaScriptUNO.Hubs
 			{
 				UnoGame game = session.game;
 				PlayerObject player = game.Players.FirstOrDefault(n => n.connid == connId);
-				session.DrawCard(player.id);
+				await session.DrawCard(player.id);
 			}
 		}
 
@@ -71,16 +71,15 @@ namespace JavaScriptUNO.Hubs
 		/// Proxy function that sends the pressed card to the Game host
 		/// </summary>
 		/// <param name="cardName"></param>
-		public void PostCard(string cardName)
+		public async Task PostCard(string cardName)
 		{
-			string connId = Context.ConnectionId;
-			ServerGameSession sGame = MvcApplication.Manager.FindSessionByClientConnectionId(connId);
+			ServerGameSession sGame = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
 			if (sGame != null)
 			{
 				UnoGame game = sGame.game;
 
 				//get the player object
-				PlayerObject player = game.Players.FirstOrDefault(n => n.connid == connId);
+				PlayerObject player = game.Players.FirstOrDefault(n => n.connid == Context.ConnectionId);
 				if (player != null)
 				{
 					//get the card object
@@ -88,22 +87,22 @@ namespace JavaScriptUNO.Hubs
 					if (card != null)
 					{
 						//send the game to the host, and let the host process it
-						sGame.PlayCard(player.id, card);
+						await sGame.PlayCard(player.id, card);
 					}
 					else
 					{
 						//todo: maybe not end the session, but there is some cheating going on
-						Clients.Caller.endSession("The card you played was not in your posession.");
+						await Clients.Caller.endSession("The card you played was not in your posession.");
 					}
 				}
 				else
 				{
-					Clients.Caller.endSession("You are not a member of this game");
+					await Clients.Caller.endSession("You are not a member of this game");
 				}
 			}
 			else
 			{
-				Clients.Caller.endSession("You are not a member of a game");
+				await Clients.Caller.endSession("You are not a member of a game");
 			}
 		}
 
@@ -112,7 +111,7 @@ namespace JavaScriptUNO.Hubs
 		/// </summary>
 		/// <param name="color"></param>
 		/// <param name="effects"></param>
-		public void SendColorToHost(string color, SpecialCardActions effects)
+		public async Task SendColorToHost(string color, SpecialCardActions effects)
 		{
 			ServerGameSession session = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
 
@@ -127,11 +126,11 @@ namespace JavaScriptUNO.Hubs
 						case "yellow":
 						case "red":
 						case "blue":
-							session.UpdateColorInHost(player, color, effects);
+							await session.UpdateColorInHost(player, color, effects);
 							break;
 						case "error":
 						default:
-							session.UpdateColorInHost(player, null, null);
+							await session.UpdateColorInHost(player, null, null);
 							break;
 					}
 				}
