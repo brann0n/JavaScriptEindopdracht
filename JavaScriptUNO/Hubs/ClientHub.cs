@@ -176,6 +176,12 @@ namespace JavaScriptUNO.Hubs
 			if (game != null)
 			{
 				game.game.Players.First(n => n.connid == Context.ConnectionId).connid = "";
+
+				//check if this is the last client disconnecting, and if there is no more host, remove the game
+				if (game.game.Players.Where(n => n.connid != "").Count() == game.game.Players.Count && game.GameConnectionId == "")
+                {
+					MvcApplication.Manager.EndGame(game);
+				}
 			}
 
 			return base.OnDisconnected(stopCalled);

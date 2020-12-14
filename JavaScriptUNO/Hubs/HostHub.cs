@@ -385,8 +385,13 @@ namespace JavaScriptUNO.Hubs
 			//find game by connection id -> dbe1b95e-ea84-40f9-a570-455ca8edf6e2
 			ServerGameSession game = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
 			if (game != null)
-			{
+			{             
 				game.GameConnectionId = null;
+
+				if (game.HasGameEnded)
+				{
+					MvcApplication.Manager.EndGame(game);
+				}
 			}
 
 			return base.OnDisconnected(stopCalled);

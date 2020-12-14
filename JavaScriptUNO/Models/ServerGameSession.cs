@@ -16,6 +16,9 @@ namespace JavaScriptUNO.Models
 		public string GameId { get; set; }
 		public string GameName { get; set; }
 		public string GameConnectionId { get; set; }
+
+		public bool HasGameEnded { get; set; } = false;
+
 		//public List<string> clientIds { get; set; }
 		public UnoGame game { get; set; }
 		public int MaxClients { get; set; }
@@ -102,6 +105,7 @@ namespace JavaScriptUNO.Models
 			PlayerObject player = game.Players.FirstOrDefault(n => n.id == playerId);
 			await hostHubContext.Clients.Client(GameConnectionId).showWinnerAndEndGame(player);
 			await EndGameForClients();
+			HasGameEnded = true;
 		}
 
 		public async Task EndGameForClients()
