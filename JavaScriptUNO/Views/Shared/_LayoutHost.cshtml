@@ -1,46 +1,49 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@ViewBag.Title - UNO Anywhere</title>
-	<link href="~/Content/Site.css?v=1" rel="stylesheet" type="text/css" />
-	<link href="~/Content/Host.css?v=1" rel="stylesheet" type="text/css" />
-	<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<script src="~/Scripts/modernizr-2.8.3.js"></script>
-	<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - UNO Anywhere</title>
+    <link href="~/Content/Site.css?v=1" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Host.css?v=1" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <style>
+        @{
+            int tableImageId = new Random().Next(0, 4);
+            string tableImageUrl = $"/Content/UnoImages/Table_{tableImageId}.png";
+        }
+        .container-wrapper {
+            background: url('@tableImageUrl');
+            background-size: cover;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				@Html.ActionLink("UNO Anywhere", "Index", "Session", new { area = "" }, new { @class = "navbar-brand" })
-			</div>
-		</div>
-	</div>
+    <div class="container-wrapper">
+        <div class="game-controller">
+            <button id="btnStartGame" class="btn btn-default btn-uno-controller" onclick="startGameOnClick()">Start Game</button>
+            <button id="btnReset" class="btn btn-default btn-uno-controller disabled">End Game</button>
+        </div>
+        <div class="player-list-wrapper">
+            <h3>
+                Player list
+            </h3>
+            <div id="playerInfo" class="player-info">
+                Awaiting players...
+            </div>
+            <div id="player-list">
+            </div>
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+        </div>
 
-	<div class="container-wrapper">
-		<div class="game-controller">
-			<button id="btnStartGame" class="btn btn-default btn-uno-controller" onclick="startGameOnClick()">Start Game</button>
-			<button id="btnReset" class="btn btn-default btn-uno-controller disabled">End Game</button>
-		</div>
-		<div class="player-list-wrapper">
-			<h3>Player list</h3>
-			<div id="player-list">
-			</div>
-		</div>
-		<div class="container body-content">
-			@RenderBody()
-		</div>
-
-	</div>
+    </div>
 
 
-	<script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>

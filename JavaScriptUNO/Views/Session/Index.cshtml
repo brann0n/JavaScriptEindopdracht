@@ -2,49 +2,36 @@
 @{
 	ViewBag.Title = "Home";
 }
-<div class="change-name-box">
-	<h3 id="change-name-title">Current Player name:</h3>
-	<p id="playerNameField">{loading}</p>
-	<div class="player-name-field">
-		<label for="tbPlayerName">Player Name</label>
-		<input id="tbPlayerName" type="text" class="input-sm" placeholder="What should we call you?" />
-		<button onclick="StorePlayerName()" class="btn btn-primary action-btn">Save</button>
-	</div>
-</div>
+
 
 <div class="session-content">
-	<h2>Available games</h2>
-	<div class="explain-box">
-		<p>
-			Please familiarize yourself with @Html.ActionLink("the rules of this version of UNO", "Rules") before starting the game
-		</p>
-		<p>
-			If the game is full, or has already begun, the Join button will be disabled.
-		</p>
-	</div>
-	<div class="create-game-box">
-		<button onclick="ShowNewSessionPopUp()" class="btn btn-primary">New Game</button>
-	</div>
+    <h1 style="text-align: center;">@Html.ActionLink("UNO Anywhere", "Index", "Session", new { area = "" }, new { @class = "title-header" })</h1>
+    <div class="explain-box">
+        <p>
+            Please familiarize yourself with @Html.ActionLink("the rules of this version of UNO", "Rules") before starting the game
+        </p>
+    </div>
+    <div class="game-action-box">
+        <h4>Enter a game code</h4>
+        <input id="tbGameCode" type="text" class="input-sm" placeholder="Gamecode" autocorrect="off" autocapitalize="none" />
+        <button class="btn btn-default" onclick="JoinGameWithPassword()">Join Game</button>
+        <p id="alertText" style="" class="game-notifyBox"></p>
+    </div>
 
-	<div id="sessionContainer" class="game-box">
-		@*<div class="game-item">
-				<h3 class="game-name">Game #1</h3>
-				<div class="game-controller">
-					<div class="player-tag">Players: 3/8</div>
-					<button class="btn btn-default action-btn">Join</button>
-					<button class="btn btn-default action-btn">Spectate</button>
-				</div>
-			</div>
-			<div class="game-item">
-				<h3 class="game-name">Game #2</h3>
-				<div class="game-controller">
-					<div class="player-tag">Players: 7/8</div>
-					<button class="btn btn-default action-btn disabled">Join</button>
-					<button class="btn btn-default action-btn">Spectate</button>
-				</div>
-			</div>*@
-		<p>No sessions available</p>
-	</div>
+    <div class="game-action-box">
+        <h4>Start a new game</h4>
+        <button onclick="ShowNewSessionPopUp()" class="btn btn-default">Create</button>
+    </div>
+
+    <div class="game-action-box">
+        <h4 id="change-name-title">Current Player name:</h4>
+        <p id="playerNameField">{loading}</p>
+        <div class="player-name-field">
+            <label style="width: 100%;" for="tbPlayerName">Player Name</label>
+            <input id="tbPlayerName" type="text" class="input-sm" placeholder="What should we call you?" />
+            <button onclick="StorePlayerName()" class="btn btn-default action-btn">Save</button>
+        </div>
+    </div>
 </div>
 
 <!--This pop-up shows fields for a new session-->
@@ -53,10 +40,16 @@
 	<div class="popup-content">
 		<h2>Start a new game</h2>
 		<p>Enter the name for your UNO game lobby</p>
-		<div class="new-game-fields">
-			<label for="tbGameName">Game Name</label>
-			<input id="tbGameName" type="text" class="input-sm" placeholder="Think of a name" />
-		</div>
+        <div class="new-game-fields">
+            <p>
+                <label class="lblNewGame" for="tbGameName">Game Name</label>
+                <input id="tbGameName" type="text" class="input-sm" placeholder="Think of a name" />
+            </p>
+            <p>
+                <label class="lblNewGame" for="tbGameName">Players</label>
+                <input id="tbGameSize" type="number" class="input-sm" min="2" max="32" value="8" />
+            </p>
+        </div>
 		<!--popup's close button-->
 		<button onclick="CompleteSessionCreation()" class="btn btn-primary action-btn">Create</button>
 		<button onclick="CancelSessionCreation()" class="btn btn-primary action-btn">Cancel</button>
@@ -70,8 +63,6 @@
 <script>
 	var session = new UnoSessions();
 	session.hubReady.done(function () {
-		session.callRequestUpdate();
-
 		//get the playername from the localstorage. if there is no name, display "Not Set"
 		let playerNameString = localStorage.getItem('playername');
 
@@ -89,14 +80,20 @@
 
 	function CompleteSessionCreation() {
 		let gameNameString = $('#tbGameName').val();
+        let gamePlayerSize = $('#tbGameSize').val();
 		$('#tbGameName').val("");
-		session.createGameSession(gameNameString);
+        session.createGameSession(gameNameString, gamePlayerSize);
 		$(".popup-overlay, .popup-content").removeClass("active");
 	}
 
 	function CancelSessionCreation() {
 		$(".popup-overlay, .popup-content").removeClass("active");
 	}
+
+	function JoinGameWithPassword() {
+        let password = $('#tbGameCode').val();
+		session.joinGameWithPassword(password);
+    }
 
 	function StorePlayerName() {
 		//get the players name from the txtbox and store it in localstorage for next time.

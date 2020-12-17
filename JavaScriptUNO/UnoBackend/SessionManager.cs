@@ -47,16 +47,25 @@ namespace JavaScriptUNO.UnoBackend
 			return null;
 		}
 
-		public string CreateNewSession(string GameName)
+		public string CreateNewSession(string GameName, int playerSize)
 		{
+			string sessionPassword = CreateRandomSessionCode(5);
+			var session = FindSessionByPassword(sessionPassword);
+			while (session != null) //one session already has this password, chance is one in a million, but still
+            {
+				sessionPassword = CreateRandomSessionCode(5);
+				session = FindSessionByPassword(sessionPassword);
+            }
+
 			string id = Guid.NewGuid().ToString();
-			Sessions.Add(new ServerGameSession
+			Sessions.Add(new ServerGameSession(playerSize)
 			{
-				GameName = GameName,
-				MaxClients = 8,
+				GameName = GameName,		
 				GameId = id,
-				GameStarted = false
+				GameStarted = false,
+				GamePassword = sessionPassword
 			});
+
 			return id;
 		}
 
@@ -81,6 +90,24 @@ namespace JavaScriptUNO.UnoBackend
 		public void EndGame(ServerGameSession session)
 		{
 			Sessions.Remove(session);
+		}
+
+		private string CreateRandomSessionCode(int length)
+        {
+			var chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+			var stringChars = new char[length];
+			var random = new Random();
+
+			for (int i = 0; i < length; i++)
+			{
+				stringChars[i] = chars[random.Next(chars.Length)];
+			}
+			return new string(stringChars);
+		}
+
+		public ServerGameSession FindSessionByPassword(string password)
+        {
+			return Sessions.FirstOrDefault(n => n.GamePassword == password);
 		}
 	}
 }

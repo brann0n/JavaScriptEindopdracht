@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JavaScriptUNO.UnoBackend;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,11 +15,13 @@ namespace JavaScriptUNO.Controllers
 			return View();
 		}
 
+		[IpRestriction]
 		public ActionResult Stats()
 		{
 			return View(MvcApplication.Manager.Sessions);
 		}
 
+		[IpRestriction]
 		public ActionResult StatDetails(string id)
 		{
 			return View(MvcApplication.Manager.Sessions.FirstOrDefault(n => n.GameId == id));

@@ -4,37 +4,51 @@
     ViewBag.Title = "Stats";
 }
 
-<h2>Stats</h2>
+<div style="color:white;">
+    <h2>Stats</h2>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GameId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GameName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxClients)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GameStarted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasGameEnded)
+            </th>
+            <th></th>
+        </tr>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.GameId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GameName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MaxClients)
-        </th>
-        <th></th>
-    </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GameId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GameName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxClients)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GameStarted)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HasGameEnded)
+                </td>
+                <td>
+                    @Html.ActionLink("More Info", "StatDetails", new { id = item.GameId }) |
+                </td>
+            </tr>
+        }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.GameId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GameName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaxClients)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "StatDetails", new {  id=item.GameId }) |
-        </td>
-    </tr>
-}
-
-</table>
+    </table>
+</div>

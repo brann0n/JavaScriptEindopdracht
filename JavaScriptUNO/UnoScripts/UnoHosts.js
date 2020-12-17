@@ -28,30 +28,36 @@
         };
 
         this.hostHub.client.updatePlayerCount = function (pCount, pMax) {
-            $('#playerInfo').text("Players: " + pCount + "/" + pMax);
+            $('#playerInfo').text("Players: " + pCount + " / " + pMax);
         };
 
         this.hostHub.client.doRefresh = function (gameObject) {
             //set the player list:
             $('#player-list').empty();
             var count = 0;
-            for (var player of gameObject.Players) {
-                let playername = (player.name === null)
-                    ? 'Player #' + ++count + ' ' + player.id.substring(0, 8)
-                    : 'Player #' + ++count + ' ' + player.name;
+            for (var player of gameObject.Players) {               
+                if (player.connid !== "") {
+                    let playername = (player.name === null)
+                        ? '👤' + ' Unknown (' + player.id.substring(0, 8) + ')'
+                        : '👤' + ' ' + player.name;
 
-                if (gameObject.CurrentPlayer === player.id) {
-                    $('#player-list').append('<div class="player-list-item player-list-item-selected">' + playername + '</div>');
+                    if (gameObject.CurrentPlayer === player.id) {
+                        $('#player-list').append('<div id="currentPlayerObject" class="player-list-item">' + playername + '</div>');
+                        
+                    }
+                    else {
+                        $('#player-list').append('<div class="player-list-item">' + playername + '</div>');
+                    }
                 }
                 else {
-                    $('#player-list').append('<div class="player-list-item">' + playername + '</div>');
+                    console.log("skipped empty player with id", player.id);
                 }
             }
-
+            $('#currentPlayerObject').toggleClass('player-list-item-selected');
             //overwrite current objects
             if (this.UnoGame) {
-                console.log("GameObject: ", gameObject);
-                console.log("this.UnoGame: ", this.UnoGame);
+                //console.log("GameObject: ", gameObject);
+                //console.log("this.UnoGame: ", this.UnoGame);
                 this.UnoGame.Players = gameObject.Players;
                 this.UnoGame.Deck = gameObject.Deck;
                 this.UnoGame.StockPile = gameObject.StockPile;
@@ -159,7 +165,7 @@
         };
 
         this.hostHub.client.displayMessage = function (message) {
-            $('#playerInfo').fadeOut(function () {
+            $('#messageBox').fadeOut(function () {
                 $(this).text(message).fadeIn();
             });
         };
@@ -190,11 +196,15 @@
         };
 
         this.hubReady = $.connection.hub.start();
+        $.connection.hub.logging = true;
         this.gameId = gameId;
     }
 
     initGame() {
-        this.hostHub.server.initGame(this.gameId); //server side version of game id.
+        this.hostHub.server.initGame(this.gameId)//server side version of game id.
+            .done(function (gamepassword) {
+                console.log(gamepassword);
+            }); 
     }
 
     startGame() {

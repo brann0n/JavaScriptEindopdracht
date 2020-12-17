@@ -16,7 +16,7 @@ namespace JavaScriptUNO.Models
 		public string GameId { get; set; }
 		public string GameName { get; set; }
 		public string GameConnectionId { get; set; }
-
+		public string GamePassword { get; set; }
 		public bool HasGameEnded { get; set; } = false;
 
 		//public List<string> clientIds { get; set; }
@@ -24,24 +24,22 @@ namespace JavaScriptUNO.Models
 		public int MaxClients { get; set; }
 		public bool GameStarted { get; set; }
 
-		private IHubContext clientHubContext;
-		private IHubContext hostHubContext;
-		private IHubContext sessionHubContext;
+		private readonly IHubContext clientHubContext;
+		private readonly IHubContext hostHubContext;
 
-		public ServerGameSession()
+		public ServerGameSession(int clientSize)
 		{
-			game = new UnoGame();
+			this.MaxClients = clientSize;
+			game = new UnoGame(MaxClients);
 			//assign the hub contexts to the interfaces.
 			clientHubContext = GlobalHost.ConnectionManager.GetHubContext<ClientHub>();
 			hostHubContext = GlobalHost.ConnectionManager.GetHubContext<HostHub>();
-			sessionHubContext = GlobalHost.ConnectionManager.GetHubContext<SessionHub>();
 		}
 
 		public async Task UpdateAll()
 		{
 			await UpdateClients();
 			await UpdateHost();
-			await sessionHubContext.Clients.All.setSessions(MvcApplication.Manager.GetGameSessions());
 		}
 
 		public async Task UpdateClients()

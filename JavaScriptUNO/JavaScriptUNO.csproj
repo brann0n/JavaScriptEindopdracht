@@ -111,6 +111,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Client.css" />
+    <Content Include="Content\sounds\cardsound-1.mp3" />
+    <Content Include="Content\sounds\cardsound-2.mp3" />
+    <Content Include="Content\sounds\cardsound-3.mp3" />
+    <Content Include="Content\sounds\cardsound-4.mp3" />
+    <Content Include="Content\sounds\cardsound-5.mp3" />
     <Content Include="Content\UnoImages\Blue_0.png" />
     <Content Include="Content\UnoImages\Blue_1.png" />
     <Content Include="Content\UnoImages\Blue_2.png" />
@@ -220,6 +225,8 @@
     <Compile Include="Models\UnoGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="UnoBackend\ArrayHelper.cs" />
+    <Compile Include="UnoBackend\IpRestrictionAttribute.cs" />
     <Compile Include="UnoBackend\SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -14,8 +14,8 @@ namespace JavaScriptUNO.Hubs
 		/// Proxy function that creates the game object server side.
 		/// </summary>
 		/// <param name="gameId"></param>
-		/// <returns></returns>
-		public async Task InitGame(string gameId)
+		/// <returns>Return the games password to display to the viewers.</returns>
+		public async Task<string> InitGame(string gameId)
 		{
 			ServerGameSession game = MvcApplication.Manager.FindSession(gameId);
 			if (game != null)
@@ -47,12 +47,16 @@ namespace JavaScriptUNO.Hubs
 				else
 				{
 					Clients.Caller.endSession("game is already being hosted somewhere else.");
+					return null;
 				}
+
+				return game.GamePassword;
 			}
 			else
 			{
 				Clients.Caller.endSession("unkown game id was passed to the server.");
 			}
+			return null;
 		}
 
 		/// <summary>
@@ -69,7 +73,7 @@ namespace JavaScriptUNO.Hubs
 				//remove the empty player objects: no need for new players to connect after the game has started
 				game.game.Players.RemoveAll(n => n.connid == "");
 				await Clients.Caller.startGame(game.game.Players);
-
+				await Clients.Caller.displayMessage($"Game has started");
 				await game.UpdateCurrentPlayingName(game.game.Players[0]);
 			}
 			else
@@ -124,7 +128,8 @@ namespace JavaScriptUNO.Hubs
 				//set the current playing name:
 
 				var session = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
-				await session.UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
+				PlayerObject pObject = game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer);
+				await session.UpdateCurrentPlayingName(pObject);
 
 				if (drawCards > 0)
 				{
@@ -134,6 +139,7 @@ namespace JavaScriptUNO.Hubs
 				{
 					await Clients.Caller.gameWon(currentPlayer);
 				}
+				await Clients.Caller.displayMessage($"Player {pObject.name ?? "Unknown (" + pObject.id.Substring(0, 8) + ")"} is up next!");
 			}
 			else
 			{
@@ -251,7 +257,7 @@ namespace JavaScriptUNO.Hubs
 				string targetPlayer = new string(game.CurrentPlayer.ToCharArray());
 				game.CurrentPlayer = GetNextPlayerId(game, null);
 				await PushGame(game);
-				Clients.Caller.drawCardFromSpecial(targetPlayer, effects.cardDrawAmount);
+				await Clients.Caller.drawCardFromSpecial(targetPlayer, effects.cardDrawAmount);
 			}
 			else if (effects.skipNextPerson)
 			{
@@ -270,16 +276,19 @@ namespace JavaScriptUNO.Hubs
 			int drawCards = CheckUno(game, currentPlayer);
 			await PushGame(game);
 			//set the current playing name:
-			await MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer));
+			PlayerObject pObject = game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer);
+			await MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId).UpdateCurrentPlayingName(pObject);
 
 			if (drawCards > 0)
 			{
-				Clients.Caller.drawCardFromSpecial(currentPlayer, drawCards);
+				await Clients.Caller.drawCardFromSpecial(currentPlayer, drawCards);
 			}
 			else if (drawCards == -69)
 			{
-				Clients.Caller.gameWon(currentPlayer);
+				await Clients.Caller.gameWon(currentPlayer);
 			}
+
+			
 		}
 
 		/// <summary>
@@ -388,7 +397,7 @@ namespace JavaScriptUNO.Hubs
 			{             
 				game.GameConnectionId = null;
 
-				if (game.HasGameEnded)
+				if (game.HasGameEnded || !game.game.HasConnectedPlayers())
 				{
 					MvcApplication.Manager.EndGame(game);
 				}

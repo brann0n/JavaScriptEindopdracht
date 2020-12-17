@@ -1,25 +1,28 @@
 ﻿@model JavaScriptUNO.Models.ServerGameSession
 @{
-	ViewBag.Title = Model.GameName;
-	Layout = "~/Views/Shared/_LayoutHost.cshtml";
+    ViewBag.Title = Model.GameName;
+    Layout = "~/Views/Shared/_LayoutHost.cshtml";
 }
+<h1 style="text-align: center;">@Html.ActionLink("UNO Anywhere", "Index", "Session", new { area = "" }, new { @class = "title-header" })</h1>
+<h2 id="gameTitle">@Model.GameName </h2> 
 
-<h2 id="gameTitle">@Model.GameName</h2>
 
 <div class="gameBackground">
-	<div class="game-info">
-		<p id="numberOfCards" class="card-info">
-			Once all players are connected please click start game
-		</p>
-		<p id="playerInfo" class="player-info">
-			Awaiting players...
-		</p>
-	</div>
-	<div class="cardStock Deck"></div>
-	<div class="Deck cardPlaying-wrapper">
-		<div id="colorName"></div>
-		<div class="cardPlaying"></div>
-	</div>
+    <div class="game-info">
+        <div id="numberOfCards" class="card-info">
+            Once all players are connected please click start game
+        </div>
+        <div id="messageBox" class="messageBox">
+            Awaiting players...
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <h4 style="color: white;">Use code &quot;<b style="font-size: 20px; font-family:monospace;">@Model.GamePassword</b>&quot; to join</h4>
+    <div class="cardStock Deck"></div>
+    <div class="Deck cardPlaying-wrapper">
+        <div id="colorName"></div>
+        <div class="cardPlaying"></div>
+    </div>
 </div>
 
 <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
@@ -48,7 +51,7 @@
     }
 
     function stopGame() {
-        host.endGame();      
+        host.endGame();
 	}
 
 </script>

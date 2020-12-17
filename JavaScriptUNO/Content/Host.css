@@ -1,5 +1,5 @@
 ﻿body {
-	padding-top: 50px;
+	/*padding-top: 50px;*/
 }
 
 .gameBackground {
@@ -8,6 +8,8 @@
 	border: 2px solid white;
 	border-radius: 10px;
 	float: left;
+	padding: 23px;
+	width: 80vw;
 }
 
 .Deck {
@@ -37,7 +39,7 @@
 	width: 194px;
 	height: 281px;
 	float: left;
-	margin-left: 275px;
+	margin-left: 25vw;
 	margin-top: 140px;
 }
 
@@ -61,10 +63,12 @@
 	padding: 5px;
 	width: 300px;
 	float: left;
+	margin: 100px 5px;
 }
 
 .game-info {
-	padding: 10px;
+	border-bottom: 2px solid white;
+	width: 100%;
 }
 
 .card-info {
@@ -74,15 +78,9 @@
 }
 
 .player-info {
-	float: right;
 	color: white;
-	font-size: 25px;
-}
-
-.container-wrapper {
-	background: url('../Content/UnoImages/Table_0.png');
-	background-size: cover;
-	height: 100%;
+	font-size: 22px;
+	text-align:right;
 }
 
 .btn-uno-controller {
@@ -93,21 +91,22 @@
 	height: 70px;
 	float: left;
 	display: block;
-	margin: 20px;
+	margin: 0px 20px 20px 0 !important;
 }
 
 .player-list-wrapper {
-	width: 200px;
+	width: 250px;
 	height: auto;
 	float: right;
 	border: 1px solid white;
 	border-radius: 5px;
 	color: white;
-	margin: 20px;
+	margin: 100px 20px;
 }
 
 .player-list-item {
 	padding: 5px;
+	transition: 1s;
 }
 
 .player-list-item-selected {
@@ -115,11 +114,17 @@
 }
 
 	.player-list-item-selected::after {
-		content: '\'s turn';
+		content: ' is making a move';
 	}
 
 #winToast {
 	margin: 175px;
 	color: white;
 	font-size: 55px;
+}
+
+.messageBox {
+	float: right;
+	color: white;
+	font-size: 20px;
 }

@@ -11,20 +11,11 @@
 	<script src="~/Scripts/modernizr-2.8.3.js"></script>
 	<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 </head>
-<body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				@Html.ActionLink("UNO Anywhere", "Index", "Session", new { area = "" }, new { @class = "navbar-brand" })
-			</div>
-		</div>
-	</div>
-
+@{ 
+    int tableImageId = new Random().Next(0, 4);
+	string tableImageUrl = $"/Content/UnoImages/Table_{tableImageId}.png";
+}
+<body style="background: url('@tableImageUrl'); background-size: cover; height:100%;">
 	<div class="container body-content">
 		@RenderBody()
 	</div>
