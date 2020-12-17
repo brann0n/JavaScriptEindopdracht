@@ -23,31 +23,35 @@
             <th>
                 @Html.DisplayNameFor(model => model.HasGameEnded)
             </th>
-            <th></th>
+            <th>Details</th>
+            <th>End Session</th>
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GameId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GameName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MaxClients)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GameStarted)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HasGameEnded)
-                </td>
-                <td>
-                    @Html.ActionLink("More Info", "StatDetails", new { id = item.GameId }) |
-                </td>
-            </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.GameId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GameName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxClients)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GameStarted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HasGameEnded)
+        </td>
+        <td>
+            @Html.ActionLink("More Info", "StatDetails", new { id = item.GameId }) |
+        </td>
+        <td>
+            @Html.ActionLink("Kick", "KillSession", new { id = item.GameId }) |
+        </td>
+    </tr>
         }
 
     </table>

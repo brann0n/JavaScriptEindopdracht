@@ -47,7 +47,7 @@ namespace JavaScriptUNO.UnoBackend
 			return null;
 		}
 
-		public string CreateNewSession(string GameName, int playerSize)
+		public string CreateNewSession(string GameName, int playerSize, string ip)
 		{
 			string sessionPassword = CreateRandomSessionCode(5);
 			var session = FindSessionByPassword(sessionPassword);
@@ -60,10 +60,11 @@ namespace JavaScriptUNO.UnoBackend
 			string id = Guid.NewGuid().ToString();
 			Sessions.Add(new ServerGameSession(playerSize)
 			{
-				GameName = GameName,		
+				GameName = GameName,
 				GameId = id,
 				GameStarted = false,
-				GamePassword = sessionPassword
+				GamePassword = sessionPassword,
+				HostIp = ip
 			});
 
 			return id;

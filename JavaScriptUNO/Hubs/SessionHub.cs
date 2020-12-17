@@ -20,7 +20,8 @@ namespace JavaScriptUNO.Hubs
 		{
 			if(playersize <= UnoGame.MAX_PLAYER_SIZE)
             {
-				string id = MvcApplication.Manager.CreateNewSession(gameName, playersize);
+				string ip = Context.Request.Environment["server.RemoteIpAddress"].ToString();
+				string id = MvcApplication.Manager.CreateNewSession(gameName, playersize, ip);
 				Clients.Caller.redirectToGame(id);
 			}		
 		}

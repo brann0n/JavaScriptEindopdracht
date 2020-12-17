@@ -25,6 +25,8 @@
 
         this.hostHub.client.endSession = function (reason) {
             console.log(reason);
+            $('.gameBackground').empty();
+            $('.gameBackground').html('<h1 id="winToast">' + reason + '</h1>');
         };
 
         this.hostHub.client.updatePlayerCount = function (pCount, pMax) {

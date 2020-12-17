@@ -18,7 +18,7 @@ namespace JavaScriptUNO.Models
 		public string GameConnectionId { get; set; }
 		public string GamePassword { get; set; }
 		public bool HasGameEnded { get; set; } = false;
-
+		public string HostIp { get; set; }
 		//public List<string> clientIds { get; set; }
 		public UnoGame game { get; set; }
 		public int MaxClients { get; set; }
@@ -110,6 +110,12 @@ namespace JavaScriptUNO.Models
 		{
 			if (game != null)
 				await clientHubContext.Clients.Clients(game.Players.Where(n => n.connid != "").Select(n => n.connid).ToList()).stopGame();
+		}
+
+		public async Task KickGameAndPlayers()
+        {
+			await EndGameForClients();
+			await hostHubContext.Clients.Client(GameConnectionId).endSession("Your game got ended by the server admin!");
 		}
 	}
 }
