@@ -198,7 +198,7 @@
         };
 
         this.hubReady = $.connection.hub.start();
-        $.connection.hub.logging = true;
+        //$.connection.hub.logging = true;
         this.gameId = gameId;
     }
 

@@ -12,6 +12,8 @@ namespace JavaScriptUNO.Hubs
 	/// </summary>
 	public class SessionHub : Hub
 	{
+		public static object PlayerSelectionLock = new object();
+
 		/// <summary>
 		/// Proxy function that creates a new game, and then redirects you to it.
 		/// </summary>
@@ -43,8 +45,13 @@ namespace JavaScriptUNO.Hubs
 			if (session.GameStarted)
 				return "Game has already started, ask the game owner to wait longer next time.";
 
-			string clientId = session.game.Players.FirstOrDefault(n => n.connid == "").id; //todo prevent racecondition / deadlock if 2 players join at the same time by using a request queue of some sort.
-			Clients.Caller.redirectToClientGame(clientId);
+            lock (PlayerSelectionLock) //this is going to cause issues with more active games, players will have to wait a bit longer before they get a selectable game assigned
+            {
+				PlayerObject p = session.game.Players.FirstOrDefault(n => n.connid == "" && !n.UserPicked);
+				p.UserPicked = true;
+				string clientId = p.id; //todo prevent racecondition / deadlock if 2 players join at the same time by using a request queue of some sort.
+				Clients.Caller.redirectToClientGame(clientId);
+			}
 
 			return "Game has been found, you will be redirected shortly...";
         }

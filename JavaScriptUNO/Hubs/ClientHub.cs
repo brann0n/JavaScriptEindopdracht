@@ -10,6 +10,8 @@ namespace JavaScriptUNO.Hubs
 {
 	public class ClientHub : Hub
 	{
+		public static object PlayerSelectionLock = new object();
+
 		/// <summary>
 		/// Proxy function that connects this client with a Game host
 		/// </summary>
@@ -35,8 +37,12 @@ namespace JavaScriptUNO.Hubs
 					}
 					else
 					{
-						game.game.Players.First(n => n.id == clientId).connid = connId;
-						game.game.Players.First(n => n.id == clientId).name = playername;
+                        lock (PlayerSelectionLock)
+                        {
+							PlayerObject p = game.game.Players.First(n => n.id == clientId);
+							p.connid = connId;
+							p.name = playername;							
+						}
 						await game.UpdateAll();
 					}
 				}
@@ -175,7 +181,10 @@ namespace JavaScriptUNO.Hubs
 			ServerGameSession game = MvcApplication.Manager.FindSessionByClientConnectionId(Context.ConnectionId);
 			if (game != null)
 			{
-				game.game.Players.First(n => n.connid == Context.ConnectionId).connid = "";
+                lock (PlayerSelectionLock)
+                {
+					game.game.Players.First(n => n.connid == Context.ConnectionId).connid = "";
+				}
 
 				//check if this is the last client disconnecting, and if there is no more host, remove the game
 				if (game.game.Players.Where(n => n.connid != "").Count() == game.game.Players.Count && game.GameConnectionId == "")
