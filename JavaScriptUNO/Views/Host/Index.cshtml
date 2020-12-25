@@ -48,10 +48,18 @@
         //enable the reset button
         $('#btnReset').removeClass('disabled');
         $('#btnReset').click(stopGame);
+
+        //enable the skip player button
+        $('#btnSkip').removeClass('disabled');
+        $('#btnSkip').click(skipPlayer);
     }
 
     function stopGame() {
         host.endGame();
-	}
+    }
+
+    function skipPlayer() {
+        host.skipCurrentPlayer();
+    }
 
 </script>

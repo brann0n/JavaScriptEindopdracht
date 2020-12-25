@@ -12,6 +12,5 @@ namespace JavaScriptUNO.Models
 	{
 		public string imageLocation { get; set; }
 		public string name { get; set; }
-		public int amount { get; set; }
 	}
 }

@@ -15,12 +15,14 @@ namespace JavaScriptUNO.Models
 		public string connid { get; set; }
 		public List<CardObject> cards { get; set; }
 		public bool reportedUno { get; set; }
+		public bool hasUno { get; set; }
 		public string playerIp { get; set; }
 		public bool UserPicked { get; set; } = false;
 		public PlayerObject()
 		{
 			cards = new List<CardObject>();
 			reportedUno = false;
+			hasUno = false;
 		}
 
 		public override string ToString()

@@ -11,9 +11,21 @@
                     console.log("waiting for other players to join");
                     break;
                 case "RESUMING_GAME":
-                    //do some stuff to make it look like the game continues
+                    //request an update from the server
                     this.UnoGame = new Uno(null);
+                    this.server.update().done(function () { this.updateTopCard(); });
                     console.log("resuming game");
+                    //disable the startgame button
+                    $('#btnStartGame').addClass('disabled');
+                    $('#btnStartGame').prop("onclick", null);
+
+                    //enable the reset button
+                    $('#btnReset').removeClass('disabled');
+                    $('#btnReset').click(stopGame);
+
+                    //enable the skip player button
+                    $('#btnSkip').removeClass('disabled');
+                    $('#btnSkip').click(skipPlayer);
                     break;
             }
         };
@@ -42,13 +54,22 @@
                     let playername = (player.name === null)
                         ? '👤' + ' Unknown (' + player.id.substring(0, 8) + ')'
                         : '👤' + ' ' + player.name;
-
+                    console.log(playername + " reported or has uno: ", player.reportedUno || player.hasUno)
                     if (gameObject.CurrentPlayer === player.id) {
-                        $('#player-list').append('<div id="currentPlayerObject" class="player-list-item">' + playername + '</div>');
-                        
+                        if (player.reportedUno || player.hasUno) {
+                            $('#player-list').append('<div id="currentPlayerObject" class="player-list-item">UNO ' + playername + '</div>');
+                        }
+                        else {
+                            $('#player-list').append('<div id="currentPlayerObject" class="player-list-item">' + playername + '</div>');
+                        }                                         
                     }
                     else {
-                        $('#player-list').append('<div class="player-list-item">' + playername + '</div>');
+                        if (player.reportedUno || player.hasUno) {
+                            $('#player-list').append('<div class="player-list-item">UNO ' + playername + '</div>');
+                        }
+                        else {
+                            $('#player-list').append('<div class="player-list-item">' + playername + '</div>');
+                        }                     
                     }
                 }
                 else {
@@ -79,13 +100,6 @@
                     //show the drawn card
                     this.updateTopCard();
                 });
-            //this.server.pushGame(this.UnoGame)
-            //	.done(function () {
-            //		this.UnoGame.dealFirstRoundToPlayers();
-            //		this.server.pushGame(this.UnoGame);
-            //		//show the drawn card
-            //		this.updateTopCard();
-            //	});
         };
 
         this.hostHub.client.playCard = function (playerId, card) {
@@ -173,7 +187,6 @@
         };
 
         this.hostHub.pushGame = function () {
-            //possible bug fix: do not push game if current player == null
             if (this.UnoGame.CurrentPlayer === null) {
                 console.log("Tried game push while object empty: ", this.UnoGame);
             }
@@ -217,6 +230,10 @@
         this.hostHub.server.endGame().done(function () {
             location.replace("/");
         });
+    }
+
+    skipCurrentPlayer() {
+        this.hostHub.server.advanceGameToNextPlayerFromHost();
     }
 
     sendMessageToClients(message) {

@@ -47,36 +47,31 @@
             //remove all cards and redraw them
             $('.cards-bar').empty();
             for (var card of playerObject.cards) {
-                if (card.amount > 0) {
-                    var imagePath = prefix + card.imageLocation;
-                    var imageDivWrapper = document.createElement("div");
-                    imageDivWrapper.className = "cards-item-wrapper";
-                    var imageDiv = document.createElement("div");
-                    imageDiv.className = "cards-item";
-                    imageDiv.style.background = "url('" + imagePath + "')";
-                    imageDiv.dataset.card = card.name;
-                    imageDiv.style.zIndex = 1000 + cardCounter++;
-                    imageDiv.onclick = function (item) {
-                        window.navigator.vibrate([100, 100]);
-                        client.playRandomCardSound();
-                        //this code is executed after a click on a card, item contains the html object that was clicked.
-                        var clientObject = item.target;
-                        var cardName = clientObject.dataset.card;
-                        $(clientObject).fadeOut('fast').animate({
-                            'bottom': '100%'
-                        }, {
-                            duration: 'fast', queue: false, complete: function () {
-                                client.clientHub.server.postCard(cardName);
-                            }
-                        });
-                    };
+                var imagePath = prefix + card.imageLocation;
+                var imageDivWrapper = document.createElement("div");
+                imageDivWrapper.className = "cards-item-wrapper";
+                var imageDiv = document.createElement("div");
+                imageDiv.className = "cards-item";
+                imageDiv.style.background = "url('" + imagePath + "')";
+                imageDiv.dataset.card = card.name;
+                imageDiv.style.zIndex = 1000 + cardCounter++;
+                imageDiv.onclick = function (item) {
+                    window.navigator.vibrate([100, 100]);
+                    client.playRandomCardSound();
+                    //this code is executed after a click on a card, item contains the html object that was clicked.
+                    var clientObject = item.target;
+                    var cardName = clientObject.dataset.card;
+                    $(clientObject).fadeOut('fast').animate({
+                        'bottom': '100%'
+                    }, {
+                        duration: 'fast', queue: false, complete: function () {
+                            client.clientHub.server.postCard(cardName);
+                        }
+                    });
+                };
 
-                    imageDivWrapper.append(imageDiv);
-                    $('.cards-bar').append(imageDivWrapper);
-                }
-                else {
-                    console.log("card is no longer in posession, or something went wrong server side.");
-                }
+                imageDivWrapper.append(imageDiv);
+                $('.cards-bar').append(imageDivWrapper);
             }
         };
 
@@ -125,6 +120,7 @@
 
     drawCardFromDeck() {
         this.clientHub.server.drawCardFromDeck();
+        this.playRandomCardSound();
     }
 
     sendPickedColorToHost(buttonObject) {

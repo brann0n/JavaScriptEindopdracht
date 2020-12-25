@@ -43,6 +43,9 @@ namespace JavaScriptUNO.Hubs
 					game.GameConnectionId = Context.ConnectionId;
 					await Clients.Caller.setGameMode("RESUMING_GAME");
 					await game.UpdateHost();
+					PlayerObject pObject = game.game.Players.FirstOrDefault(n => n.id == game.game.CurrentPlayer);
+					await game.UpdateCurrentPlayingName(pObject);
+					await Clients.Caller.displayMessage($"Game is resuming");
 				}
 				else
 				{
@@ -156,23 +159,31 @@ namespace JavaScriptUNO.Hubs
 		private int CheckUno(UnoGame game, string playerId)
 		{
 			PlayerObject player = game.Players.FirstOrDefault(n => n.id == playerId);
+
+			if (!player.reportedUno && player.cards.Count > 1)
+			{
+				player.hasUno = false;
+			}
+
 			if (player.cards.Count == 1)
 			{
 				if (player.reportedUno)
 				{
 					// allow
 					player.reportedUno = false;
+					player.hasUno = true;
 					Clients.Caller.displayMessage($"Player {player.name} has UNO!");
 				}
 				else
 				{
 					//give player 2 cards
 					player.reportedUno = false;
+					player.hasUno = false;
 					return 2;
 				}
 			}
 
-			if (player.cards.Count == 0)
+			if (player.cards.Count == 0 && player.hasUno)
 			{
 				//player has won
 				return -69; //:)
@@ -182,6 +193,7 @@ namespace JavaScriptUNO.Hubs
 			{
 				//false uno, draw one card
 				player.reportedUno = false;
+				player.hasUno = false;
 				return 1;
 			}
 
@@ -334,6 +346,8 @@ namespace JavaScriptUNO.Hubs
 			if (game != null)
 			{
 				await game.UpdateAll();
+				PlayerObject pObject = game.game.Players.FirstOrDefault(n => n.id == game.game.CurrentPlayer);
+				await game.UpdateCurrentPlayingName(pObject);
 			}
 			else
 			{
@@ -386,6 +400,28 @@ namespace JavaScriptUNO.Hubs
 			else
 			{
 				Clients.Caller.endSession("unkown game id was passed to the server.");
+			}
+		}
+
+		/// <summary>
+		/// Advances the game to the next player in case something went wrong with the connection.
+		/// </summary>
+		/// <returns></returns>
+		public async Task AdvanceGameToNextPlayerFromHost()
+        {
+			var session = MvcApplication.Manager.FindSessionByConnectionId(Context.ConnectionId);
+			if(session != null)
+            {
+				var game = session.game;
+				string currentPlayer = game.CurrentPlayer;
+				game.CurrentPlayer = GetNextPlayerId(game, null);
+				await PushGame(game);
+
+				//set the current playing name:			
+				PlayerObject pObject = game.Players.FirstOrDefault(n => n.id == game.CurrentPlayer);
+				await session.UpdateCurrentPlayingName(pObject);
+
+				await Clients.Caller.displayMessage($"Player {pObject.name ?? "Unknown (" + pObject.id.Substring(0, 8) + ")"} is up next!");
 			}
 		}
 
